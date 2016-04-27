@@ -65,3 +65,4 @@ function allAnagrams (str) {
 
 //beware of super long strings, it will use up a lot of memory!!!
 allAnagrams('abc');
+allAnagrams('abcdefg');
