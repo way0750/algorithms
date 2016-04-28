@@ -90,5 +90,21 @@ function bubbleSort(array) {
 }
 
 
+//using recursion:
+function bubbleSort(array) {
+  array = array.slice();
+  if (array.length < 2) {
+    return array;
+  }
+  
+  var max = array.reduce(function (curMax, ele) {
+    return ele > curMax ? ele : curMax;
+  }, -Infinity);
+
+  return bubbleSort(array.slice(0, array.length - 1)).concat(max);
+}
+
+
+
 var arr = [32,41,35,23,41,234,1234,123,4,134,134,51,34,56234,513,4,1324,123,1234,2,3,3,3,4,15,];
 bubbleSort(arr);
