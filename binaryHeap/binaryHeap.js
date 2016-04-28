@@ -67,54 +67,96 @@
 // and then iteratively returns the root of the `BinaryHeap` until its empty, thus returning a sorted array.
 
 
-function BinaryHeap () {
-  this._heap = [];
-  // this compare function will result in a minHeap, use it to make comparisons between nodes in your solution
-  this._compare = function (i, j) { return i < j; };
+function BinaryHeap (compareFunct) {
+  //code this:
+  this.compareFunct = compareFunct;
+  if (typeof this.compareFunct !== 'function') {
+    //default to make minHeap
+    //which means parents have to be smaller/equal than children
+    this.compareFunct = function (parentOrLeft, childOrRightChild) {
+      //default to build minHeap
+      return parentOrLeft > childOrRightChild; //true for parent is larger than child, and need to swap
+    };
+  }
+  this.nodes = [];
 }
 
-// This function works just fine and shouldn't be modified
-BinaryHeap.prototype.getRoot = function () {
-  return this._heap[0];
-};
+//parentIndex = Math.floor( (index - 1) / 2 )
+//childrenIndices = [index * 2 + 1, index * 2 + 2]
 
 BinaryHeap.prototype.insert = function (value) {
-  // TODO: Your code here
-  //go through all nodes and see which one has open spot for at least one child. do this in a stack?
-  // if new node is smaller than parent, swap with parent.
-  //[0, 1, 2, 3, 4, 5, 6, 7]
-  //so always insert to the end of array, but can tell by above math formula to determine the parent and children relationship
-  //so first push to end of array
-  //then compare and swap
-  this._heap.push(value);
-  var childIndex = this._heap.length - 1;
-  var parentIndex = Math.floor( (childIndex - 1) / 2 );
-
-  while(this._heap[childIndex] < this._heap[parentIndex]){
-    var tempNode = this._heap[parentIndex];
-    this._heap[parentIndex] = this._heap[childIndex];
-    this._heap[childIndex] = tempNode;
-    childIndex = parentIndex;
+  //always insert from the end then compare with parent to see if need to swap
+  //until parent hitting index 0 or compare function returns false
+  var childIndex;
+  var parentIndex;
+  this.nodes.push(value);
+  while (parentIndex !== 0 ) {
+    childIndex = childIndex === undefined ? this.nodes.length - 1 : parentIndex;
     parentIndex = Math.floor( (childIndex - 1) / 2 );
+    if (this.compareFunct(this.nodes[parentIndex], this.nodes[childIndex])){
+      var temp = this.nodes[parentIndex];
+      this.nodes[parentIndex] = this.nodes[childIndex];
+      this.nodes[childIndex] = temp;
+    } else {
+      return;
+    }
   }
-  return this._heap;
 };
 
 BinaryHeap.prototype.removeRoot = function () {
-  // TODO: Your code here
-  //first swap, then do the same thing as insert and compare last node with parent
-  var oldHeap = this.getRoot();
-  var lastIndex = this._heap.length-1;
-  this._heap[0] = this._heap[lastIndex];
-  this._heap.pop();
+  //only remove the head node
+  //swap end with head keep new end
+  //then compare from head to children until finding the right spot
+  var endVal = this.nodes.pop();
+  var returnVal = this.nodes[0];
+  this.nodes[0] = endVal;
+  
+  var parentIndex = 0; 
+  var leftChildIndex = parentIndex * 2 + 1;
+  var rightChildIndex = parentIndex * 2 + 2;
 
-  //for one node, compare its values with all two children;
-  //then swap, then the swapped one has to check with its children;
-  var parentIndex = 0;
-  var childrenIndexes = [parentIndex * 2 + 1, parentIndex * 2 + 2];
+  while (parentIndex <= this.nodes.length - 1) {
+    var parent = this.nodes[parentIndex];
+    var leftChild = this.nodes[leftChildIndex];
+    var rightChild = this.nodes[rightChildIndex];
+    
+    var swapWithLeftChild = this.compareFunct(this.nodes[parentIndex], leftChild);
+    var swapWithRightChild = this.compareFunct(this.nodes[parentIndex], rightChild);
 
-  while(this._heap[parentIndex] > Math.min(this._heap[childrenIndexes[0]], this._heap[childrenIndexes[1]])){
-        
+    if (swapWithLeftChild && swapWithRightChild) {
+      if (this.compareFunct(leftChild, rightChild)) {
+        this.nodes[parentIndex] = rightChild;
+        this.nodes[rightChildIndex] = parent;
+        parentIndex = rightChildIndex;
+      } else {
+        this.nodes[parentIndex] = leftChild;
+        this.nodes[leftChildIndex] = parent;
+        parentIndex = leftChildIndex;
+      }
+    } else if (swapWithLeftChild) {
+      this.nodes[parentIndex] = leftChild;
+      this.nodes[leftChildIndex] = parent;
+      parentIndex = leftChildIndex;
+    } else if (swapWithRightChild) {
+      this.nodes[parentIndex] = rightChild;
+      this.nodes[rightChildIndex] = parent;
+      parentIndex = rightChildIndex;
+    } else {
+      return returnVal;
+    }
+    leftChildIndex = parentIndex * 2 + 1;
+    rightChildIndex = parentIndex * 2 + 2;
   }
-  return oldHeap;
+  return returnVal;
 };
+
+var heap = new BinaryHeap();
+heap.insert(111);
+heap.insert(2);
+heap.insert(3);
+heap.insert(10);
+heap.insert(4);
+heap.insert(5);
+console.log(heap.nodes.join('') === '243111105');
+heap.removeRoot();
+console.log(heap.nodes.join('') === '34511110');
