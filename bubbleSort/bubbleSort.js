@@ -66,3 +66,29 @@ var bubbleSort = function(array) {
 
   return alreadySorted;
 };
+
+
+
+
+
+//using iterative mean:
+function bubbleSort(array) {
+  array = array.slice();
+  var endIndex = array.length - 1;
+  while (endIndex > 0) {
+    console.log(endIndex);
+    for (var i = 0; i < endIndex; i++) {
+      if (array[i] > array[i + 1]) {
+        var temp = array[i];
+        array[i] = array[i + 1];
+        array[i + 1] = temp;
+      }
+    }
+    endIndex--;
+  }
+  return array;
+}
+
+
+var arr = [32,41,35,23,41,234,1234,123,4,134,134,51,34,56234,513,4,1324,123,1234,2,3,3,3,4,15,];
+bubbleSort(arr);
