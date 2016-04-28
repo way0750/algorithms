@@ -35,5 +35,27 @@ function binarySearch(array, target) {
   return -1;
 }
 
+//using recursion
+function binarySearch (array, target, min, max) {
+  if (min === undefined) {
+    min = 0;
+  }
+  if (max === undefined) {
+    max = array.length - 1;
+  }
+  if (min > max) {
+    return -1;
+  }
+  var mid = min + Math.floor( (max - min) / 2 );
+  if (array[mid] === target) {
+    return mid;
+  } else if (array[mid] > target) {
+    return binarySearch(array, target, min, mid - 1);
+  } else if (array[mid] < target) {
+    return binarySearch(array, target, mid + 1, max);
+  }
+
+}
+
 var index = binarySearch([1, 2, 3, 4, 5], 4);
 console.log(index); // [3]
