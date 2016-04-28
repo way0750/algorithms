@@ -37,28 +37,3 @@ function binarySearch(array, target) {
 
 var index = binarySearch([1, 2, 3, 4, 5], 4);
 console.log(index); // [3]
-
-
-
- 
-// var binarySearch = function (array, target) {
-//   var minIndex = 0, maxIndex = array.length-1, midIndex = Math.floor(array.length/2);
-
-//   while (minIndex !== maxIndex){
-//     var curValue = array[midIndex];
-//     if (curValue === target){
-//       return midIndex;
-//     } else {
-//       // compare with midIndex with min and max index
-//       if (curValue<target){
-//         minIndex = midIndex;
-//         midIndex = midIndex + Math.ceil((maxIndex - minIndex)/2);
-//       } else {
-//         maxIndex = midIndex;
-//         midIndex = minIndex + Math.ceil((maxIndex - minIndex)/2);
-//       }
-//     }
-//   }
-//   return -1;
-
-// };
