@@ -42,8 +42,34 @@ Tree.prototype.addChild = function(child){
   *  4.) between me and a potato -> null
   */
  
-Tree.prototype.getClosestCommonAncestor = function(target){
-  
+//get ancestor path for both nodes from themselves to all the way to the top
+//then compare both path to find closest ancestor
+//
+//or can try to mark each node as each node travel up
+//anytime run into that has been mark, that the closest ancestor
+//but you are modifying the input
+//
+//or stringify each node and use the string as key, the node as value
+//each time go through a node, check and see if it already has been saved, if yes, then that is the closest
+//
+Tree.prototype.getClosestCommonAncestor = function(target){  
+  var vistedNodes = {};
+  var selfAncestor = this;
+  var targetAncestor = target;
+  if (selfAncestor === targetAncestor) {
+    return this;
+  }
+  while (selfAncestor && targetAncestor) {
+    var selfAncestorKey = JSON.stringify(selfAncestor);
+    var targetAncestorKey = JSON.stringify(targetAncestor);
+    if (vistedNodes[selfAncestorKey] || vistedNodes[targetAncestorKey]) {
+      return vistedNodes[selfAncestorKey] || vistedNodes[targetAncestorKey];
+    } else {
+      vistedNodes[selfAncestorKey] = selfAncestor;
+      vistedNodes[targetAncestorKey] = targetAncestor;
+    }
+  }
+  return null;
 };
 
 
@@ -161,3 +187,40 @@ grandma.addChild(mom);
 var me = new Tree('me');
 mom.addChild(me);
 grandma.getAncestorPath(me); // => [grandma, mom, me]
+
+
+//get ancestor path for both nodes from themselves to all the way to the top
+//then compare both path to find closest ancestor
+//
+//or can try to mark each node as each node travel up
+//anytime run into that has been mark, that the closest ancestor
+//but you are modifying the input
+//
+//or stringify each node and use the string as key, the node as value
+//each time go through a node, check and see if it already has been saved, if yes, then that is the closest
+//
+Tree.prototype.getClosestCommonAncestor = function(target){  
+  var vistedNodes = {};
+  var selfAncestor = this;
+  var targetAncestor = target;
+  if (selfAncestor === targetAncestor) {
+    return this;
+  }
+  while (selfAncestor || targetAncestor) {
+    var selfAncestorKey = selfAncestor.value;
+    var targetAncestorKey = targetAncestor.value;
+    var foundCommonAncestor  = vistedNodes[selfAncestorKey] || vistedNodes[targetAncestorKey];
+    if (foundCommonAncestor) {
+      return foundCommonAncestor;
+    } else {
+      vistedNodes[selfAncestorKey] = selfAncestor;
+      vistedNodes[targetAncestorKey] = targetAncestor;
+      selfAncestor = selfAncestor ? selfAncestor.ancestor : null;
+      targetAncestor = targetAncestor ? targetAncestor.ancestor : null;
+    }
+
+  }
+  return null;
+};
+
+me.getClosestCommonAncestor(mom);
