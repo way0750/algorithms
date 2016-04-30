@@ -13,7 +13,8 @@
   * grandma.getAncestorPath(me); // => [grandma, mom, me]
 */
 
-var Tree = function(){
+var Tree = function(value){
+  this.value = value
   this.children = [];
   this.ancestor = null;
 };
@@ -42,30 +43,9 @@ Tree.prototype.addChild = function(child){
   */
  
 Tree.prototype.getClosestCommonAncestor = function(target){
-  if (this === target){
-    return this;
-  } else {
-    var isDest = this.search(target);
-    if (isDest) {
-      return this;
-    } else {
-      var ancestor = this.ancestor.search(target);
-      if (ancestor) {
-        return ancestor;
-      }
-    }
-  }
-  return null;
+  
 };
 
-/**
-  * should return the ancestral path of a child to this node.
-  * more examples:
-  * 1.) greatGrandma.getAncestorPath(me) -> [great grandma, grandma, mom, me]
-  * 2.) mom.getAncestorPath(me) -> [mom, me]
-  * 3.) me.getAncestorPath(me) -> [me]
-  * 4.) grandma.getAncestorPath(H R Giger) -> null
-  */
 
 Tree.prototype.search = function (target) {
   if (this === target) {
@@ -82,21 +62,6 @@ Tree.prototype.search = function (target) {
   return null;
 };
 
-Tree.prototype.getAncestorPath = function(desc){
-  if (this === desc){
-    return [this];
-  } else {
-    for (var i = 0; i < this.children.length; i++) {
-      var curChildNode = this.children[i];
-      var foundPath = curChildNode.getAncestorPath(desc);
-      if (foundPath){
-        foundPath.unshift(this);
-        return foundPath;
-      }
-    }
-  }
-  return null;
-};
 
 /**
   * check to see if the provided tree is already a child of this
@@ -129,3 +94,48 @@ Tree.prototype.removeChild = function(child){
     throw new Error("That node is not an immediate child of this tree");
   }
 };
+
+
+/**
+  * should return the ancestral path of a child to this node.
+  * more examples:
+  * 1.) greatGrandma.getAncestorPath(me) -> [great grandma, grandma, mom, me]
+  * 2.) mom.getAncestorPath(me) -> [mom, me]
+  * 3.) me.getAncestorPath(me) -> [me]
+  * 4.) grandma.getAncestorPath(H R Giger) -> null
+  */
+
+
+// using depth first search:
+Tree.prototype.getAncestorPath = function(desc){
+  //from current node to desc node
+  //use depth first search:
+  //search from current node to all desc until hitting desc, if nothing found return null;
+  //base case: if this === desc found and return [this];
+  //          if there is no children: return null;
+  //how to break smaller: go through each child
+  //what to return: either an array if path is found, or null
+  //what to do about return, unshift 'this' to array and return
+  if (this === desc) {
+    return [this.value];
+  }
+
+  for (var i = 0; i < this.children.length; i++) {
+    var childNode = this.children[i];
+    var foundPath = childNode.getAncestorPath(desc);
+    if (foundPath){
+      foundPath.unshift(this.value);
+      return foundPath;
+    }
+  }
+  return null;
+};
+
+
+//test case:
+var grandma = new Tree('grandma');
+var mom = new Tree('mom');
+grandma.addChild(mom);
+var me = new Tree('me');
+mom.addChild(me);
+grandma.getAncestorPath(me); // => [grandma, mom, me]
