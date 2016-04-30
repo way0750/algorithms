@@ -64,10 +64,35 @@ makeChange(2) === 2
 //  increase quantity by 1 over and over until it is equal or larger than input num
 //    mean while recursively call with array of coins sliced at this position and num - coin * quantity
 //    
-//    
+// 
+
+var makeChange = function(amount, coinArray){
+  coinArray = coinArray || [200, 100, 50, 20, 10, 5, 2, 1];
+  if (coinArray.length === 0 && amount > 0) {
+    return 0;
+  } else if (amount === 0 && coinArray.length < 8) {
+    return 1;
+  }
+  var curCoinType;
+  var totalCombo = 0;
+  for (var i = 0; i < coinArray.length; i++){
+    curCoinType = coinArray[i];
+    if (amount >= curCoinType) {
+      var quantity = 1;
+      while (amount >= curCoinType * quantity) {
+        totalCombo += makeChange(amount - curCoinType * quantity, coinArray.slice(i + 1));
+        quantity++;
+      }
+    }
+  }
+  return totalCombo;
+};
+
+makeChange(5);
 
 
 
+//console all combo to face check the result
 var makeChange = function(amount, coinArray, comboStr){
   coinArray = coinArray || [200, 100, 50, 20, 10, 5, 2, 1];
   if (coinArray.length === 0 && amount > 0) {
@@ -95,27 +120,3 @@ var makeChange = function(amount, coinArray, comboStr){
   }
   return totalCombo;
 };
-
-var makeChange = function(amount, coinArray){
-  coinArray = coinArray || [200, 100, 50, 20, 10, 5, 2, 1];
-  if (coinArray.length === 0 && amount > 0) {
-    return 0;
-  } else if (amount === 0 && coinArray.length < 8) {
-    return 1;
-  }
-  var curCoinType;
-  var totalCombo = 0;
-  for (var i = 0; i < coinArray.length; i++){
-    curCoinType = coinArray[i];
-    if (amount >= curCoinType) {
-      var quantity = 1;
-      while (amount >= curCoinType * quantity) {
-        totalCombo += makeChange(amount - curCoinType * quantity, coinArray.slice(i + 1));
-        quantity++;
-      }
-    }
-  }
-  return totalCombo;
-};
-
-makeChange(5);
