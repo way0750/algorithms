@@ -82,3 +82,63 @@ var characterFrequency = function(string) {
     return [char, freqObj[char]];
   });
 };
+
+
+
+
+
+//second 
+
+function groupBy (obj, cb) {
+  var keys = Object.keys(obj);
+  return keys.reduce (function (group, key) {
+    var groupKey = cb(key, obj[key]);
+    group[groupKey] = group[groupKey] || [];
+    group[groupKey].push(key);
+    return group;
+  }, {});
+}
+
+function getFreq (str) {
+  str = str.toLowerCase();
+  var freq = {};
+  var char;
+  for (var i = 0; i < str.length; i++){
+    char = str[i];
+    freq[char] = freq[char] ? freq[char] + 1 : 1;
+  }
+  return freq;
+}
+
+function characterFrequency (str) {
+  var freqObj = getFreq(str);
+  var groupByFreq = groupBy(freqObj, function (key, value) {
+    return value;
+  });
+  //groupByFreq should look like this:
+  //{
+  //  1: [a,b,c,d],
+  //  2: [n, m],
+  //  90: [z,x,y]
+  //}
+  //sort obj keys in descending order, then sort each key's characters in ascending order
+  var sortedKeys = Object.keys(groupByFreq).sort(function (k1, k2) {
+    return +k2 > +k1;
+  });
+  
+  return sortedKeys.reduce(function (finalArr, key) {
+    var sortedChars = groupByFreq[key].reduce (function (arr, char) {
+      arr[char.charCodeAt(0)] = [char, +key];
+      return arr;
+    }, []);
+    //sortedChars should look like this: [,, ,['d', 3] , , ['f', 2]];
+    sortedChars.forEach(function(reqArr) {
+      finalArr.push(reqArr);
+    });
+    return finalArr;
+  }, []);
+
+}
+
+characterFrequency('fuakshdljkfhjashdfajsdfjhajsdhfjahsdfffaa');
+
