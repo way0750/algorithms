@@ -132,6 +132,28 @@ Tree.prototype.getAncestorPath = function(desc){
 };
 
 
+
+//using depth but from the bottom and up using ancestor
+Tree.prototype.getAncestorPath = function(desc) {
+  //keep searching from bottom up if there is an ancestor
+  //else if no ancestor then return null
+  var path = [this.value];
+  if (this === desc) {
+    return path;
+  }
+  var curAncestor = desc.ancestor;
+  while (curAncestor) {
+    path.unshift(curAncestor.value);
+    if (curAncestor === this) {
+      return path;
+    } else {
+      curAncestor = curAncestor.ancestor;
+    }
+  }
+  return null;
+};
+
+
 //test case:
 var grandma = new Tree('grandma');
 var mom = new Tree('mom');
