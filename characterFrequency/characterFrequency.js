@@ -142,3 +142,44 @@ function characterFrequency (str) {
 
 characterFrequency('fuakshdljkfhjashdfajsdfjhajsdhfjahsdfffaa');
 
+
+
+// a shorter version:
+function getFreq (str) {
+  str = str.toLowerCase();
+  var freq = {};
+  var char;
+  for (var i = 0; i < str.length; i++){
+    char = str[i];
+    freq[char] = freq[char] ? freq[char] + 1 : 1;
+  }
+  return freq;
+}
+
+function characterFrequency(str) {
+  var freq = getFreq(str);
+  // freq: {1: [a,b,c,d], 2: [f,t]}
+  //use those frequency as key to create an new array: [, [ab,c,d], [f, t]]
+  //then reduce from right
+  var sortedFreq = Object.keys(freq).reduce(function (arr, char) {
+    arr[freq[char]] = arr[freq[char]] || [];
+    arr[freq[char]].push(char);
+    return arr;
+  }, []);
+
+  //sortedFreq should look like this: [, [ab,c,d], [f, t]];
+  return sortedFreq.reduceRight(function (finalArr, charArr, indexNum) {
+    //sort those char in charArr;
+    var sortedCharsArr = charArr.reduce(function(arr, char) {
+      arr[char.charCodeAt(0)] = char;
+      return arr;
+    }, []);
+    sortedCharsArr.forEach(function (char) {
+      finalArr.push([char, indexNum]);
+    });
+    return finalArr;
+  }, []);
+
+}
+
+characterFrequency('fuakshdljkfhjashdfajsdfjhajsdhfjahsdfffaaaaaa');
