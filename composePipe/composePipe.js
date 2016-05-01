@@ -59,3 +59,33 @@ var pipe = function(){
     return args[0];
   };
 };
+
+
+
+//second version
+
+function makeComposeFunct (shouldGoFromLeftToRight) {
+  var travelFunction = shouldGoFromLeftToRight ? "reduce" : "reduceRight";
+  return function () {
+    var functList = Array.apply(null, arguments);
+    return function (arg) {
+      return functList[travelFunction](function (returnVal, funct) {
+         return funct(returnVal);
+      }, arg);
+    };
+  };
+}
+
+var compose = makeComposeFunct(false);
+var pipe = makeComposeFunct(true);
+
+var greet = function(name){ return 'hi: ' + name;};
+var exclaim = function(statement) { return statement.toUpperCase() + '!';};
+var welcome = compose(greet, exclaim);
+welcome('phillip');
+
+
+var add2 = function(number){ return number + 2; };
+var multiplyBy3 = function(number){ return number * 3; };
+pipe(add2, multiplyBy3)(5); // 21
+pipe(add2, multiplyBy3, multiplyBy3)(5); // 63
