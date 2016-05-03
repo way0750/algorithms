@@ -51,12 +51,12 @@ LinkedList.prototype.search = function(value) {
   var curNode = this.head;
   while (curNode) {
     if (curNode.value === value){
-      return true;
+      return curNode;
     } else {
       curNode = curNode.next;
     }
   }
-  return false;
+  return null;
 };
 
 LinkedList.prototype.findAndRemove = function(value) {
