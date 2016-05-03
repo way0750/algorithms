@@ -1,3 +1,8 @@
+/**
+ * Create a hash table with `insert()`, `retrieve()`, and `remove()` methods.
+ * The hashtable does not need to resize but it should still handle collisions.
+ */
+
 // linkedList
 // need to have pointer pointing to 
 // insertToEnd
@@ -138,6 +143,13 @@ HashTable.prototype.remove = function(key) {
     return removedEntry;
   }
 };
+
+
+//resize
+//when utilization rate is under 25% halve
+//when is over 75% double
+// in the middle resizing you will hit below 25%!
+
 
 var hashTable = new HashTable(10);
 hashTable.insert('name', 'way');

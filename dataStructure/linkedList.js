@@ -86,6 +86,13 @@ LinkedList.prototype.findAndRemove = function(value) {
 };
 
 
+LinkedList.prototype.each = function(callBack) {
+  var curNode = this.head;
+  while(curNode) {
+    callBack(curNode);
+    curNode = curNode.next;
+  }
+};
 
 // test case:
 var list = new LinkedList();
