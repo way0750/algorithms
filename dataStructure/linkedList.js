@@ -59,6 +59,32 @@ LinkedList.prototype.search = function(value) {
   return false;
 };
 
+LinkedList.prototype.findAndRemove = function(value) {
+  // it has to have two point just so you can rejoin a broken list
+  if (this.head && this.head.value === value){
+    var removed = this.head;
+    this.removeFromHead();
+    return removed;
+  } else {
+    var firstNode = this.head, secondNode = (this.head || {}).next;
+    while (secondNode) {
+      if (secondNode.value === value) {
+        firstNode.next = secondNode.next;
+        secondNode.next = null;
+        this.size--;
+        if (this.size === 1) {
+          this.end = this.head;
+        }
+        return secondNode;
+      } else {
+        firstNode = secondNode;
+        secondNode = secondNode.next;
+      }
+    }
+  }
+  return null;
+};
+
 
 
 // test case:
@@ -67,6 +93,9 @@ list.insertFromEnd(1);
 list.insertFromEnd(2);
 list.insertFromEnd(3);
 list.insertFromEnd(4);
-
+list.insertFromEnd(5);
+list.insertFromEnd(6);
 list.removeFromHead();
 list.search(2); //true
+list.findAndRemove(3);
+list.findAndRemove(3);
