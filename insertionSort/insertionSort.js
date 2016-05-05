@@ -92,6 +92,29 @@ function insertionSort(array, callback) {
 }
 
 
+//second version, refactor to use typeof cb === 'function' which is safer
+
+
+function insertionSort(arr, cb) {
+  cb = typeof cb === 'function' ? cb : function (a, b) {return a > b;};
+  arr = arr.slice();
+  for (var i = 0; i < arr.length; i++){
+    var compIndex = i;
+    while ( compIndex > -1 && cb(arr[compIndex], arr[compIndex - 1])){
+      let temp = arr[compIndex];
+      arr[compIndex] = arr[compIndex - 1];
+      arr[compIndex - 1] = temp;
+      compIndex--;
+    }
+  }
+  return arr;
+}
+
+let arr = [3,245,24,62,45,23,42,46,345,63];
+insertionSort(arr, function(a, b){
+  return b > a;
+});
+
 
 
 insertionSort([{value: 1}, {value: 3}, {value: 90}, {value: 1}], function(obj1, obj2){
