@@ -46,3 +46,23 @@ var largestProductOfThree = function(array){
 };
 
 
+
+
+// second version:
+
+function largestProductOfThree(arr) {
+  arr = arr.sort(function (n1, n2) {
+    return n1 > n2;    
+  });
+  var product = function (arr) {
+    return arr.reduce(function (product, num ) {
+      return product * num;
+    });
+  };
+  var leftArr = [arr[0], arr[1], arr[arr.length - 1]];
+  var rightArr = arr.slice( Math.max(arr.length - 3, 0) );
+  return Math.max(product(leftArr), product(rightArr));
+};
+
+
+largestProductOfThree([5,4,3,-6,-7,3]);
