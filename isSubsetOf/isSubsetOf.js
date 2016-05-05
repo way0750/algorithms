@@ -40,7 +40,6 @@
 
 
 Array.prototype.isSubsetOf = function(array){
-
   var targetFreqObj = array.reduce(function  (obj, item) {
       obj[JSON.stringify(item)] = true;
       return obj;
@@ -51,3 +50,9 @@ Array.prototype.isSubsetOf = function(array){
 };
 
 
+var g = [{name : "god"}, {age : 10}];
+var h = [{name : "god"}, {age : 10}, {height : 100}];
+var i = [{name : "god"}, {cat : true},  {height : 100}];
+
+console.log(g.isSubsetOf(h) === true);
+console.log(g.isSubsetOf(i) === false);
