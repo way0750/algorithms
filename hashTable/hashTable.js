@@ -187,10 +187,28 @@ HashTable.prototype.resize = function() {
   //set new storage 
   //set this.resizing = true;
   //then go through each key-value and insert them on to this
-  console.log('resizing......');
+  console.log('resizing......, curMax:', this.max);
+  var oldStorage = this.storage;
+  this.storage = [];
+  var utilizationRate = this.utilization / this.max;
+  this.max = utilizationRate >= 0.75 ? this.max * 2 : Math.floor(this.max /2);
+
+  oldStorage.forEach( (list) => {
+    if (list instanceof LinkedList) {
+      //go through all the list node and 
+      list.each( (node) => {
+        var key = node.value;
+        var value = node.hashItemValue;
+        this.insert(key, value);
+      });
+    }
+  });
+  console.log(this.max);
   this.resizing = false;
 };
 
-var hashTable = new HashTable(10);
+var hashTable = new HashTable(5);
 hashTable.insert('name', 'way');
 hashTable.retrieve('name');
+hashTable.insert('name002', 'way');
+hashTable.insert('name002', 'way');
