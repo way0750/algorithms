@@ -91,6 +91,14 @@ LinkedList.prototype.findAndRemove = function(value) {
 };
 
 
+LinkedList.prototype.each = function(callBack) {
+  var curNode = this.head;
+  while(curNode) {
+    callBack(curNode);
+    curNode = curNode.next;
+  }
+};
+
 // ///////////////////////////////////
 // hashTable:
 // Create a hash table with `insert()`, `retrieve()`, and `remove()` methods.
@@ -109,11 +117,16 @@ var getIndexBelowMaxForKey = function(str, max){
 function HashTable (max) {
   this.storage = [];
   this.max = max;
+  this.utilization = 0;
+  this.resizing = false;
 }
 
 HashTable.prototype.insert = function(key, value) {
   var hashNum = getIndexBelowMaxForKey(key, this.max);
   this.storage[hashNum] = this.storage[hashNum] || new LinkedList();
+  if (!this.storage[hashNum]) {
+    this.storage[hashNum] = new LinkedList();
+  }
   var list = this.storage[hashNum];
   var foundEntry = list.search(key);
   if (foundEntry) {
@@ -121,7 +134,15 @@ HashTable.prototype.insert = function(key, value) {
   } else {
     list.insertFromEnd(key);
     list.end.hashItemValue = value;
+    this.utilization++;
   }
+  var utilizationRate = this.utilization / this.max;
+  var shouldResize = utilizationRate >= 0.75 || utilizationRate <= 0.25;
+  if (shouldResize && this.resizing === false) {
+    this.resizing = true;
+    this.resize();
+  }
+
 };
 
 HashTable.prototype.retrieve = function(key) {
@@ -135,13 +156,24 @@ HashTable.prototype.retrieve = function(key) {
 HashTable.prototype.remove = function(key) {
   var hashNum = getIndexBelowMaxForKey(key, this.max);
   var list = this.storage[hashNum];
+  var removedEntry;
   if (list){
-    var removedEntry = list.findAndRemove(key);
+    removedEntry = list.findAndRemove(key);
+    if (removedEntry) {
+      this.utilization--;
+    }
     if (list.size === 0) {
       delete this.storage[hashNum];
     }
-    return removedEntry;
   }
+
+  var utilizationRate = this.utilization / this.max;
+  var shouldResize = utilizationRate >= 0.75 || utilizationRate <= 0.25;
+  if (shouldResize && this.resizing === false) {
+    this.resizing = true;
+    this.resize();
+  }
+  return removedEntry;
 };
 
 
@@ -150,6 +182,14 @@ HashTable.prototype.remove = function(key) {
 //when is over 75% double
 // in the middle resizing you will hit below 25%!
 
+HashTable.prototype.resize = function() {
+  //get the old storage
+  //set new storage 
+  //set this.resizing = true;
+  //then go through each key-value and insert them on to this
+  console.log('resizing......');
+  this.resizing = false;
+};
 
 var hashTable = new HashTable(10);
 hashTable.insert('name', 'way');
