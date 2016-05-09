@@ -20,27 +20,24 @@ function longestPalindrome(str) {
   let expandWidth, pali = "";
   let leftChar, rightChar;
 
-  function findPaliAtIndex(curIndex, str, leftIndex, rightIndex) {
-    let pali = rightIndex - leftIndex === 1 ? '' : str[curIndex];
-    let expandWidth = 0;
-    let leftChar = str[leftIndex - expandWidth];
-    let rightChar = str[rightIndex + expandWidth];
+  function findPaliAtIndex(pali, str, leftIndex, rightIndex) {
+    let leftChar = str[leftIndex--];
+    let rightChar = str[rightIndex++];
     while ((leftChar && rightChar) && (leftChar === rightChar)){
       pali = leftChar + pali + rightChar;
-      expandWidth++;
-      leftChar = str[leftIndex - expandWidth];
-      rightChar = str[rightIndex + expandWidth];
+      leftChar = str[leftIndex--];
+      rightChar = str[rightIndex++];
     }
     return pali;
   }
 
   let oddLengthPali, evenLengthPali;
   for (let i = 0; i < str.length; i++){
-    oddLengthPali = findPaliAtIndex(i, str, i - 1, i + 1);
+    oddLengthPali = findPaliAtIndex(str[i], str, i - 1, i + 1);
     if (oddLengthPali.length > curLongestPali.length) {
       curLongestPali = oddLengthPali;
     }
-    evenLengthPali = findPaliAtIndex(i, str, i, i + 1);
+    evenLengthPali = findPaliAtIndex('', str, i, i + 1);
     if (evenLengthPali.length > curLongestPali.length) {
       curLongestPali = evenLengthPali;
     }
