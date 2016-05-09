@@ -47,3 +47,72 @@ var hasCycle = function(linkedList){
   }
   return false;
 };
+
+
+
+
+
+
+
+//second version, this one actually works:
+function LinkedListNode (value) {
+  this.value = value;
+  this.next = null;
+}
+
+function LinkedList () {
+  this.head = null;
+  this.end = null;
+  this.size = 0;
+}
+
+LinkedList.prototype.insertFromEnd = function(value) {
+  var newNode = new LinkedListNode(value);
+  if (this.head === null && this.end === null) {
+    this.head = newNode;
+    this.end = newNode;
+  } else if (this.end === null ) {
+    this.end = newNode;
+  } else {
+    //set old end's next to the newNode, then set newNode as the end
+    this.end.next = newNode;
+    this.end = newNode;
+  }
+  return ++this.size;
+};
+
+
+var linkList = new LinkedList();
+linkList.insertFromEnd(1);
+linkList.insertFromEnd(2);
+linkList.insertFromEnd(3);
+linkList.insertFromEnd(4);
+linkList.insertFromEnd(5);
+linkList.end.next = linkList.head.next.next;
+//check and see if the list is indeed a cycled linkList
+// var amount = 15;
+// var curNode = linkList.head;
+// while (amount--){
+//   console.log(curNode.value);
+//   curNode = curNode.next;
+// }
+
+//set two pointer, one goes through nodes one by one, another one goes two by two
+//if any time both pointer points to the same node, then the list had cycle
+//if not then no cycle
+
+function hasCycle (list) {
+  var slowNode = list.head;
+  var fastNode = slowNode ? slowNode.next : null;
+  while (fastNode !== null){
+    if (slowNode === fastNode) {
+      return true;
+    } else {
+      slowNode = slowNode.next;
+      fastNode = fastNode.next ? fastNode.next.next : null;
+    }
+  }
+  return false;
+}
+
+hasCycle(linkList); // true
