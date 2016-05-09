@@ -17,8 +17,6 @@
 
 function longestPalindrome(str) {
   let curLongestPali = '';
-  let expandWidth, pali = "";
-  let leftChar, rightChar;
 
   function findPaliAtIndex(pali, str, leftIndex, rightIndex) {
     let leftChar = str[leftIndex--];
@@ -34,13 +32,11 @@ function longestPalindrome(str) {
   let oddLengthPali, evenLengthPali;
   for (let i = 0; i < str.length; i++){
     oddLengthPali = findPaliAtIndex(str[i], str, i - 1, i + 1);
-    if (oddLengthPali.length > curLongestPali.length) {
-      curLongestPali = oddLengthPali;
-    }
     evenLengthPali = findPaliAtIndex('', str, i, i + 1);
-    if (evenLengthPali.length > curLongestPali.length) {
-      curLongestPali = evenLengthPali;
-    }
+    
+    curLongestPali = [curLongestPali, oddLengthPali, evenLengthPali].reduce( (curLongest, str) => {
+     return str.length > curLongest.length ? str : curLongest;
+    });
   }
 
   return curLongestPali;
