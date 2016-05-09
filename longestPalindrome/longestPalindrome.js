@@ -6,23 +6,49 @@
 * whitespace on each side of dad).
 */
 
-var longestPalindrome = function (string) {
-  var pali = '';
-  var curLongest = 0;
-  var curStr = '';
-  for (var i = 0; i < string.length; i++) {
-    var incr = 0;
-    while (string[i-incr] === string[i+incr] && string[i-incr]){
-      var o=string[i+incr];
-      var n=string[i-incr];
-      var e = string[i-incr] === string[i+incr];
-      incr++;
+// input a string
+// output the longest palindrome substring
+
+// go through each character in the string, then expand in both directions stop if characters on both end ain't the same
+// count the length of the sub string
+//  if longer than current palindrome, then update current palindrome
+// also there two types of palindrome:   'bab' 'baab'
+// so have to expand twice
+
+function longestPalindrome(str) {
+  let curLongestPali = '';
+  let expandWidth, pali = "";
+  let leftChar, rightChar;
+
+  function findPaliAtIndex(curIndex, str, leftIndex, rightIndex) {
+    let pali = rightIndex - leftIndex === 1 ? '' : str[curIndex];
+    let expandWidth = 0;
+    let leftChar = str[leftIndex - expandWidth];
+    let rightChar = str[rightIndex + expandWidth];
+    while ((leftChar && rightChar) && (leftChar === rightChar)){
+      pali = leftChar + pali + rightChar;
+      expandWidth++;
+      leftChar = str[leftIndex - expandWidth];
+      rightChar = str[rightIndex + expandWidth];
     }
-    curStr = string.substring(i-incr-1, i+incr);
-    if (curStr.length > curLongest) {
-      pali = curStr;
-      curLongest = pali.length;
+    return pali;
+  }
+
+  let oddLengthPali, evenLengthPali;
+  for (let i = 0; i < str.length; i++){
+    oddLengthPali = findPaliAtIndex(i, str, i - 1, i + 1);
+    if (oddLengthPali.length > curLongestPali.length) {
+      curLongestPali = oddLengthPali;
+    }
+    evenLengthPali = findPaliAtIndex(i, str, i, i + 1);
+    if (evenLengthPali.length > curLongestPali.length) {
+      curLongestPali = evenLengthPali;
     }
   }
-  return pali;
-};
+
+  return curLongestPali;
+}
+
+let str = 'aabaaabbbbaaa';
+
+longestPalindrome(str);
