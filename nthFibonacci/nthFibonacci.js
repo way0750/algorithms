@@ -19,29 +19,3 @@
  * etc...
  *
  */
-
-// var memorize = function (func) {
-// 	var oldResult = {};
-// 	return function () {
-// 		var arg  = JSON.stringify(arguments), result;
-// 		if (oldResult.hasOwnProperty(arg)){
-// 			result = oldResult[arg];
-// 		} else {
-// 			result = func.apply(null, arguments);
-// 			oldResult[arg] = result;
-// 		}
-// 		return oldResult[arg];
-// 	};
-// };
-
-// // base case nth === 1 or 2
-
-// var nthFibonacciBase = function (n) {
-//   if (n < 3){return n-1;}
-//   return nthFibonacciBase(n-1) + nthFibonacciBase(n-2);
-// };
-
-// // use memorize to save memory
-// var nthFibonacci = memorize(nthFibonacciBase);
-
-
