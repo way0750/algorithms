@@ -137,5 +137,36 @@ let mergeSort1 = (arr) => {
   return reducedArr[0] || [];
 };
 
-let arr = [55,345,2,34,23,46,467,3,245,1,346,46,7,2,341,234,53,547,6,5];
+
+
+//recursive way:
+var mergeSort = (arr) => {
+  if (arr.length < 2) {
+    return arr;
+  }
+  let midIndex = Math.floor(arr.length / 2);
+  let leftArr = mergeSort( arr.slice(0, midIndex) );
+  let rightArr = mergeSort( arr.slice(midIndex) );
+  let finalSortArr = [];
+  while (leftArr.length && rightArr.length) {
+    finalSortArr.push(leftArr[0] < rightArr[0] ? leftArr.shift() : rightArr.shift());
+  }
+
+  return finalSortArr.concat(leftArr, rightArr);
+};
+
+
+
+let makeRandomArray = (length) => {
+  let returnArr = [];
+  while (length--){
+    returnArr.push(Math.floor(Math.random() * 10000));
+  }
+  return returnArr;
+};
+
+let arr = makeRandomArray(150000);
+
+console.time('mergeSort');
 mergeSort(arr);
+console.timeEnd('mergeSort');
