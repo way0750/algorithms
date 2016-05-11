@@ -19,3 +19,26 @@
  * etc...
  *
  */
+
+//recursive solution
+//base case when input is 0 return 0 when it is 1 return 1
+//how to break smaller: if input 10 then f(9) + f(8)
+//what to do with return see above
+
+let nthFibonacci = (num) => {
+	let memo = {};
+	let calculFib = (num) => {
+		if (num === 1 || num === 0) {
+			return num;
+		}
+		let f1Num = num - 1, f2Num = num - 2;
+		memo[f1Num] = memo[f1Num] === undefined ? calculFib(f1Num) : memo[f1Num];
+		let f1 = memo[f1Num];
+		memo[f2Num] = memo[f2Num] === undefined ? calculFib(f2Num) : memo[f2Num];
+		let f2 = memo[f2Num];
+		return f1 + f2;
+	};
+	return calculFib(num);
+};
+
+nthFibonacci(4); // => 3
