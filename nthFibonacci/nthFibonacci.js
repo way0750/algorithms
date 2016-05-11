@@ -42,3 +42,20 @@ let nthFibonacci = (num) => {
 };
 
 nthFibonacci(4); // => 3
+
+//iterative:
+
+let usingIterative = (num) => {
+	if (num === 1 || num === 0) {
+		return num;
+	}
+	let f1Num = 0, f2Num = 1, f3Num;
+	for (let i = num - 2; i > -1; i--){
+		f3Num = f1Num + f2Num;
+		let tempNum = f2Num;
+		f2Num = f3Num;
+		f1Num = tempNum;
+	}
+	return f3Num;
+};
+usingIterative(5); // 5
