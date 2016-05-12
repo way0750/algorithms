@@ -38,6 +38,6 @@ let translateUsingForLoop = (str) => {
 };
 
 let str  ="AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA";
-translateUsingForLoop(str);
+translateUsingForLoop(str); // "MAMAPRTEINSTRING"
 
 
