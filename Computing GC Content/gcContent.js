@@ -14,8 +14,7 @@ entries = entries.map( (str) => {
   id = id.replace('>', '');
   let content = strComponents.join('');
   content = content.replace('\n', '');
-  let gCAmount = getGc(content);
-  return {id: id, gCAmount: gCAmount};
+  return {id: id, gCAmount: getGc(content)};
 });
 
 let gcContent = (arr) => {
@@ -24,5 +23,3 @@ let gcContent = (arr) => {
   });
   return maxGC.id + '\n' + maxGC.gCAmount;
 };
-
-console.log(gcContent(entries));
