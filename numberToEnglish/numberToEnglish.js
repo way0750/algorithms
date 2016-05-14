@@ -105,6 +105,7 @@ function convert3Digits (str) {
   //str has already been reversed:
   //and it must has at least 1 character
   let allStr = [1, 10, 100].slice(0, str.length).reduce( (finalStr, place, i) => {
+    // console.log(JSON.stringify(finalStr));
     if (place === 1) {
       return numbersToWords[str[i]] + finalStr;
     } else if (place === 10){
@@ -116,6 +117,7 @@ function convert3Digits (str) {
         //add the word ' and ' only if both digitStr and finalStr have content;
       } else {
         let digitStr = numbersToWords[str[i] * place];
+        // console.log('----->',JSON.stringify(digitStr), JSON.stringify(finalStr), digitStr !== '' && finalStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr);
         return digitStr !== '' && finalStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr;
       }
     } else if (place === 100) {
@@ -124,7 +126,7 @@ function convert3Digits (str) {
       return finalStr !== '' && digitStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr;
     }
   }, '');
-
+  // console.log(JSON.stringify(allStr));
   return allStr;
 }
 
@@ -136,12 +138,11 @@ Number.prototype.toEnglish = function() {
   console.log(strNumArr);
   strNumArr = strNumArr.reduce ( (finalStr, str, i) => {
     let num3Digit = convert3Digits(str);
-
-    num3Digit = num3Digit === '' ? '' : num3Digit + ' ' + betterNumbersToPlace[i];
+    num3Digit = betterNumbersToPlace[i] !== '' && num3Digit !=='' ? num3Digit + ' ' + betterNumbersToPlace[i] : num3Digit;
     return num3Digit !== '' && finalStr !== '' ? num3Digit + ' ' + finalStr : num3Digit + finalStr;
   }, '');
 
   return strNumArr;
 };
 
-2450005..toEnglish();
+300000307..toEnglish();
