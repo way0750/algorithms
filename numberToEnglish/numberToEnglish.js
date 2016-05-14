@@ -13,7 +13,7 @@
  */
 
 var numbersToWords = {
-  0: 'zero',
+  0: '',
   1: 'one',
   2: 'two',
   3: 'three',
@@ -94,3 +94,41 @@ var numbersToPlace = {
 // seven hundred sixty-nine, four hundred fifty-eight thousand, three million
 // reverse
 // three million four and hundred fifty-eight thousand seven hundred and sixty-nine
+
+
+//create helper function just to deal with 3 or less digits at once
+//then the main functions is to reverse the number then divide it into an array of groups of three digits
+//map the array into string by calling the helper function
+//add thousand million... to the array 
+//reverse and join
+
+//3745254
+//452 547 3
+function convert3Digits (str) {
+  //str has already been reversed:
+  //and it must has at least 1 character
+  // let d1 = str[0] === 0 ? "" : numbersToWords[str[0]];
+  // let d2 = str[1] === 1 ? numbersToWords[str.slice];
+  let allStr = [1, 10, 100].slice(0, str.length).reduce( (finalStr, place, i) => {
+    // let str = place <= 10 ? numbersToPlace[str[i] * place] : numbersToPlace[str[i]] + ' hundred';
+    if (place === 1) {
+      return numbersToWords[str[i]] + finalStr;
+    } else if (place === 10){
+      if (str[i] === '1') {
+        return numbersToWords[str[1] + str[0]];
+      } else {
+        let digitStr = numbersToWords[str[i] * place];
+        return digitStr !== '' && finalStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr;
+      }
+    } else if (place === 100) {
+      let digitStr = numbersToWords[str[i]];
+      digitStr = digitStr === '' ? '' : digitStr + ' hundred';
+      return finalStr !== '' && digitStr !== '' ? digitStr + ' and ' + finalStr : digitStr + finalStr;
+    }
+  }, '');
+
+  return allStr;
+}
+
+
+convert3Digits('003')
