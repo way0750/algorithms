@@ -54,9 +54,6 @@ var numbersToPlace = {
   1000000000000000000: 'quintillion',
 };
 
-
-
-
 // 314 345 45 14 
 // should read from right to left for every group of 3 digits
 // 14  4: four 1 then one but since 1 is at second place from right, that means it is a teen number
@@ -107,15 +104,16 @@ var numbersToPlace = {
 function convert3Digits (str) {
   //str has already been reversed:
   //and it must has at least 1 character
-  // let d1 = str[0] === 0 ? "" : numbersToWords[str[0]];
-  // let d2 = str[1] === 1 ? numbersToWords[str.slice];
   let allStr = [1, 10, 100].slice(0, str.length).reduce( (finalStr, place, i) => {
-    // let str = place <= 10 ? numbersToPlace[str[i] * place] : numbersToPlace[str[i]] + ' hundred';
     if (place === 1) {
       return numbersToWords[str[i]] + finalStr;
     } else if (place === 10){
+      //if at 10th place there is a 1, then there must be a teen number
       if (str[i] === '1') {
         return numbersToWords[str[1] + str[0]];
+        //else if there isn't a teen number
+        //check to see if there is a non zero number at 1 or 10 place by checking both digitStr and finalStr against '';
+        //add the word ' and ' only if both digitStr and finalStr have content;
       } else {
         let digitStr = numbersToWords[str[i] * place];
         return digitStr !== '' && finalStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr;
@@ -123,12 +121,27 @@ function convert3Digits (str) {
     } else if (place === 100) {
       let digitStr = numbersToWords[str[i]];
       digitStr = digitStr === '' ? '' : digitStr + ' hundred';
-      return finalStr !== '' && digitStr !== '' ? digitStr + ' and ' + finalStr : digitStr + finalStr;
+      return finalStr !== '' && digitStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr;
     }
   }, '');
 
   return allStr;
 }
 
+var betterNumbersToPlace = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion'];
 
-convert3Digits('003')
+Number.prototype.toEnglish = function() {
+  let strNum = this.toString().split('').reverse().join('');
+  let strNumArr = strNum.match(/\d{1,3}/g);
+  console.log(strNumArr);
+  strNumArr = strNumArr.reduce ( (finalStr, str, i) => {
+    let num3Digit = convert3Digits(str);
+
+    num3Digit = num3Digit === '' ? '' : num3Digit + ' ' + betterNumbersToPlace[i];
+    return num3Digit !== '' && finalStr !== '' ? num3Digit + ' ' + finalStr : num3Digit + finalStr;
+  }, '');
+
+  return strNumArr;
+};
+
+2450005..toEnglish();
