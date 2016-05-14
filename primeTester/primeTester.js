@@ -5,6 +5,28 @@
  */
 
 
+var primeTester = function(n) {
+  if(typeof n !== 'number' || n < 1 || n % 1 !== 0){
+    // n isn't a number or n is less than 1 or n is not an integer
+    return false;
+  }
+
+  if (n > 3 && n % 2 === 0){return false;}
+
+  var divisor = 3;
+  var limit = Math.ceil(Math.sqrt(n));
+
+  while(divisor <= limit){
+    if (limit % divisor ===0 ){return false;}
+    divisor+=2;
+  }
+
+  return true;
+};
+
+
+
+
 /* Extra credit: Write a function that generates a list of all prime numbers
  * in a user-specified range (inclusive). If you're not quite sure where to start,
  * check out the Sieve of Eratosthenes on Wikipedia. (And if you're feeling
