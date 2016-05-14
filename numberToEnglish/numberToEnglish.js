@@ -117,7 +117,6 @@ function convert3Digits (str) {
         //add the word ' and ' only if both digitStr and finalStr have content;
       } else {
         let digitStr = numbersToWords[str[i] * place];
-        // console.log('----->',JSON.stringify(digitStr), JSON.stringify(finalStr), digitStr !== '' && finalStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr);
         return digitStr !== '' && finalStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr;
       }
     } else if (place === 100) {
@@ -126,7 +125,7 @@ function convert3Digits (str) {
       return finalStr !== '' && digitStr !== '' ? digitStr + ' ' + finalStr : digitStr + finalStr;
     }
   }, '');
-  // console.log(JSON.stringify(allStr));
+  
   return allStr;
 }
 
@@ -135,7 +134,7 @@ var betterNumbersToPlace = ['', 'thousand', 'million', 'billion', 'trillion', 'q
 Number.prototype.toEnglish = function() {
   let strNum = this.toString().split('').reverse().join('');
   let strNumArr = strNum.match(/\d{1,3}/g);
-  console.log(strNumArr);
+
   strNumArr = strNumArr.reduce ( (finalStr, str, i) => {
     let num3Digit = convert3Digits(str);
     num3Digit = betterNumbersToPlace[i] !== '' && num3Digit !=='' ? num3Digit + ' ' + betterNumbersToPlace[i] : num3Digit;
