@@ -32,4 +32,11 @@ var powerSet = (str) => {
   }, []);
 };
 
+//interactive:
+var powerSet = (str) => {
+  return str.split('').reduce( (finalSet, char) => {
+    return finalSet.concat(finalSet.map( (setStr) => {return setStr + char ;}));
+  }, ['']);
+};
+
 powerSet("jump");
