@@ -25,26 +25,26 @@ Stack.prototype.pop = function() {
 };
 
 let Queue = function () {
-  this.stack1 = new Stack();
-  this.stack2 = new Stack();
+  this.inStack = new Stack();
+  this.outStack = new Stack();
   this.size = 0;
 };
 
 Queue.prototype.push = function(val) {
   this.size++;
-  this.stack1.push(val);
+  this.inStack.push(val);
   return this.size;
 };
 
 Queue.prototype.shift = function() {
   if (this.size > 0) {
-    if (this.stack2.size === 0) {
-      while (this.stack1.size) {
-        this.stack2.push(this.stack1.pop());
+    if (this.outStack.size === 0) {
+      while (this.inStack.size) {
+        this.outStack.push(this.inStack.pop());
       }
     }
     this.size--;
-    return this.stack2.pop();
+    return this.outStack.pop();
   }
 };
 
