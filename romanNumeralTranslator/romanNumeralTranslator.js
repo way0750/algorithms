@@ -25,3 +25,30 @@ var DIGIT_VALUES = {
   D: 500,
   M: 1000
 };
+
+
+// let sum equal to 0
+// loop through the string one by one
+// get value for current character from digit_values
+//  if not found, return null
+//  if found add to sum
+//  compare current character value to last character value
+//    if larger then sum - last character value * 2;
+// return sum
+
+let translateRomanNumeral = (str) => {
+  let sum = 0;
+  for (let i = 0; i < str.length; i++) {
+    let curCharValue = DIGIT_VALUES[str[i]];
+    if (curCharValue === undefined) {
+      return null;
+    } else {
+      sum += curCharValue;
+      let lastCharValue = DIGIT_VALUES[str[i-1]] || Infinity;
+      if (curCharValue > lastCharValue) { sum -= lastCharValue*2; }
+    }
+  }
+  return sum;
+};
+
+translateRomanNumeral("IV"); // 4
