@@ -37,60 +37,25 @@ var Tree = function(value){
   this.children = [];
 };
 
+//go through all nodes of current level to create next level
+//then 
 
-
-Tree.prototype.BFSelect001 = function(filter) {
-  // return an array of values for which the function filter(value, depth) returns true
-  // use queue to implement a line-up of nodes of the same level
-  // let current node to be the only item in queue
-  // set trueArr as container for node returns true from filter return
-  // in while loop(continues if queue isn't empty):
-  // shift first in queue: check filter return, if true then add to trueArr
-  // also add all children to end of queue
-  // 
-  //  return trueArr
-  
-  var trueArr = [];
-  var queue = [this], node;
-  var depth = 0;
-  while (queue.length){
-    node = queue.shift();
-    if (filter(node.value, depth)){
-      trueArr.push(node.value);
-    }
-    queue = queue.concat(node.children);
-    depth++;
-    console.log(depth);
-  }
-
-  return trueArr;
-
-};
-
-Tree.prototype.BFSelect = function(filter) {
-
-  // base case passed in array is empty, then just return itself out;
-  // how to break: populate an array of children nodes and pass it as argument
-  // what to return: array of value
-  // what to do about the return: concat with current trueArr;
-  
-  function bf (arr, depth) {
-    var children = [];
-    var trueArr = [];
-    if (arr.length === 0){
-      return trueArr;
-    }
-    arr.forEach(function (node) {
-      if (filter(node.value, depth)){
-        trueArr.push(node.value);
+Tree.prototype.BFSelect = function(callBack) {
+  //breadth first, so search all children first, then next level
+  let depth = 0;
+  let nodesInOrderOfLevel = [this];
+  let selectedValue = [];
+  while (nodesInOrderOfLevel.length > 0){
+    nodesInOrderOfLevel = nodesInOrderOfLevel.reduce((sameLevelNodes, node) => {
+      if (callBack(node.value, depth)) {
+        selectedValue.push(node.value);
       }
-      children = children.concat(node.children);
-    });
-    return trueArr.concat(bf(children, depth+1));
+      return sameLevelNodes.concat(node.children);
+    }, []);
+    depth++;
   }
-  return bf([this], 0);
+  return selectedValue;
 };
-
 
 
 /**
@@ -146,3 +111,16 @@ Tree.prototype.removeChild = function(child){
     throw new Error("That node is not an immediate child of this tree");
   }
 };
+
+var root1 = new Tree(1);
+var branch2 = root1.addChild(2);
+var branch3 = root1.addChild(3);
+var leaf4 = branch2.addChild(4);
+var leaf5 = branch2.addChild(5);
+var leaf6 = branch3.addChild(6);
+var leaf7 = branch3.addChild(7);
+
+
+root1.BFSelect(function (value, depth) {
+ return value % 2;
+})
