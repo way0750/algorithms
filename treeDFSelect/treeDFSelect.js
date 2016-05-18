@@ -35,29 +35,16 @@ var Tree = function(value){
   this.children = [];
 };
 
-// go through every child and pass along the child's node
-// but before moving on to next child node, call same function on child
-// 
-// base case: child's children array length === 0;
-// how to break: loop through the children array one by one but pass child as root node
-// what to return: an array of value which callBack returns true
-// what to do with return: concat
-// current level depth is 0 then + 1;
-
-Tree.prototype.DFSelect = function(filter, depth) {
-  depth = arguments.length < 2 ? 0 : depth;
-  var children = this.children;
-  var finalArr = [];
-  if (filter(this.value, depth)){
-    finalArr.push(this.value);
-  }
-
-  children.forEach(function (child) {
-    finalArr = finalArr.concat( child.DFSelect(filter, depth + 1) );
-  });
-
-  return finalArr;
-
+//need to send both value and depth to callBack
+//go through the tree select value that callBack return true, and enter them into an array
+//return that array
+//concat return array
+Tree.prototype.DFSelect = function (callBack, depth) {
+  depth = (depth || 0) + 1;
+  let trueArr = callBack(this.value, depth) ? [this.value] : [];
+  return this.children.reduce( (trueArr, child) => {
+    return trueArr.concat(child.DFSelect(callBack, depth));
+  }, trueArr);
 };
 
 
