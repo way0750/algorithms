@@ -58,6 +58,33 @@ Tree.prototype.BFSelect = function(callBack) {
 };
 
 
+Tree.prototype.BFSelect002 = function(filter) {
+
+  // base case passed in array is empty, then just return itself out;
+  // how to break: populate an array of children nodes and pass it as argument
+  // what to return: array of value
+  // what to do about the return: concat with current trueArr;
+  
+  function bf (arr, depth) {
+    var children = [];
+    var trueArr = [];
+    if (arr.length === 0){
+      return trueArr;
+    }
+    arr.forEach(function (node) {
+      if (filter(node.value, depth)){
+        trueArr.push(node.value);
+      }
+      children = children.concat(node.children);
+    });
+    return trueArr.concat(bf(children, depth+1));
+  }
+  return bf([this], 0);
+};
+
+
+
+
 /**
  * You shouldn't need to change anything below here, but feel free to look.
   */
