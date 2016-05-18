@@ -37,9 +37,12 @@ var Tree = function(value){
   this.children = [];
 };
 
+//recursive:
 Tree.prototype.countLeaves = function () {
-  // TODO: implement me!
-  
+  let leafAmount = this.children.length === 0 ? 1 : 0;
+  return this.children.reduce( (amount, child) => {
+    return amount+=child.countLeaves();
+  }, leafAmount );
 };
 
 /**
