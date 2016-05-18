@@ -60,6 +60,6 @@ let findCombo = (arr, target) => {
 // should return [4,4];
 // 
 let arr = [1,2,3,4,6,9];
-let target = 8
+let target = 8;
 // should return [2,6];
 findCombo(arr, target);
