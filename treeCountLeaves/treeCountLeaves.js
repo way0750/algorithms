@@ -37,13 +37,15 @@ var Tree = function(value){
   this.children = [];
 };
 
-//recursive:
+//recursive: and depth first
 Tree.prototype.countLeaves = function () {
   let leafAmount = this.children.length === 0 ? 1 : 0;
   return this.children.reduce( (amount, child) => {
     return amount+=child.countLeaves();
   }, leafAmount );
 };
+
+
 
 /**
   * You shouldn't need to change anything below here, but feel free to look.
@@ -98,3 +100,14 @@ Tree.prototype.removeChild = function(child){
     throw new Error("That node is not an immediate child of this tree");
   }
 };
+
+
+var root = new Tree();
+root.countLeaves(); // 1
+root.addChild(new Tree());
+root.countLeaves(); // still 1
+root.addChild(new Tree());
+root.children[0].addChild(new Tree());
+root.children[0].addChild(new Tree());
+root.children[0].children[0].addChild(new Tree());
+root.countLeaves(); // 3
