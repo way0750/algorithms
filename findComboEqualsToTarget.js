@@ -63,3 +63,31 @@ let arr = [1,2,3,4,6,9];
 let target = 8;
 // should return [2,6];
 findCombo(arr, target);
+
+
+
+//for every number in arr: save their pairing num in a cache
+//if later on that pairing num is found in the arr
+//  return them
+//  
+//save needed/required info in a cache instead of immediately trying resolve them
+//them one by one looping through the array, then check current element against the cache
+//  
+//  
+function findCombo002(target, arr) {
+  var cache = {};
+  for (var i = 0; i < arr.length; i++){
+    if (cache[arr[i]]) {
+      return [target-arr[i], arr[i]];
+    } else {
+      cache[target - arr[i]] = true;
+    }
+  }
+  return [];
+}
+
+function findCombo003(target, arr) {
+  var 
+}
+
+console.log(findCombo002(10, [9, 2, 4, 6, 1]));
