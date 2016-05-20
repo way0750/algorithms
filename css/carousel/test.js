@@ -50,6 +50,7 @@ var clickHandler = function (parentNode, eleIndex) {
   radioInput.forEach( (ele) => {
     ele.checked = +ele.id === curIndex;
   });
+  window.requestAnimationFrame(function(){});
 };
 
 car.addEventListener('click', (event) => {
@@ -76,6 +77,7 @@ window.onresize = function () {
 
 //center initially
 // clickHandler(car, curIndex);
+
 window.requestAnimationFrame(() => {
   clickHandler(car, curIndex);
 });

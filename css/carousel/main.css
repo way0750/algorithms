@@ -38,8 +38,11 @@ label div{
   border: 1px solid white;
   border-radius: 50%;
   margin: 2px;
+  opacity: 0.5;
+  transition: all 300ms;
 }
 
 input:checked + div {
   background-color: black;
+  opacity: 1;
 }
