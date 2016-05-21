@@ -86,8 +86,4 @@ function findCombo002(target, arr) {
   return [];
 }
 
-function findCombo003(target, arr) {
-  var 
-}
-
 console.log(findCombo002(10, [9, 2, 4, 6, 1]));
