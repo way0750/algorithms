@@ -10,3 +10,37 @@
  */
 
 // Solved in O(n) time with O(1) memory
+
+// [-1, -2, -3, 1,2,3, -4, 5, 6, - 4]
+// 13
+// 
+// curLargest = [0] = -1
+// curSum = [0] = -1;
+// curNum = nothing
+// for loop
+//    if negative
+//      pick the largest of the curLargest, curSum, curNum
+//      reset curSum to curNum
+//      
+//    if positive 
+//      reset curSum to this number if curSum is negative
+//      if curSum is positive, simple += curNum 
+
+function sumArray (arr) {
+  let curLargest = arr[0] || -Infinity;
+  let curSum = -Infinity;
+  let curNum;
+  for (let i = 0; i <= arr.length; i++){
+    curNum = arr[i];
+    if ((curNum || 0) <= 0) {
+      curLargest = curNum > curLargest ? curNum : curLargest;
+      curLargest = curSum > curLargest ? curSum : curLargest;
+      curSum = curNum + curSum > 0 ? curNum + curSum : curNum; 
+    } else {
+      curSum = curSum < 0 ? curNum : curSum + curNum;
+    }
+  }
+  return curLargest;
+}
+
+sumArray([-1, -2, -3, 3, 4, -6, 1, 2, 5, -9, 100]); 
