@@ -46,3 +46,47 @@ var orderedDeck = function() {
 
   return deck;
 };
+
+
+
+//pick two randomly and swap them
+//but how many times to do it? the more the better? N?
+//N
+let getRamdomNum = (start, end) => {
+  let absValue = Math.abs(end - start);
+  let randomNum = Math.floor(Math.random() * absValue);
+  return randomNum + start;
+};
+
+let shuffleDeck = (arr) => {
+  arr = arr.slice();
+  let length = arr.length;
+  let loopAmount = length;
+  while (loopAmount--){
+    let ran1 = getRamdomNum(0, length);
+    let ran2 = getRamdomNum(0, length);
+    let temp = arr[ran1];
+    arr[ran1] = arr[ran2];
+    arr[ran2] = temp;
+  }
+  return arr;
+};
+
+let deck = orderedDeck();
+// shuffleDeck(deck);
+
+//or loop the arr until second to last index, swap current element with a random one from next one and on
+
+let shuffleDeck002 = (arr) => {
+  arr = arr.slice();
+  let length = arr.length;
+  for (let i = 0 ; i < arr.length - 1; i++){
+    let randomIndex = getRamdomNum(i+1, length);
+    let temp = arr[i];
+    arr[i] = arr[randomIndex];
+    arr[randomIndex] = temp;
+  }
+  return arr;
+};
+
+shuffleDeck002(deck);
