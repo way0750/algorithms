@@ -28,62 +28,70 @@ var makeBoard = function(n) {
   return board;
 };
 
-//so always start from board[0][0];
-//maybe need to use recursion to simplify it?
-//for the current spot that the robot is on, what are the possible moves, one move on recursive call?
-//
-//base case:
-//  whenever a path hit the board[n-1][n-1], that is one path, recursion should end there
-//  or when no possible moves, it should end there too and that path isn't a valid path.
-//
-//what to return at the base case:
-//  if valid path, then return a number, maybe 1?
-//  if not valid path, then return 0?
-//  
-//what to do about the return:
-//  since there maybe up to 3 possible moves(4 directions - the back path), and all maybe valid
-//  sum all the return numbers together and return them?
-//  also make sure to un-toggle the toggled one before you return.
-//  
-//how to break it into smaller case:
-//  if board[0][0] is a possible move, then use it
-//  if not then
-//  
-//  so every round, you toggle one piece, then recursively call, and pass the marked up board
-//  but then next round how do you where is the piece? maybe when should recursively with the next spot as argument
-//  
-//  
-var robotPaths = function(n, board, i, j) {
+// so make one move mark it, then check all four directions to get the spots that exists and are not marked, 
+// go to those spots
+// sounds recursive
+// base case1: can't find spot to move to return 0, base case 2: got to the right bottom, return 1 for one path
+// how to break smaller: get possible spots from up bottom left right, then recursively call each of them
+// what to return, always a number
+// what to do with returns: add them up
 
-  //toggle a piece at the beginning of each recursive call:
-  //hope that this would be called with 0 and 0 at first
-  if (arguments.length === 2){board.togglePiece(0, 0);}
-  board.togglePiece(i, j);
-
-  //base case:
-  //hit the n-1, n-1, that means valid path:
-  if (board.hasBeenVisited(n-1, n-1)){return 1;}
-  //no more valid move, that means dead end: the pieces at top down left right are not valid to move to.
-  //check all position and put valid ones in an array?
-
-  var nextPoses = [{x:i, y:j-1}, {x:i, y:j+1}, {x:i-1, y:j}, {x:i+1, y:j}];
-  //check and see if the x and y on all directions are valid first
-  nextPoses = nextPoses.filter(function(pos){
-     var withinBoard = pos.x < n && pos.x > -1 && pos.y < n && pos.y > -1;
-     var validMove = board.hasBeenVisited(pos.x, pos.y);
-     return withinBoard && validMove;
+var drawMatrix = (matrix) => {
+  matrix.forEach((row) => {
+    row = row.map((cell) => {
+      return cell ? "[ "+(cell + "   ").slice(0, 4)+"]" : '[     ]' ;
+    });
+    console.log(row.join('') + '\n');
   });
-  //if not nextPoses: dead end and return 0
-  if (nextPoses.length === 0 ){return 0;}
-
-  var pathAmount = nextPoses.reduce(function (pathAmount, pos) {
-    pathAmount += robotPaths(n, board, pos.x, pos.y);
-    return pathAmount;
-  }, 0);
-
-  board.togglePiece(i, j);
-  
-  return pathAmount;
-
+  console.log('---------------------');
 };
 
+
+let robotPath = (matrix) => {
+
+  let width = (matrix[0] || []).length - 1;
+  let height = matrix.length - 1;
+  //make function to check if x and y are in bound: x and y are both larger than -1 and x < width, y < height;
+  let checkXYInBound = (x, y) => {
+    let largerThanN1 = x > -1 && y > -1;
+    let lessThanLength = x <= width && y <= height;
+    return largerThanN1 && lessThanLength;
+  };
+
+  let searchPath = (matrix, x, y, stack) => {
+
+    if (x === width && y === height){
+      //mark and draw matrix here
+      matrix[y][x] = stack;
+      drawMatrix(matrix);
+      matrix[y][x] = false;
+      return 1;
+    } else {
+      //mark the spot to current stack number as a way to track the path;
+      matrix[y][x] = stack;
+    }
+
+    //get next spot
+    let nextSpots = [[-1, 0], [1, 0], [0, -1], [0, 1]].reduce( (spots, posArr) => {
+      //in bound and not visited
+      let nextX = x + posArr[0], nextY = y + posArr[1];
+      if (checkXYInBound(nextX, nextY) && !(matrix[nextY][nextX])) {
+        spots.push([nextX, nextY]);
+      }
+      return spots;
+    }, []);
+    let foundPath = nextSpots.reduce( (pathAmount, pathArr) => {
+      let x = pathArr[0], y = pathArr[1];
+      return pathAmount + searchPath(matrix, x, y, stack + 1);
+    }, 0);
+
+    matrix[y][x] = false;
+    return foundPath;
+  };
+
+  return searchPath(matrix, 0 , 0, 1);
+};
+
+
+let matrix = makeBoard(4);
+console.log(robotPath(matrix));
