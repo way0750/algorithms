@@ -53,9 +53,7 @@ let robotPath = (matrix) => {
   let height = matrix.length - 1;
   //make function to check if x and y are in bound: x and y are both larger than -1 and x < width, y < height;
   let checkXYInBound = (x, y) => {
-    let largerThanN1 = x > -1 && y > -1;
-    let lessThanLength = x <= width && y <= height;
-    return largerThanN1 && lessThanLength;
+    return x > -1 && y > -1 && x <= width && y <= height;
   };
 
   let searchPath = (matrix, x, y, stack) => {
@@ -71,18 +69,14 @@ let robotPath = (matrix) => {
       matrix[y][x] = stack;
     }
 
-    //get next spot
-    let nextSpots = [[-1, 0], [1, 0], [0, -1], [0, 1]].reduce( (spots, posArr) => {
+    //go through all possible spots:
+    let foundPath = [[-1, 0], [1, 0], [0, -1], [0, 1]].reduce( (pathAmount, posArr) => {
       //in bound and not visited
       let nextX = x + posArr[0], nextY = y + posArr[1];
       if (checkXYInBound(nextX, nextY) && !(matrix[nextY][nextX])) {
-        spots.push([nextX, nextY]);
+        pathAmount += searchPath(matrix, nextX, nextY, stack + 1);
       }
-      return spots;
-    }, []);
-    let foundPath = nextSpots.reduce( (pathAmount, pathArr) => {
-      let x = pathArr[0], y = pathArr[1];
-      return pathAmount + searchPath(matrix, x, y, stack + 1);
+      return pathAmount;
     }, 0);
 
     matrix[y][x] = false;
@@ -94,4 +88,4 @@ let robotPath = (matrix) => {
 
 
 let matrix = makeBoard(4);
-console.log(robotPath(matrix));
+robotPath(matrix);
