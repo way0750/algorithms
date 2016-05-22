@@ -42,10 +42,3 @@
  *  - Make your function operate on rectangular matrices (MxN rather than NxN).
  *  - Make your function accept a parameter for the direction of rotation (1 = clockwise, -1 = counterclockwise)
  */
-
-function printMatrix(matrix) {
-  var clean = matrix.map(function (row) {
-    return row.join(',');
-  }).join('\n');
-  console.log(clean);
-}
