@@ -50,8 +50,10 @@ let rotatedArraySearch = (arr, target) => {
         minIndex = minIndex + 1;
       } else if (leftRegularOrder === false) {
         maxIndex = midIndex - 1;
-      } else {
+      } else if (rightRegularOrder === false){
         minIndex = minIndex + 1;
+      } else {
+        return null;
       }
     }
   }
