@@ -27,3 +27,36 @@
  *
  * Feel free to use Google in searching for your ideal implementation!
  */
+
+
+//make global call back function with unique name
+//make url with callback in it
+//
+//make a function that creates a script tag then add url as src
+//  then add script tag to head as a way to make request
+
+var globalCallbackForMakingJSONPRequest = function (data) {
+  console.log('got the data:', data);
+};
+
+var headTag = document.getElementsByTagName('head')[0];
+
+var makeJSONPRequest = function (url, cb) {
+  globalCallbackForMakingJSONPRequest = cb || globalCallbackForMakingJSONPRequest;
+
+  var scriptID = 'JSONPRequestMaker';
+  var foundScriptTag = document.getElementById(scriptID);
+  if (foundScriptTag) {
+    headTag.removeChild(foundScriptTag);
+  }
+
+  url += '?&callback=globalCallbackForMakingJSONPRequest';
+  var scriptTag = document.createElement('script');
+  scriptTag.src = url;
+  scriptTag.id = scriptID;
+  headTag.appendChild(scriptTag);
+};
+
+makeJSONPRequest('http://toy-problems.hackreactor.com:3003/jsonparty', function (data) {
+  console.log(data);
+});
