@@ -57,13 +57,13 @@
 //  what is there is only start and no end? set size to 1
 
 function Range (start, end, step) {
-  if (start === undefined) {
+  if (arguments.length === 0) {
     return null;
   } else {
     this.start = start;
   }
-  this.end = arguments[1] === undefined ? start : end;
-  this.step = arguments[2] === undefined ? 1 : step;
+  this.end = arguments.length > 1 ? start : end;
+  this.step = arguments.length > 2 ? 1 : step;
   if (arguments[1] === undefined || arguments[1] === null) {
     this.length = 1;
   } else {
@@ -80,13 +80,7 @@ Range.prototype.size = function() {
 };
 
 Range.prototype.include = function(target) {
-  //within range?
-  if (target < this.start || target > this.end) {
-    return false;
-  }
-  //within step?
-  return (target-this.start)%this.step === 0;
-
+  return (target >= this.start) && (target <= this.end) && ((target-this.start)%this.step === 0);
 };
 
 Range.prototype.each = function(callback) {
@@ -97,6 +91,8 @@ Range.prototype.each = function(callback) {
     member += (this.start > this.end ? -this.step : this.step);
   }
 };
+
+
 
 var range = new Range(-12, -42, 3);
 range.each((v)=>{
