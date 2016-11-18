@@ -9,7 +9,7 @@ class UndirectedGraph {
   }
   addNode(...edges) {
     const newNodeId = this.nextNodeId++
-      const newNode = new Node(newNodeId, edges);
+    const newNode = new Node(newNodeId, edges);
     edges.forEach((edge) => {
       // find id add edge
       // can't add self as edge
@@ -44,33 +44,37 @@ class UndirectedGraph {
     }
   }
 
-  depthFirstSearch() {
-    const search = (node) => {
-      if (node.visited) {
-        console.log(`${node.id} has been visited`);
-        return;
-      }
-      node.visited = true;
-      node.edges.forEach((bool, id) => {
-        const node = this.nodes[id];
-        if (node) {
-          search(node);
-        }
-      });
-      console.log(`visiting: ${node.id}`);
-    };
-    this.nodes.forEach((node) => {
-      search(node);
-    });
-
-    // must switch each node's visited flag back to false
+  clearVisitedFlags() {
     this.nodes.forEach((node) => {
       node.visited = false;
     })
   }
 
-  breadthFirstSearch() {
-    // use a queue again
+  depthFirstSearch(callBack) {
+    callBack = callBack || ((node) => console.log(`visiting ${node.id}`));
+    const search = (node) => {
+      node.visited = true;
+      const allConnectedNodes = node.connectedNodeIDs();
+      allConnectedNodes.forEach((id) => {
+        const node = this.nodes[id];
+        if (node && !node.visited) {
+          search(node);
+        }
+      });
+      callBack(node);
+    };
+
+    this.nodes.forEach((node) => {
+      if (!node.visited) {
+        search(node);
+      }
+    });
+    // must switch each node's visited flag back to false
+    this.clearVisitedFlags();
+  }
+
+  breadthFirstSearch(callBack) {
+    callBack = callBack || ((node) => console.log(`visiting ${node.id}`));
     if (!this.nodes.length) {
       return;
     }
@@ -81,18 +85,16 @@ class UndirectedGraph {
       let queue = [node];
       while (queue.length) {
         const currentNode = queue.shift();
-        if (currentNode.visited) {
-          console.log(`already visited this node: ${currentNode.id}`)
-        } else {
-          console.log(`currentNode is ${currentNode.id}`);
-          currentNode.visited = true;
-          const adjNodes = currentNode.edges.reduce((connectedNodes, connected, id) => {
-            return connected ? connectedNodes.concat(this.nodes[id]) : [];
-          }, []);
-          queue = queue.concat(adjNodes);
-        }
+        callBack(currentNode);
+        currentNode.visited = true;
+        const adjNodes = currentNode.connectedNodeIDs().map((id) => {
+          return this.nodes[id];
+        });
+        const unVisitedAdjNodes = adjNodes.filter(node => !node.visited);
+        queue = queue.concat(unVisitedAdjNodes);
       }
     });
+    this.clearVisitedFlags();
   }
 }
 
@@ -100,14 +102,21 @@ class Node {
   constructor(id, optEdges) {
     this.id = id;
     this.visited = false;
-    this.edges = [];
-    optEdges.forEach((nodeId) => {
-      this.edges[nodeId] = true;
-    })
+    this.edges = optEdges.reduce((edgesRecord, nodeId) => {
+      edgesRecord[nodeId] = true;
+      return edgesRecord;
+    }, {});
   }
   // edges is an array of vertex ids
   showEdges() {
-    return this.edges.slice();
+    return Object.keys(this.edges);
+  }
+
+  connectedNodeIDs() {
+    return Object.keys(this.edges)
+    .map((IDStr) => {
+      return IDStr;
+    });
   }
 }
 
