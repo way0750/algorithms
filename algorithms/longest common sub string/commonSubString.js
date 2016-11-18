@@ -51,6 +51,9 @@ function longestSubStr(str1) {
   
   otherStrings.forEach((str)=> {
     let allRecordKeys = Object.keys(record);
+    console.log(allRecordKeys.reduce((amount, curletter) => {
+      return Object.keys(record[curletter]).length + amount;
+    }, 0));
     //loop through all keys and all the substring within it
     record = allRecordKeys.reduce((newRecord, firstLetter)=> {
       if (str.search(firstLetter) === -1 ){

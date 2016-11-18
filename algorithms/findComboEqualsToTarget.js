@@ -11,7 +11,6 @@
 // let arr = [1,2,3,4,6,7];
 // target = 8
 // should return [2,6];
-
 let findCombo = (arr, target) => {
   let numFreq = arr.reduce((freqObj, num) => {
     if (freqObj[num]) {
