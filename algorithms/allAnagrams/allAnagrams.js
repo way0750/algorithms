@@ -40,6 +40,9 @@
 // what to return: always an array of strings
 // what to do with return: for each string in the array, add current character to each index of the string including the index at length + 1
 
+
+
+
 function allAnagrams (str) {
   //base case: if input str is empty or length of 1, return it in an array as a collection of just one permutation
   if (str.length < 2) {
