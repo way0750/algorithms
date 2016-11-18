@@ -94,7 +94,6 @@ class UndirectedGraph {
         queue = queue.concat(unVisitedAdjNodes);
       }
     });
-    this.nodes;
     this.clearVisitedFlags();
   }
 
@@ -102,7 +101,7 @@ class UndirectedGraph {
     const node1 = this.nodes[nodeID1];
     const node2 = this.nodes[nodeID2];
     const search = (node) => {
-      if (node && node2 && node === node2) {
+      if (node === node2) {
         return true;
       }
       node.visited = true;
@@ -141,3 +140,37 @@ class Node {
     });
   }
 }
+
+var graph = new UndirectedGraph();
+// 0
+graph.addNode();
+// 1
+graph.addNode(0);
+// 2
+graph.addNode(0);
+// 3
+graph.addNode(1);
+// 4
+graph.addNode(1);
+// 5
+graph.addNode(1);
+// 6
+graph.addNode(1);
+// 7
+graph.addNode(1);
+// 8
+graph.addNode(2);
+// 9
+graph.addNode(2);
+// 10
+graph.addNode(2);
+// 11
+graph.addNode(2);
+// 12
+graph.addNode();
+// 13
+graph.addNode();
+// 14
+graph.addNode();
+
+console.log(graph.areConnectedBreadthFirst(0, 13));
