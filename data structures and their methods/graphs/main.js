@@ -96,6 +96,27 @@ class UndirectedGraph {
     });
     this.clearVisitedFlags();
   }
+
+  areConnectedBreadthFirst(nodeID1, nodeID2) {
+    const node1 = this.nodes[nodeID1];
+    const node2 = this.nodes[nodeID2];
+    const search = (node) => {
+      if (node === node2) {
+        return true;
+      }
+      node.visited = true;
+      const adjNodes = node.connectedNodeIDs().map((id) => {
+        return this.nodes[id];
+      });
+      const unVisitedAdjNodes = adjNodes.filter(node => !node.visited);
+      return unVisitedAdjNodes.some((node) => {
+        return search(node);
+      });
+    };
+    const foundConnection = search(node1);
+    this.clearVisitedFlags();
+    return foundConnection;
+  }
 }
 
 class Node {
@@ -146,10 +167,10 @@ graph.addNode(2);
 // 11
 graph.addNode(2);
 // 12
-graph.addNode(0);
+graph.addNode();
 // 13
-graph.addNode(0);
+graph.addNode();
 // 14
-graph.addNode(0);
+graph.addNode();
 
-graph.breadthFirstSearch();
+console.log(graph.areConnectedBreadthFirst(0, 13));
