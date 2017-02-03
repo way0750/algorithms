@@ -92,5 +92,3 @@ asyncMap([
    // the second function had a shorter timeout.
    console.log(results); // ['one', 'two']
 });
-
-

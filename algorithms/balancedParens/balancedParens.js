@@ -40,7 +40,6 @@ var balancedParens = function(input){
   return q.length === 0;
 };
 
-
 function balancedParens (str) {
   var brackets = {
     '}' : '{',

@@ -7,10 +7,6 @@ allImgEle.forEach((ele, index) => {
   ele.style.cssText = "left: " + (imgWidth * index) + "px";
 });
 
-
-
-
-
 var imgWidth = 240;
 var curIndex = Math.floor(allImgEle.length/2);
 
@@ -41,7 +37,7 @@ var clickHandler = function (parentNode, eleIndex) {
       } else if (index > curIndex) {
         css += "-webkit-transform: rotateY(-45deg); z-index:" + (allImgEle.length - index) + ';';
       }
-      
+
     }
     ele.style.cssText = css;
   });
