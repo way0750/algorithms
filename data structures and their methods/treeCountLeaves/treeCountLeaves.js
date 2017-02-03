@@ -32,6 +32,8 @@
  * Basic tree that stores a value.
  */
 
+
+
 var Tree = function(value){
   this.value = value;
   this.children = [];
@@ -46,6 +48,25 @@ Tree.prototype.countLeaves = function () {
 };
 
 
+/*
+   iteratively:
+   if there are children, add children
+   if no then count++;
+ */
+
+/*
+  Tree.prototype.countLeaves = () => {
+    let nodes = [this];
+    let leafCount = 0
+    while (nodes.length) {
+      if (!nodes[0].children.length) {
+      leafCount++;
+    }
+      let oldNode = nodes.shift();
+      nodes = nodes.concat(oldNode.children);
+    }
+    return leafCount;
+  }
 
 /**
   * You shouldn't need to change anything below here, but feel free to look.
