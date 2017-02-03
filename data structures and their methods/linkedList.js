@@ -1,5 +1,5 @@
 // linkedList
-// need to have pointer pointing to 
+// need to have pointer pointing to
 // insertToEnd
 // insertToHead
 // removeFromEnd
