@@ -28,29 +28,36 @@
       if not found, stop
 
    when done return the largest number found in the hash
+
 */
+
+
 
 let findLongestNumSeq = (nums) => {
   let seqRecord = nums.reduce((record, num) => {
-    record[num] = record[num]++ || 1;
+    record[num] = (record[num] || []).concat(num);
     return record;
   }, {});
 
-  nums.forEach((num) => {
+  nums.forEach((num, index) => {
     if (seqRecord[num]) {
-      let nextNum = num++;
-      while (seqRecord[nextNum]) {
-        seqRecord[num] += seqRecord[nextNum];
+      let nextNum = num + 1;
+      while(seqRecord[nextNum]) {
+        seqRecord[num] = seqRecord[num].concat(seqRecord[nextNum]);
         delete seqRecord[nextNum];
-        nextNum = seqRecord[num];
+        nextNum++;
       }
     }
   });
 
-  return Object.keys(seqRecord).reduce((max, key) => {
-    return seqRecord[key] > max ? seqRecord[key] : max;
-  }, 0);
+  return Object.keys(seqRecord)
+    .reduce((longArray, key) => {
+      return seqRecord[key].length > longArray.length ? seqRecord[key] : longArray;
+    }, [])
+    .length;
 }
 
 let arr = [1, 9, 3, 10, 4, 20, 2];
-findLongestNumSeq(arr);
+let result = findLongestNumSeq(arr);
+console.log(result)
+
