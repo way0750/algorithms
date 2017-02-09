@@ -29,6 +29,16 @@
 
    when done return the largest number found in the hash
 
+   time: n for making the seqRecord, n for looping through the array
+   each looping, there is a nested loop but worst is only one while loop for
+   each array element, or for one of the nested loop, it loops through n amount
+   and subsequence nested loops loops through nothing, so that is another n
+   then at the end loop through remaing keys in seqRecord, worst case is another
+   n
+   so that is 4n or n
+
+   space is the same
+
 */
 
 
@@ -57,7 +67,57 @@ let findLongestNumSeq = (nums) => {
     .length;
 }
 
-let arr = [1, 9, 3, 10, 4, 20, 2];
-let result = findLongestNumSeq(arr);
+/* let arr = [1, 9, 3, 10, 4, 20, 2];
+ * let result = findLongestNumSeq(arr);
+ * console.log(result)
+ * */
+
+/*
+  make record of each number
+   then loop through the array
+   see if there is a number that is smaller by 1 in the record
+    if yes, then don't do anything becaue we will count by increment later
+    and the counting will cover the number we didn't do anything about
+   if no, then that number has to be the beginning of a sequence
+     so start counting until finding a number that is not found in the record
+     when done compare that amount to a global max
+   
+   set globalMax to 0
+   set record to hash and add each number in the array to it by
+     using the number as key, and 1 as default value, if already found
+     then increment
+   loop through the number array, for each number, see if number - 1 exist in
+   the record
+     if yes, then do nothing
+     if no, then set localMax to record value of number
+       set nextNumber to number + 1;
+       then while loop if nextNumber is found in record
+         if yes increment the localMax by the value of nextNumber in record
+     when done while looping, set globalMax to the max of globalMax and localMax
+   return globalMax
+*/
+
+let findLongestNumSeqImproved = (nums) => {
+  let numRecord = nums.reduce((record, num) => {
+    record[num] = record[num] ? ++record[num] : 1;
+    return record;
+  }, {});
+
+  return nums.reduce((globalMax, num) => {
+    if (!numRecord[num - 1]) {
+      let localMax = numRecord[num];
+      let nextNum = ++num;
+      while (numRecord[nextNum]) {
+        localMax += numRecord[nextNum];
+        nextNum++;
+      }
+      globalMax = Math.max(globalMax, localMax);
+    }
+    return globalMax;
+  }, 0);
+}
+
+let arr = [12, 1, 11, 9, 3, 15, 10, 16, 4, 20, 2, 13, 14];
+let result = findLongestNumSeqImproved(arr);
 console.log(result)
 
