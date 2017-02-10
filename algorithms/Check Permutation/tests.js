@@ -13,4 +13,8 @@ describe('check permutations', function() {
   it('false for abc, bcaa', function() {
     checkPermutation('abc', 'bcaa').should.be.false;
   })
+
+  it('false for abcb, bcaa', function() {
+    checkPermutation('abcb', 'bcaa').should.be.false;
+  })
 });
