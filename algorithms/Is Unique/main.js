@@ -29,3 +29,40 @@ let isUniqueUsingHashTabel = (str) => {
   return true;
 };
 
+
+/* without using additional data structure:
+   so reuse the input string as data tracking?
+   if javascript, then string are immutable
+
+   loop through the input string
+   append 1 for each character's numeric value + input string length
+   to the instring
+   reasign this new string as the string
+   check and see if 1 already there when inserting
+     if yes, return false
+   default return true;
+
+   time: n for looping through the string
+   for language that recreate the entire string when there is modification:
+     n * letter that has the largeset numberic value
+     n * k
+   for space:
+     n + k (letter with largest numeric value)
+ */
+
+
+let isUnique = (str) => {
+  let strLength = str.length;
+  for (let i = 0; i < strLength; i++) {
+    let recordIndex = str[i].charCodeAt() + strLength;
+    if (+str[recordIndex] === 1) {
+      return false;
+    } else {
+      if (str.length - 1 < recordIndex) {
+        str += '0'.repeat(recordIndex - str.length);
+      }
+      str = str.slice(0, recordIndex) + '1' + str.slice(recordIndex+1);
+    }
+  }
+  return true;
+}
