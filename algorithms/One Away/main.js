@@ -32,14 +32,16 @@ let oneAway = (str1, str2) => {
       if (str1[i] !== str2[i]) editingAmount++;
       if (editingAmount > 1) return false;
     }
+    return true;
   } else {
-    let {longStr, shortStr} = str1.length > str2.length
+    let [ longStr, shortStr ] = str1.length > str2.length
                             ? [str1, str2]
                             : [str2, str1];
 
     for (let i = 0 ; i < longStr.length; i++) {
       let newStr = longStr.slice(0, i) + longStr.slice(i+1);
-      // stop here
+      if (newStr === shortStr) return true;
     }
+    return false;
   }
 }
