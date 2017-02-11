@@ -67,3 +67,18 @@ let rotateMatrixInPlace = (matrix, degree = 90) => {
       return matrix;
   }
 }
+
+
+/*
+   time and space
+   time:
+   making copy: n^2
+   fliping anyway will be 1/2 of n^2 which is n^2
+   making a copy of matrix and then flipping twice
+   3 * n^2 which is n^2
+
+   space:
+   making copy: n^2
+   then fliping is done in place without any temperary holders
+   so n^2
+ */
