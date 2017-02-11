@@ -14,7 +14,8 @@
    loop through the string
      check each character to see if it is found in the record
        if yes, that mean with the current repetition, it currently has
-       even amount, so delete it form the record, if later on it is found again
+       even amount, so delete it form the record, if later on it is
+       found again
        we can add it back into it
    then at the end check the amount of keys in the record
      return true is the amount if 1 or 0
@@ -23,18 +24,26 @@
    after incrementing the value of each key
    check the new value, if it is even decrement the global amount of odd
    character, it it is odd, the increment the same global amount
+   abcdeabcde
+   if odd characters amount if larger than n/2 by 2
+   then return false because there wont be enough character later to
+     turn them even
  */
 
 let isPalidromable = (str) => {
   let charWithOddRepeat = 0;
   let repeatitionRecord = {};
-  for (let i = 0; i < str.length; i++) {
+  let strLength = str.length;
+  for (let i = 0; i < strLength; i++) {
     let char = str[i];
     repeatitionRecord[char] = (repeatitionRecord[char] || 0) + 1;
     if (repeatitionRecord[char] % 2 === 0 ) {
       charWithOddRepeat--;
     } else {
       charWithOddRepeat++;
+    }
+    if ((charWithOddRepeat - Math.ceil(strLength/2)) >= 1) {
+      return false;
     }
   }
   return charWithOddRepeat < 2;
@@ -43,6 +52,7 @@ let isPalidromable = (str) => {
 /* time and space:
    time:
    looping through the input string: n
+   or 1/2 of n but dropping the constant turns it into n again
 
    space:
    repeatitionRecord takes n at worst case

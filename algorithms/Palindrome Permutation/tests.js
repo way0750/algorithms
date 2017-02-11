@@ -9,4 +9,10 @@ describe('palidrome', function() {
   it('false for abcc', function() {
     isPalidromable('abcc').should.be.false;
   })
+  it('false for abcdefg', function() {
+    isPalidromable('abcdefg').should.be.false;
+  });
+  it('false for abcdefgiabcdefg', function() {
+    isPalidromable('abcdefghiabcdefg').should.be.false;
+  })
 });
