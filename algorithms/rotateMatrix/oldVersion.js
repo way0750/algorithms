@@ -90,12 +90,14 @@ function rotateMatrix (matrix, clockwise = true) {
 }
 
 var matrix = [
-[1,2,3,4],
-[5,6,7,8],
-[9,'A','B','C'],
-['D','E','F','G']
+  [1,2,3,4],
+  [5,6,7,8],
+  [9,'A','B','C'],
+  ['D','E','F','G']
 ];
 matrix[0][0]; // 1
 matrix[3][2]; // 'F'
 
-var rotatedMatrix = rotateMatrix(matrix); 
+var rotatedMatrix = rotateMatrix(matrix);
+
+
