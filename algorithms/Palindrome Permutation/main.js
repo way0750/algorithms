@@ -24,3 +24,27 @@
    check the new value, if it is even decrement the global amount of odd
    character, it it is odd, the increment the same global amount
  */
+
+let isPalidromable = (str) => {
+  let charWithOddRepeat = 0;
+  let repeatitionRecord = {};
+  for (let i = 0; i < str.length; i++) {
+    let char = str[i];
+    repeatitionRecord[char] = (repeatitionRecord[char] || 0) + 1;
+    if (repeatitionRecord[char] % 2 === 0 ) {
+      charWithOddRepeat--;
+    } else {
+      charWithOddRepeat++;
+    }
+  }
+  return charWithOddRepeat < 2;
+}
+
+/* time and space:
+   time:
+   looping through the input string: n
+
+   space:
+   repeatitionRecord takes n at worst case
+   so n again
+ */
