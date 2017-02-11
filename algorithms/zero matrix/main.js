@@ -17,3 +17,34 @@
    at the end, loop through the 'empty array' to map each sub array to
    slicing of the refered one
 */
+let zeroMatrix = (matrix) => {
+  let allZeros = Array(matrix[0].length).fill(0);
+  let partialZeros = Array(matrix[0].length).fill(1);
+  return matrix.reduce((arr, subArr) => {
+    let hasZero = false;
+    subArr.forEach((num, i) => {
+      if (num === 0) {
+        partialZeros[i] = 0;
+        hasZero = true;
+      }
+    });
+
+    arr.push(hasZero ? allZeros : partialZeros);
+    return arr;
+  }, []);
+}
+
+/*
+   time and space
+   time:
+   matrix size is n * m
+   looping through it is n * m
+   making allZeros and partialZeros are 2m
+   making the final array is n
+   so total n * m + 2m + n
+   drop the non-dominent terms: n * m
+
+   space allZeros and partialZeros are 2m
+   the final array is n * m
+   so n * m + 2m, drop the non-dominent: n * m
+ */
