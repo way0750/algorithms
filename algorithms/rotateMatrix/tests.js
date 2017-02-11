@@ -41,4 +41,13 @@ describe('rotate matrix in place', function() {
     ];
     rotateMatrixInPlace(matrix, 630).toString().should.equal(result.toString());
   });
+  it('rotate -90', function() {
+    let result = [
+      [3,6,9],
+      [2,5,8],
+      [1,4,7],
+    ];
+    rotateMatrixInPlace(matrix, -90).toString().should.equal(result.toString());
+  });
+
 });

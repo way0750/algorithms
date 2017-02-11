@@ -17,6 +17,7 @@
 
 let rotateMatrixInPlace = (matrix, degree = 90) => {
   matrix = matrix.map((arr) => arr.slice());
+
   let flipVertical = (matrix) => {
     let rowLength = matrix.length;
     for (let y = 0; y < Math.floor(rowLength/2); y++) {
@@ -55,7 +56,7 @@ let rotateMatrixInPlace = (matrix, degree = 90) => {
     return matrix;
   };
 
-  switch (degree % 360) {
+  switch ((360 + degree) % 360) {
     case 90:
       return flipDiagonal(flipVertical(matrix));
     case 180:
