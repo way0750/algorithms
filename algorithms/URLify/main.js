@@ -27,3 +27,7 @@ let URLify = (str) => {
   str = str.replace(/ +$/g, '');
   return str.replace(/ /g, '%20');
 }
+
+/* time: n in case str is all space
+ * space: n you are using the same input str
+ * you are modifying the input*/
