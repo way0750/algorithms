@@ -41,6 +41,14 @@ describe('link list', function() {
   });
 
   it('KthToLast, find the last one', function() {
+    list.KthToLast(1).value.should.equal(6);
+  });
+
+  it('KthToLast, find the second to last one', function() {
     list.KthToLast(2).value.should.equal(5);
+  });
+
+  it('KthToLast, found nothing return null', function() {
+    (list.KthToLast(20) + '').should.equal('null');
   });
 });

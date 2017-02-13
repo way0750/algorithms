@@ -121,22 +121,17 @@ LinkedList.prototype.slice = function(start = 0, end = Infinity) {
 };
 
 LinkedList.prototype.KthToLast = function(Kth) {
+  let foundNode = null;
   let findKth = (node) => {
     if (node === null) {
       return 0;
     }
-    let rankOrNode = findKth(node.next)
-    if (rankOrNode instanceof LinkedListNode) {
-      return rankOrNode;
+    let currentRank = findKth(node.next) + 1;
+    if (currentRank === Kth) {
+      foundNode = node;
     }
-    rankOrNode++;
-    if (rankOrNode === Kth) {
-      return node;
-    } else {
-      return rankOrNode;
-    }
+    return currentRank;
   }
-  let returnVal = findKth(this.head);
-  console.log(returnVal)
-  return returnVal;
+  findKth(this.head);
+  return foundNode;
 }
