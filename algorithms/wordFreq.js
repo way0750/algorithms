@@ -10,11 +10,11 @@ function makeFreq (str) {
   var wordFreq = {};
   var curWord = '';
   var curChar = '';
-  
+
   var addToWordFreq = function (curWord) {
     wordFreq[curWord] = wordFreq[curWord] ? ++wordFreq[curWord] : 1;
   };
-  
+
   for (var i = 0; i < str.length; i++) {
     curChar = str[i].toLowerCase();
     if (/\w/.test(curChar)) {
@@ -32,14 +32,14 @@ function makeFreq (str) {
 function wordFreqStat (str) {
   var wordFreqObj = makeFreq(str);
   var allWords = wordFreqObj.sortedWords;
-  
+
   allWords = allWords.reduce(function (finalArr, sameLengthWords) {
     return finalArr.concat(sameLengthWords);
   }, []);
 
   var curWord = '', curSimilarWords = [];
   var finalObj = {};
-  
+
   while(allWords.length) {
     if (!curWord.length) {
       curWord = allWords.shift();
@@ -60,7 +60,7 @@ function wordFreqStat (str) {
       }, 0);
       curWord = "";
       curSimilarWords = [];
-    
+
   }
     return finalObj;
 }

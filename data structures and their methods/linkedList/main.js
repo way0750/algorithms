@@ -273,3 +273,47 @@ let addLinkedListNumsReversed = (l1, l2) => {
     return list;
   }, new LinkedList());
 };
+
+/*
+   Implement a function to check if a linked list is a palindrome.
+   can use recursion to go to the middle of the list then return 
+   this way you will have access to two parts of the list
+   and one part allows you to go from middle to front
+   another part allows you to go form middle + 1 to end
+   bascially you will be expanding from the middle and out
+   if even then current node good enough
+   1st pointer moves one at the time
+   2nd pointer moves two at the time from first one on
+
+   time and space:
+   time: go half and then return so it is n
+   space: recursive: 1/2 n or n
+*/
+
+let isListPalindrome = (list) => {
+  if (!list.head) return false;
+  let checkPalidrome = (node1, node2) => {
+    let backupNode = {};
+    // base cases:
+    if (!node2) {
+      // it is odd;
+      // provide backupNode in case the node1.next is null, like when the list
+      // only 1 node
+      return node1.next || backupNode;
+    } else if (!node2.next) {
+      // it is even;
+      return node1.value === node1.next.value
+                         ? node1.next.next || backupNode
+                         : false;
+    }
+    let subPaliCheck = checkPalidrome(node1.next, node2.next.next);
+    if (!subPaliCheck) {
+      return false;
+    } else {
+      return node1.value === subPaliCheck.value
+                         ? subPaliCheck.next || backupNode
+                         : false;
+    }
+  }
+  return !!checkPalidrome(list.head, list.head.next);
+};

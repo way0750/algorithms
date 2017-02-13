@@ -147,4 +147,14 @@ describe('link list', function() {
     .equal(finalList.toArray());
   });
 
+  it('isListPalidrome', function() {
+    let list = new LinkedList();
+    list.insertFromEnd('a');
+    list.insertFromEnd('b');
+    list.insertFromEnd('z');
+    list.insertFromEnd('b');
+    list.insertFromEnd('a');
+    isListPalindrome(list).should.be.true;
+  })
+
 });
