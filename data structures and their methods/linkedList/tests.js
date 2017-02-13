@@ -103,4 +103,27 @@ describe('link list', function() {
     .deep
     .equal(finalList.toArray());
   });
+
+  it('add linked list with two different length', function() {
+    let leftList = new LinkedList();
+    leftList.insertFromEnd(7);
+    leftList.insertFromEnd(1);
+    leftList.insertFromEnd(6);
+    let rightList = new LinkedList();
+    rightList.insertFromEnd(5);
+    rightList.insertFromEnd(9);
+    rightList.insertFromEnd(9);
+    rightList.insertFromEnd(2);
+    let finalList = new LinkedList();
+    finalList.insertFromEnd(2);
+    finalList.insertFromEnd(1);
+    finalList.insertFromEnd(6);
+    finalList.insertFromEnd(3);
+    addLinkedListNums(leftList, rightList)
+      .toArray()
+      .should
+      .deep
+      .equal(finalList.toArray());
+  });
+
 });
