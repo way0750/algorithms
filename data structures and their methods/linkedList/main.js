@@ -136,6 +136,8 @@ LinkedList.prototype.KthToLast = function(Kth) {
   but if the targetNode is either head of end, then don't do anything
   no need to return anything
   do it in constant time
+
+   time and space are constant
 */
 LinkedList.prototype.deleteMiddle = function(targetNode) {
   if (targetNode === this.head || targetNode === this.end) return;
@@ -145,3 +147,19 @@ LinkedList.prototype.deleteMiddle = function(targetNode) {
   // "deleting" the node by dereferencing it
   nextNode.next = null;
 }
+
+LinkedList.prototype.partition = function(value) {
+  if (value === null || value === undefined) return;
+  let swapNode = this.head;
+  let currentNode = this.head;
+  while(currentNode) {
+    if (currentNode.value < value) {
+      let swapNodeValue = swapNode.value;
+      swapNode.value = currentNode.value;
+      currentNode.value = swapNodeValue;
+      swapNode = swapNode.next;
+    }
+    currentNode = currentNode.next
+  }
+};
+

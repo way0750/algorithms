@@ -66,7 +66,21 @@ describe('link list', function() {
     let node = list.head.next;
     list.deleteMiddle(node);
     list.toArray().should.deep.equal(resultArr);
-  })
+  });
 
-
+  it('partition', function() {
+    let list = new LinkedList();
+    list.insertFromEnd(5);
+    list.insertFromEnd(6);
+    list.insertFromEnd(7);
+    list.insertFromEnd(2);
+    list.insertFromEnd(3);
+    list.insertFromEnd(1);
+    list.insertFromEnd(9);
+    list.insertFromEnd(4);
+    list.insertFromEnd(8);
+    list.partition(7)
+    let result = [5, 6, 2, 3, 1, 4, 9, 7, 8];
+    list.toArray().should.deep.equal(result);
+  });
 });
