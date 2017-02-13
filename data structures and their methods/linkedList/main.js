@@ -232,3 +232,44 @@ let addLinkedListNums = (l1, l2) => {
   newList.insertFromEnd(sum(l1.head, l2.head));
   return newList;
 };
+
+/*
+   time and space:
+   time:
+   each stach of recursion will take O(1) to all the calculation
+   and there will be K amount of recursion, K === the length of
+   the list with longest length
+   so it will be K
+
+   for space:
+   space increase as the K increases
+   there might a carry over at the end, so K + 1, which is K
+*/
+
+
+/*
+   what if the lists are in reversed order
+   turn both into arrays, then reverse them
+   and then add them up
+   time will be K
+   space will be K
+*/
+
+let addLinkedListNumsReversed = (l1, l2) => {
+  let l1Array = l1.toArray().reverse();
+  let l2Array = l2.toArray().reverse();
+  let [longArr, shortArr] = l1Array.length > l2Array.length
+                          ? [l1Array, l2Array]
+                          : [l2Array, l1Array];
+  let finalNumArr = longArr.reduce((numObj, longArrNum, i) => {
+    let newNum = numObj.carry + longArrNum + shortArr[i] || 0;
+    numObj.nums.push(newNum % 10);
+    numObj.carry = Math.floor(newNum / 10);
+    return numObj;
+  }, { carry: 0, nums: [] });
+  if (finalNumArr.carry) finalNumArr.nums.push(1);
+  return finalNumArr.nums.reduceRight((list, num) => {
+    list.insertFromEnd(num);
+    return list;
+  }, new LinkedList());
+};

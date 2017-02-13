@@ -126,4 +126,25 @@ describe('link list', function() {
       .equal(finalList.toArray());
   });
 
+  it('add linkedList numbers reversed edition', function() {
+    let leftList = new LinkedList();
+    leftList.insertFromEnd(7);
+    leftList.insertFromEnd(1);
+    leftList.insertFromEnd(6);
+    let rightList = new LinkedList();
+    rightList.insertFromEnd(5);
+    rightList.insertFromEnd(9);
+    rightList.insertFromEnd(9);
+    let finalList = new LinkedList();
+    finalList.insertFromEnd(1);
+    finalList.insertFromEnd(3);
+    finalList.insertFromEnd(1);
+    finalList.insertFromEnd(5);
+    addLinkedListNumsReversed(leftList, rightList)
+    .toArray()
+    .should
+    .deep
+    .equal(finalList.toArray());
+  });
+
 });
