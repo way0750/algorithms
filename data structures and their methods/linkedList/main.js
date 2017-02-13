@@ -110,7 +110,7 @@ LinkedList.prototype.removeDup = function(){
   return newList;
 };
 
-LinkedList.prototype.slice = function(start = 0, end = Infinity){
+LinkedList.prototype.slice = function(start = 0, end = Infinity) {
   let newList = new LinkedList();
   this.each((node, index) => {
     if (index >= start && index < end) {
@@ -119,3 +119,24 @@ LinkedList.prototype.slice = function(start = 0, end = Infinity){
   })
   return newList;
 };
+
+LinkedList.prototype.KthToLast = function(Kth) {
+  let findKth = (node) => {
+    if (node === null) {
+      return 0;
+    }
+    let rankOrNode = findKth(node.next)
+    if (rankOrNode instanceof LinkedListNode) {
+      return rankOrNode;
+    }
+    rankOrNode++;
+    if (rankOrNode === Kth) {
+      return node;
+    } else {
+      return rankOrNode;
+    }
+  }
+  let returnVal = findKth(this.head);
+  console.log(returnVal)
+  return returnVal;
+}

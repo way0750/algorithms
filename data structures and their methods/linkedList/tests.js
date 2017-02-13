@@ -39,4 +39,8 @@ describe('link list', function() {
     let resultArr = [1,1,4];
     list.slice(1,4).toArray().should.deep.equal(resultArr);
   });
+
+  it('KthToLast, find the last one', function() {
+    list.KthToLast(2).value.should.equal(5);
+  });
 });
