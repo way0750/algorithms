@@ -120,7 +120,7 @@ LinkedList.prototype.slice = function(start = 0, end = Infinity) {
   return newList;
 };
 
-LinkedList.prototype.KthToLast = function(Kth) {
+LinkedList.prototype.KthToLastOriginal = function(Kth) {
   let foundNode = null;
   let findKth = (node) => {
     if (node === null) {
@@ -135,3 +135,14 @@ LinkedList.prototype.KthToLast = function(Kth) {
   findKth(this.head);
   return foundNode;
 }
+
+LinkedList.prototype.KthToLast = function(Kth) {
+  let stack = [];
+  this.each((node) => {
+    stack.unshift(node);
+  })
+  for (let i = 0 ; i < stack.length; i++) {
+    if (i === Kth - 1) return stack[i];
+  }
+  return null;
+};
