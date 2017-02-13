@@ -11,7 +11,9 @@ function LinkedList () {
 }
 
 LinkedList.prototype.insertFromEnd = function(value) {
-  var newNode = new LinkedListNode(value);
+  var newNode = value instanceof LinkedListNode
+              ? value
+              : new LinkedListNode(value);
   if (this.head === null && this.end === null) {
     this.head = newNode;
     this.end = newNode;
@@ -171,7 +173,7 @@ LinkedList.prototype.partition = function(value) {
    You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in reverse order, such that the 1's digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list.
 */
 
-let addLinkedListNums = (l1, l2) => {
+let addLinkedListNumsWorking = (l1, l2) => {
   let finalNum = new LinkedList();
   let carryOver = 0;
   let leftNum = l1.head;
@@ -183,5 +185,46 @@ let addLinkedListNums = (l1, l2) => {
     leftNum = leftNum.next;
     rightNum = rightNum.next;
   }
+  if (carryOver) {
+    finalNum.insertFromEnd(carryOver);
+  }
   return finalNum;
+};
+
+/*
+   time and space:
+   going through both lists at same length of n
+   then time is n
+   making new list with at most n + 1 length
+   so it is n + n + 1 which is 2n + 1 which is n
+   space: n + 1 which is n
+*/
+
+/*
+  do this with resursion
+  each call will only add one digit from one list
+   and make one node
+   then pass next nodes to recursive calls
+   then add result to that one new node
+   base case: both l1 l2 are null and carryover is 0;
+     return new node with value of 1 or nothing
+   how to make problem smaller: pass each list.next and the carryover
+   what to return always: either node or null
+   what to do with return: if node then insertFromEnd, if null then nothing
+*/
+
+let addLinkedListNums = (l1, l2) => {
+  let sum = (node1, node2, carryOver = 0) => {
+    if (node1 === null || node2 === null) {
+      return carryOver ? new LinkedListNode(carryOver) : null;
+    }
+    let num = node1.value + node2.value + carryOver;
+    let newNum = num % 10;
+    let digit = new LinkedListNode(newNum);
+    digit.next = sum(node1.next, node2.next, Math.floor(num / 10))
+    return digit;
+  }
+  let newList = new LinkedList();
+  newList.insertFromEnd(sum(l1.head, l2.head));
+  return newList;
 };
