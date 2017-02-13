@@ -163,3 +163,25 @@ LinkedList.prototype.partition = function(value) {
   }
 };
 
+
+
+
+
+/*
+   You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in reverse order, such that the 1's digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list.
+*/
+
+let addLinkedListNums = (l1, l2) => {
+  let finalNum = new LinkedList();
+  let carryOver = 0;
+  let leftNum = l1.head;
+  let rightNum = l2.head;
+  while(leftNum && rightNum) {
+    let sum = leftNum.value + rightNum.value;
+    finalNum.insertFromEnd((sum % 10) + carryOver);
+    carryOver = Math.floor(sum / 10);
+    leftNum = leftNum.next;
+    rightNum = rightNum.next;
+  }
+  return finalNum;
+};
