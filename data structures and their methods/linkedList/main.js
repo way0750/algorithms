@@ -120,22 +120,6 @@ LinkedList.prototype.slice = function(start = 0, end = Infinity) {
   return newList;
 };
 
-LinkedList.prototype.KthToLastOriginal = function(Kth) {
-  let foundNode = null;
-  let findKth = (node) => {
-    if (node === null) {
-      return 0;
-    }
-    let currentRank = findKth(node.next) + 1;
-    if (currentRank === Kth) {
-      foundNode = node;
-    }
-    return currentRank;
-  }
-  findKth(this.head);
-  return foundNode;
-}
-
 LinkedList.prototype.KthToLast = function(Kth) {
   let stack = [];
   this.each((node) => {
@@ -146,3 +130,18 @@ LinkedList.prototype.KthToLast = function(Kth) {
   }
   return null;
 };
+
+/*
+  given a targetNode, find it and delete it
+  but if the targetNode is either head of end, then don't do anything
+  no need to return anything
+  do it in constant time
+*/
+LinkedList.prototype.deleteMiddle = function(targetNode) {
+  if (targetNode === this.head || targetNode === this.end) return;
+  let nextNode = targetNode.next;
+  targetNode.value = nextNode.value;
+  targetNode.next = nextNode.next;
+  // "deleting" the node by dereferencing it
+  nextNode.next = null;
+}

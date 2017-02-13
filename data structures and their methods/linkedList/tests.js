@@ -51,4 +51,22 @@ describe('link list', function() {
   it('KthToLast, found nothing return null', function() {
     (list.KthToLast(20) + '').should.equal('null');
   });
+
+  it('deleteMiddle node, can not delete head or tail', function() {
+    let head = list.head;
+    let end = list.end;
+    let resultArr = [1,1,1,4,5,6];
+    list.deleteMiddle(head);
+    list.deleteMiddle(end);
+    list.toArray().should.deep.equal(resultArr);
+  });
+
+  it('deleteMiddle node, can delete', function() {
+    let resultArr = [1,1,4,5,6];
+    let node = list.head.next;
+    list.deleteMiddle(node);
+    list.toArray().should.deep.equal(resultArr);
+  })
+
+
 });
