@@ -79,9 +79,10 @@ LinkedList.prototype.findAndRemove = function(value) {
 };
 
 LinkedList.prototype.each = function(callBack) {
-  var curNode = this.head;
+  let curNode = this.head;
+  let index = 0;
   while(curNode) {
-    callBack(curNode);
+    callBack(curNode, index++);
     curNode = curNode.next;
   }
 };
@@ -104,6 +105,16 @@ LinkedList.prototype.removeDup = function(){
     if(!dupRecord[node.value]) {
       newList.insertFromEnd(node.value);
       dupRecord[node.value] = true;
+    }
+  })
+  return newList;
+};
+
+LinkedList.prototype.slice = function(start = 0, end = Infinity){
+  let newList = new LinkedList();
+  this.each((node, index) => {
+    if (index >= start && index < end) {
+      newList.insertFromEnd(node.value);
     }
   })
   return newList;
