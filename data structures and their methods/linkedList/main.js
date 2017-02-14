@@ -290,7 +290,7 @@ let addLinkedListNumsReversed = (l1, l2) => {
    space: recursive: 1/2 n or n
 */
 
-let isListPalindrome = (list) => {
+let isListPalindromeOverEnginnered = (list) => {
   if (!list.head) return false;
   let checkPalidrome = (node1, node2) => {
     let backupNode = {};
@@ -317,3 +317,81 @@ let isListPalindrome = (list) => {
   }
   return !!checkPalidrome(list.head, list.head.next);
 };
+
+let isListPalindrome = (list) => {
+  let arr = list.toArray()
+  return arr.toString() === arr.reverse().toString();
+}
+
+
+/*
+   given two linked lists, and see if they intersec by sharing
+   same nodes
+
+   solution 1 get all noges from both lists and unshift them in arrays
+   then from the fronts of both arrays, as long as the shift nodes are
+   the same, save one in a variable
+   then return that veriable's node
+
+   solution 2 go through arrays to get length and tail nodes
+   if tail nodes are not the same the return immeditely with false
+     becasue they are not even interseced to begin with
+   chop the long one to the same length as the short one
+   then compare nodes, when found ones that are the same
+   return one
+
+
+   solution 3 through both lists, and mark the lists, if nodes is already
+   marked, return that node default to false
+   mark sure to clean the marks up
+ */
+
+let findIntersection = (l1, l2) => {
+  let [node1, node2] = [l1.head, l2.head];
+  let foundNode = null;
+  while (node1 || node2) {
+    if (node1) {
+      if (node1.marked) {
+        foundNode = node1;
+      } else {
+        node1.marked = true;
+        node1 = node1.next;
+      }
+    }
+    if (node2) {
+      if (node2.marked) {
+        foundNode = node2;
+      } else {
+        node2.marked = true;
+        node2 = node2.next;
+      }
+    }
+    if (foundNode) {
+      node1 = null;
+      node2 = null;
+    }
+    console.log(node1, node2)
+  }
+    // clean up
+    [node1, node2]  = [l1.head, l2.head];
+  while (node1 || node2) {
+    if (node1) {
+      if(node1.marked) {
+        delete node1.marked;
+        node1 = node1.next;
+      } else {
+        node1 = null;
+      }
+    }
+    if (node2) {
+      if(node2.marked) {
+        delete node2.marked;
+        node2 = node2.next;
+      } else {
+        node2 = null;
+      }
+    }
+  }
+
+  return foundNode;
+}

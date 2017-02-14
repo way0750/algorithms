@@ -155,6 +155,32 @@ describe('link list', function() {
     list.insertFromEnd('b');
     list.insertFromEnd('a');
     isListPalindrome(list).should.be.true;
+  });
+
+  it('intersection, found', function() {
+    let list1 = new LinkedList();
+    list1.insertFromEnd('l1');
+    list1.insertFromEnd('this guy');
+    list1.insertFromEnd('l2');
+    list1.insertFromEnd('l3');
+
+    let list2 = new LinkedList();
+    list2.insertFromEnd('r1');
+    list2.insertFromEnd(list1.head.next);
+    list2.insertFromEnd('r2');
+    findIntersection(list1, list2).should.equal(list1.head.next);
+  });
+  it('intersection, not found', function() {
+    let list1 = new LinkedList();
+    list1.insertFromEnd('l1');
+    list1.insertFromEnd('this guy');
+    list1.insertFromEnd('l2');
+    list1.insertFromEnd('l3');
+
+    let list2 = new LinkedList();
+    list2.insertFromEnd('r1');
+    list2.insertFromEnd('r2');
+    (findIntersection(list1, list2) === null).should.be.true;
   })
 
 });
