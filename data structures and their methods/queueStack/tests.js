@@ -114,7 +114,7 @@ describe('Stack', function() {
     stack.push(9);
     stack.push(6);
     stack.sort()
-    stack.pop().should.equal(9);
-    stack.pop().should.equal(8);
+    stack.pop().should.equal(2);
+    stack.pop().should.equal(4);
   })
 });

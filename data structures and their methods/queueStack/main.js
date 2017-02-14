@@ -169,14 +169,14 @@ Stack.prototype.sort = function() {
   let holdStack = new Stack();
   let sourceStack = this;
   while(sourceStack.size) {
-    if (!holdStack.size || holdStack.peek() >= sourceStack.peek()) {
+    if (!holdStack.size || holdStack.peek() <= sourceStack.peek()) {
       holdStack.push(sourceStack.pop());
     } else {
-      let largerEle = sourceStack.pop();
-      while(holdStack.size && holdStack.peek() < largerEle) {
+      let smallerEle = sourceStack.pop();
+      while(holdStack.size && holdStack.peek() >= smallerEle) {
         sourceStack.push(holdStack.pop());
       }
-      holdStack.push(largerEle);
+      holdStack.push(smallerEle);
     }
   }
   while(holdStack.size) sourceStack.push(holdStack.pop());
