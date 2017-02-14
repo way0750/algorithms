@@ -98,3 +98,41 @@ Queue.prototype.shift = function() {
 
 
 
+function SetOfStacks (subStackLength = 5) {
+  this.subStackLength = subStackLength;
+  this.storage = { 0: new Stack };
+  // for inserting elements at the right sub stack
+  this.subStackIndex = 0;
+  this.size = 0;
+}
+
+SetOfStacks.prototype.push = function(value) {
+  let currentStack = this.storage[this.subStackIndex];
+  currentStack.push(value);
+  // this.size
+  if (currentStack.size >= this.subStackLength) {
+    this.subStackIndex++;
+    this.storage[this.subStackIndex] = new Stack();
+  }
+  return ++this.size;
+};
+
+SetOfStacks.prototype.pop = function() {
+  let currentStack = this.storage[this.subStackIndex];
+  while (currentStack.size === 0 && this.subStackIndex !== 0) {
+    this.subStackIndex = Math.max(this.subStackIndex - 1, 0);
+    currentStack = this.storage[this.subStackIndex];
+  }
+  this.size = Math.max(this.size - 1, 0);
+  console.log(this.size)
+  return this.storage[this.subStackIndex].pop();
+}
+
+SetOfStacks.prototype.popAt = function(stackIndex) {
+  let currentStack = this.storage[stackIndex];
+  if (currentStack && currentStack.size) {
+    this.size--;
+    return currentStack.pop()
+  } 
+  return undefined;
+}
