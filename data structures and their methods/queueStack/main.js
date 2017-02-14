@@ -33,6 +33,10 @@ Stack.prototype.pop = function() {
   }
 };
 
+Stack.prototype.peek = function() {
+  return this.stack[this.size - 1];
+}
+
 
 /*
    How would you design a stack which, in addition to push and pop, has a
@@ -66,38 +70,6 @@ Stack.prototype.min = function() {
   return this.mins[this.mins.length - 1];
 }
 
-
-
-
-
-
-
-let Queue = function () {
-  this.inStack = new Stack();
-  this.outStack = new Stack();
-  this.size = 0;
-};
-
-Queue.prototype.push = function(val) {
-  this.size++;
-  this.inStack.push(val);
-  return this.size;
-};
-
-Queue.prototype.shift = function() {
-  if (this.size > 0) {
-    if (this.outStack.size === 0) {
-      while (this.inStack.size) {
-        this.outStack.push(this.inStack.pop());
-      }
-    }
-    this.size--;
-    return this.outStack.pop();
-  }
-};
-
-
-
 function SetOfStacks (subStackLength = 5) {
   this.subStackLength = subStackLength;
   this.storage = { 0: new Stack };
@@ -120,11 +92,11 @@ SetOfStacks.prototype.push = function(value) {
 SetOfStacks.prototype.pop = function() {
   let currentStack = this.storage[this.subStackIndex];
   while (currentStack.size === 0 && this.subStackIndex !== 0) {
+    delete this.storage[this.subStackIndex];
     this.subStackIndex = Math.max(this.subStackIndex - 1, 0);
     currentStack = this.storage[this.subStackIndex];
   }
   this.size = Math.max(this.size - 1, 0);
-  console.log(this.size)
   return this.storage[this.subStackIndex].pop();
 }
 
@@ -133,6 +105,80 @@ SetOfStacks.prototype.popAt = function(stackIndex) {
   if (currentStack && currentStack.size) {
     this.size--;
     return currentStack.pop()
-  } 
+  }
   return undefined;
+}
+
+/*
+   Queue via Stacks: Implement a MyQueue class which implements a queue
+   using two stacks.
+
+   when add, and shifting
+   adding, just keeping push elements to a stack
+   but when shifting, you need to reverse the order of one the stacks
+   so only push to one, when shifting, check the other stack for size,
+   if 0 unload all from first stack to second, then only pop from second
+   if > 0, then just pop form second
+*/
+
+function Queue() {
+  this.size;
+  this.inStack = new Stack();
+  this.outStack = new Stack();
+}
+
+Queue.prototype.push = function(value) {
+  this.size++;
+  this.inStack.push(value);
+  return this.size;
+}
+
+Queue.prototype.shift = function() {
+  if(!this.outStack.size) {
+    while(this.inStack.size) {
+      this.outStack.push(this.inStack.pop());
+    }
+  }
+
+  if(this.outStack.size) this.size--;
+  return this.outStack.pop();
+}
+
+/*
+
+   Write a program to sort a stack such that the smallest items are on
+   the top. You can use an additional temporary stack, but you may not
+   copy the elements into any other data structure (such as an array).
+   The stack supports the following operations: push, pop, peek, and
+   isEmpty.
+
+   set two stacks: s1, s2
+   while s1 isn't empty, keep poping elements and pushing into s2
+     as long as the poped element is same or smaller than the last
+   element in s2
+     if larger, then hold it and keep poping elements from s2, until
+   finding an element in s2 that is same or larger size
+       then push that element from s1, continue
+
+   time and space
+   2 * n^2 which is 2
+   space: n
+*/
+
+Stack.prototype.sort = function() {
+  let holdStack = new Stack();
+  let sourceStack = this;
+  while(sourceStack.size) {
+    if (!holdStack.size || holdStack.peek() >= sourceStack.peek()) {
+      holdStack.push(sourceStack.pop());
+    } else {
+      let largerEle = sourceStack.pop();
+      while(holdStack.size && holdStack.peek() < largerEle) {
+        sourceStack.push(holdStack.pop());
+      }
+      holdStack.push(largerEle);
+    }
+  }
+  while(holdStack.size) sourceStack.push(holdStack.pop());
+  return sourceStack;
 }

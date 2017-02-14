@@ -87,6 +87,34 @@ describe('Stack', function() {
     set.pop();
     set.pop().should.equal(4)
     set.size.should.equal(3)
-
   });
+
+  it('Queue by two stacks works', function() {
+    let q = new Queue()
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.push(4);
+    q.push(5);
+    q.push(6);
+    q.shift()
+    q.shift()
+    q.push(7)
+    q.shift();
+    q.shift();
+    q.shift().should.equal(5);
+  });
+
+  it('Sorting for stack works', function() {
+    let stack = new Stack();
+    stack.push(8);
+    stack.push(2);
+    stack.push(4);
+    stack.push(4);
+    stack.push(9);
+    stack.push(6);
+    stack.sort()
+    stack.pop().should.equal(9);
+    stack.pop().should.equal(8);
+  })
 });
