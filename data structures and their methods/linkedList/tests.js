@@ -193,4 +193,9 @@ describe('link list', function() {
     isCircular(list).should.be.false;
   })
 
+  it('get circular entry, return it', function() {
+    list.insertFromEnd(list.head);
+    getCircularEntry(list).should.equal(list.head);
+  });
+
 });

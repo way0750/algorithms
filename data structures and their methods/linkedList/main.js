@@ -437,8 +437,9 @@ let findIntersection = (l1, l2) => {
 
 
 let isCircular = (list) => {
+  if (!list.head) return false;
   let slow = list.head;
-  let fast = slow.next ? slow.next.next : null;
+  let fast = slow.next;
   while (slow && fast) {
     if (slow === fast) {
       return true;
@@ -449,3 +450,65 @@ let isCircular = (list) => {
   }
   return false;
 }
+
+
+/*
+   where do they meet?
+   if 1 at head node, and 2 at head.next
+   let's say that there are k nodes from head to and include the entry node
+   of the circle.
+   Since 2 moves twice as fast as 1, by the time 1 is at the entry node
+   2 will be right on k * 2 node or (circle % k) nodes before 1
+   or circle - (circle % k) nodes behide 1 and behind the entry
+
+   since 1 moves 1 at the time and 2 moves 2 at the time, the absolute
+   distance between 1 and 2 will reduce 1 node per round
+   since there are circle - (circle % k) nodes from 2 to 1,
+   it will take 2 and 1 circle - (circle % k)  rounds for them to overlap.
+   and since 1 was at the entry point,
+   after circle - (circle % k) round, the overlap point will be
+   (circle % k) nodes ahead of the entry node
+
+   now if you set 1 to head node and 2 to the next node and both move
+   1 node at the time, then it will take circle % k amount of round to
+   have both 1 and 2 meet each other at the entry point
+   return that as the entry point
+*/
+
+let getCircularEntry = (list) => {
+  if (!list.head) return false;
+  let slow = list.head;
+  let fast = slow.next;
+  let overlaps = false;
+  while (slow && fast) {
+    if (overlaps) {
+      if (slow === fast) return slow;
+      slow = slow.next;
+      fast = fast.next;
+    } else {
+      if (slow === fast) {
+        overlaps = true;
+        slow = list.head;
+        fast = fast.next
+      } else {
+        slow = slow.next;
+        fast = fast.next ? fast.next.next : null;
+      }
+    }
+  }
+  return false;
+}
+
+
+/*
+   time and space:
+   space O(1)
+   time:
+   if let k to be the amount of nodes from head to and include entry
+   circle be size of the circle
+   it will take K + (Circle - (K % Circle)) amount of looping to overlap
+   then K amount to go from head to entry so
+   K + K + (Circle - (K % Circle))
+   which is
+   K + (Circle - (K % Circle))
+ */
