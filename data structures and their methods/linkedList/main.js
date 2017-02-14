@@ -414,3 +414,38 @@ let findIntersection = (l1, l2) => {
   };
   return foundNode;
 }
+
+/*
+   time and space:
+   making the arrays will take n time and n space
+   then looping in the main function will n as well
+   so n time n space
+*/
+
+
+
+
+/* Given a circular linked list, implement an algorithm that returns the node at the beginning of the loop.
+
+   use the two runner technique
+   if the fast one hits null then no circularity
+   if slow === fast then there is circularity
+   time and space
+   space is O(1)
+   time...... no idea how to calculate it
+*/
+
+
+let isCircular = (list) => {
+  let slow = list.head;
+  let fast = slow.next ? slow.next.next : null;
+  while (slow && fast) {
+    if (slow === fast) {
+      return true;
+    } else {
+      slow = slow.next;
+      fast = fast.next ? fast.next.next : null;
+    }
+  }
+  return false;
+}

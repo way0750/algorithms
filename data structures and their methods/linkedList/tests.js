@@ -181,6 +181,16 @@ describe('link list', function() {
     list2.insertFromEnd('r1');
     list2.insertFromEnd('r2');
     (findIntersection(list1, list2) === null).should.be.true;
+  });
+
+  it('check circularity, return true', function() {
+    list.insertFromEnd(list.head);
+    console.log(list)
+    isCircular(list).should.be.true;
+  });
+
+  it('check circularity, return false', function() {
+    isCircular(list).should.be.false;
   })
 
 });
