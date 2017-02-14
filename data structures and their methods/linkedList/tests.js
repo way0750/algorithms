@@ -198,4 +198,9 @@ describe('link list', function() {
     getCircularEntry(list).should.equal(list.head);
   });
 
+  it('get circular entry, can not find it', function() {
+    getCircularEntry(list).should.be.false;
+  });
+
+
 });
