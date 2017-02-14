@@ -346,7 +346,7 @@ let isListPalindrome = (list) => {
    mark sure to clean the marks up
  */
 
-let findIntersection = (l1, l2) => {
+let findIntersectionVersion1 = (l1, l2) => {
   let [node1, node2] = [l1.head, l2.head];
   let foundNode = null;
   while (node1 || node2) {
@@ -370,7 +370,6 @@ let findIntersection = (l1, l2) => {
       node1 = null;
       node2 = null;
     }
-    console.log(node1, node2)
   }
     // clean up
     [node1, node2]  = [l1.head, l2.head];
@@ -393,5 +392,25 @@ let findIntersection = (l1, l2) => {
     }
   }
 
+  return foundNode;
+}
+
+let getNodesInArray = (list, reverse) => {
+  let arr = [];
+  list.each((node) => {
+    reverse ? arr.unshift(node) : arr.push(node);
+  });
+  return arr;
+}
+
+let findIntersection = (l1, l2) => {
+  let arr1 = getNodesInArray(l1, true);
+  let arr2 = getNodesInArray(l2, true);
+  let foundNode = null;
+  while (arr1[0] === arr2[0]) {
+    foundNode = arr1[0];
+    arr1.shift();
+    arr2.shift();
+  };
   return foundNode;
 }
