@@ -122,7 +122,7 @@ SetOfStacks.prototype.popAt = function(stackIndex) {
 */
 
 function Queue() {
-  this.size;
+  this.size = 0;
   this.inStack = new Stack();
   this.outStack = new Stack();
 }
@@ -142,6 +142,15 @@ Queue.prototype.shift = function() {
 
   if(this.outStack.size) this.size--;
   return this.outStack.pop();
+}
+
+Queue.prototype.peek = function() {
+  if (!this.outStack.size) {
+    while(this.inStack.size) {
+      this.outStack.push(this.inStack.pop());
+    }
+  }
+  return this.outStack.peek();
 }
 
 /*
@@ -169,16 +178,140 @@ Stack.prototype.sort = function() {
   let holdStack = new Stack();
   let sourceStack = this;
   while(sourceStack.size) {
-    if (!holdStack.size || holdStack.peek() <= sourceStack.peek()) {
-      holdStack.push(sourceStack.pop());
-    } else {
-      let smallerEle = sourceStack.pop();
-      while(holdStack.size && holdStack.peek() >= smallerEle) {
+      let largerEle = sourceStack.pop();
+      while(holdStack.size && holdStack.peek() > largerEle) {
         sourceStack.push(holdStack.pop());
       }
-      holdStack.push(smallerEle);
-    }
+      holdStack.push(largerEle);
   }
   while(holdStack.size) sourceStack.push(holdStack.pop());
   return sourceStack;
 }
+
+
+
+function LinkedListNode (value) {
+  this.value = value;
+  this.next = null;
+}
+
+function LinkedList () {
+  this.head = null;
+  this.end = null;
+  this.size = 0;
+}
+
+LinkedList.prototype.removeFromHead = function() {
+  if (this.head){
+    //if the head and the end are the same node, then reset both
+    if (this.head === this.end) {
+      this.head = null;
+      this.end = null;
+    } else {
+      this.head = this.head.next;
+    }
+    --this.size;
+  }
+
+  return this.size;
+};
+
+LinkedList.prototype.insertFromEnd = function(value) {
+  var newNode = value instanceof LinkedListNode
+              ? value
+              : new LinkedListNode(value);
+  if (this.head === null && this.end === null) {
+    this.head = newNode;
+    this.end = newNode;
+  } else if (this.end === undefined || this.end === null ) {
+    this.end = newNode;
+  } else {
+    //set old end's next to the newNode, then set newNode as the end
+    this.end.next = newNode;
+    this.end = newNode;
+  }
+  return ++this.size;
+};
+
+LinkedList.prototype.removeNode = function(node) {
+  if (this.head === node) this.removeFromHead();
+  let currentNode = this.head || {};
+  let nextNode = currentNode.next;
+  while(nextNode) {
+    if (nextNode === node) {
+      currentNode.next = nextNode.next;
+      nextNode.next = null;
+      return;
+    }
+    currentNode = currentNode.next;
+    nextNode = currentNode.next;
+  }
+}
+
+LinkedList.prototype.findAndRemove = function(value) {
+  // it has to have two point just so you can rejoin a broken list
+  if (this.head && this.head.value === value){
+    var removed = this.head;
+    this.removeFromHead();
+    return removed;
+  } else {
+    var firstNode = this.head, secondNode = (this.head || {}).next;
+    while (secondNode) {
+      if (secondNode.value === value) {
+        firstNode.next = secondNode.next;
+        secondNode.next = null;
+        this.size--;
+        if (this.size === 1) {
+          this.end = this.head;
+        }
+        return secondNode;
+      } else {
+        firstNode = secondNode;
+        secondNode = secondNode.next;
+      }
+    }
+  }
+  return null;
+};
+
+function AnimalShelter () {
+  this.list = new LinkedList();
+  this.size = 0;
+}
+
+AnimalShelter.prototype.enqueue = function(animal) {
+  if (!this.list.size || this.list.end.value.type !== animal.type) {
+    this.list.insertFromEnd({
+      type: animal.type,
+      animals: new Queue(),
+    });
+  }
+  this.list.end.value.animals.push(animal);
+  return ++this.size;
+};
+
+AnimalShelter.prototype.dequeueAny = function(type) {
+  // first node match, or second match
+  // get node, then shift, then check size, if zero then remove from head
+  let node = !type || this.list.head.value.type === type
+           ? this.list.head
+           : this.list.head.next
+  if (node) {
+    this.size--;
+    let animal = node.value.animals.shift();
+    if (!node.value.animals.size) {
+      this.list.removeNode(node);
+    }
+    return animal;
+  } else {
+    return undefined;
+  }
+};
+
+AnimalShelter.prototype.dequeueCat = function(){
+  return this.dequeueAny('cat');
+};
+
+AnimalShelter.prototype.dequeueDog = function(){
+  return this.dequeueAny('dog');
+};

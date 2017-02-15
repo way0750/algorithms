@@ -97,6 +97,7 @@ describe('Stack', function() {
     q.push(4);
     q.push(5);
     q.push(6);
+    q.size.should.equal(6);
     q.shift()
     q.shift()
     q.push(7)
@@ -116,5 +117,52 @@ describe('Stack', function() {
     stack.sort()
     stack.pop().should.equal(2);
     stack.pop().should.equal(4);
-  })
+  });
+
+  it('animal shelter enqueue works', function() {
+    let cat = { type: 'cat' };
+    let dog = { type: 'dog' };
+    let shelter = new AnimalShelter();
+    shelter.enqueue(cat)
+    shelter.enqueue(cat)
+    shelter.enqueue(dog)
+    shelter.enqueue(dog)
+    shelter.enqueue(dog)
+    shelter.size.should.equal(5);
+    shelter.list.size.should.equal(2);
+  });
+
+  it('animal shelter denqueueAny works', function() {
+    let cat = { type: 'cat' };
+    let dog = { type: 'dog' };
+    let shelter = new AnimalShelter();
+    shelter.enqueue(cat)
+    shelter.enqueue(cat)
+    shelter.enqueue(dog)
+    shelter.enqueue(dog)
+    shelter.enqueue(dog)
+    shelter.dequeueAny().should.deep.equal(cat)
+    shelter.size.should.equal(4)
+    shelter.list.size.should.equal(2)
+    shelter.dequeueAny().should.deep.equal(cat)
+    shelter.size.should.equal(3)
+    shelter.dequeueAny().should.deep.equal(dog)
+    shelter.size.should.equal(2)
+    shelter.list.size.should.equal(1)
+  });
+
+  it('animal shelter denqueueDog works', function() {
+    let cat = { type: 'cat' };
+    let dog = { type: 'dog' };
+    let shelter = new AnimalShelter();
+    shelter.enqueue(cat)
+    shelter.enqueue(cat)
+    shelter.enqueue(dog)
+    shelter.enqueue(dog)
+    shelter.enqueue(dog)
+    shelter.dequeueAny('dog').should.deep.equal(dog)
+    shelter.size.should.equal(4)
+    shelter.list.size.should.equal(2)
+  });
+
 });
