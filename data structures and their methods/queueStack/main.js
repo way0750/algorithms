@@ -274,12 +274,12 @@ LinkedList.prototype.findAndRemove = function(value) {
   return null;
 };
 
-function AnimalShelter () {
+function AnimalShelterOriginal () {
   this.list = new LinkedList();
   this.size = 0;
 }
 
-AnimalShelter.prototype.enqueue = function(animal) {
+AnimalShelterOriginal.prototype.enqueue = function(animal) {
   if (!this.list.size || this.list.end.value.type !== animal.type) {
     this.list.insertFromEnd({
       type: animal.type,
@@ -290,7 +290,7 @@ AnimalShelter.prototype.enqueue = function(animal) {
   return ++this.size;
 };
 
-AnimalShelter.prototype.dequeueAny = function(type) {
+AnimalShelterOriginal.prototype.dequeueAny = function(type) {
   // first node match, or second match
   // get node, then shift, then check size, if zero then remove from head
   let node = !type || this.list.head.value.type === type
@@ -303,15 +303,60 @@ AnimalShelter.prototype.dequeueAny = function(type) {
       this.list.removeNode(node);
     }
     return animal;
-  } else {
-    return undefined;
   }
+
+  return undefined;
 };
 
-AnimalShelter.prototype.dequeueCat = function(){
+AnimalShelterOriginal.prototype.dequeueCat = function(){
   return this.dequeueAny('cat');
 };
 
-AnimalShelter.prototype.dequeueDog = function(){
+AnimalShelterOriginal.prototype.dequeueDog = function(){
   return this.dequeueAny('dog');
 };
+
+
+function AnimalShelter () {
+  this.cats = new Queue();
+  this.dogs = new Queue();
+  this.size = 0
+  this.order = 0
+}
+
+AnimalShelter.prototype.enqueue = function (animal) {
+  let queue = animal.type === 'cat' ? this.cats : this.dogs;
+  queue.push({
+    order: this.order++,
+    animal,
+  });
+  this.size++;
+}
+
+AnimalShelter.prototype.dequeueAny = function (type) {
+  // if type is provided then return the right type
+  // if not then return the earliest one
+  let queue;
+  if (type) {
+    queue = type === 'cat' ? this.cats : this.dogs;
+  } else if (!this.cats.size || !this.dogs.size) {
+    queue = this.cats.size ? this.cats : this.dogs;
+  } else {
+    queue = this.cats.peek().order < this.dogs.peek().order
+          ? this.cats
+          : this.dogs;
+  }
+
+  let animal = queue.shift();
+  if (animal) this.size--;
+  return animal;
+}
+
+AnimalShelter.prototype.dequeueDog = function () {
+  return this.dequeueAny('dog');
+};
+
+AnimalShelter.prototype.dequeueCat = function () {
+  return this.dequeueAny('cat');
+};
+
