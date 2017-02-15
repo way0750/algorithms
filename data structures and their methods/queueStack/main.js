@@ -336,17 +336,15 @@ AnimalShelter.prototype.enqueue = function (animal) {
 AnimalShelter.prototype.dequeueAny = function (type) {
   // if type is provided then return the right type
   // if not then return the earliest one
+
   let queue;
   if (type) {
     queue = type === 'cat' ? this.cats : this.dogs;
-  } else if (!this.cats.size || !this.dogs.size) {
-    queue = this.cats.size ? this.cats : this.dogs;
   } else {
-    queue = this.cats.peek().order < this.dogs.peek().order
-          ? this.cats
-          : this.dogs;
+    let catOrder = (this.cats.peek() || {order: Infinity}).order;
+    let dogOrder = (this.dogs.peek() || {order: Infinity}).order;
+    queue = catOrder > dogOrder ? this.dogs : this.cats;
   }
-
   let animal = queue.shift();
   if (animal) this.size--;
   return animal;
