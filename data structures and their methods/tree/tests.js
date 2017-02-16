@@ -48,5 +48,42 @@ describe('BinarySearchTree', function() {
   it('breadthFirstSearch', function() {
     bsTree.breathFirstSearch(9).should.be.true;
     bsTree.breathFirstSearch(99999).should.be.false;
-  })
+  });
 });
+
+describe('MinMaxHeap', function() {
+  it('get indexes works', function() {
+    let kids = MinMaxHeap.prototype.getKidsIndexes(2);
+    kids.leftChild.should.equal(5)
+    kids.rightChild.should.equal(6)
+  });
+  it('get parent index works', function() {
+    MinMaxHeap.prototype.getParentIndex(6).parent.should.equal(2)
+  })
+  it('can make min heap', function() {
+    let smallestNum = 3;
+    let minHeap = new MinMaxHeap(true);
+    minHeap.insert(4);
+    minHeap.insert(6);
+    minHeap.insert(33);
+    minHeap.insert(88);
+    minHeap.insert(33);
+    minHeap.insert(6);
+    minHeap.insert(smallestNum);
+    minHeap.storage[0].should.equal(smallestNum);
+  })
+  it('can make max heap', function() {
+    let largestNum = 100;
+    let maxHeap = new MinMaxHeap();
+    maxHeap.insert(5);
+    maxHeap.insert(44);
+    maxHeap.insert(88);
+    maxHeap.insert(45);
+    maxHeap.insert(78);
+    maxHeap.insert(43);
+    maxHeap.insert(11);
+    maxHeap.insert(0);
+    maxHeap.insert(largestNum);
+    maxHeap.storage[0].should.equal(largestNum);
+  })
+})

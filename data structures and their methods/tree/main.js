@@ -64,6 +64,14 @@ BinarySearchTree.prototype.depthFirstSearch = function(value) {
   return false;
 }
 
+
+/*
+   time and space:
+   if N means the total amount of nodes in the tree
+   then time is N
+   space worse is 2 ^ log(n)
+*/
+
 BinarySearchTree.prototype.breathFirstSearch = function(value) {
   // invariant in this case
   // stack = [], this contains trees nodes in order of level
@@ -75,4 +83,91 @@ BinarySearchTree.prototype.breathFirstSearch = function(value) {
     if(currentTree.rightChild) stack.push(currentTree.rightChild);
   }
   return false;
+}
+
+
+
+
+function MinMaxHeap(isMinHeap) {
+  // use this to determine the nature of many operations
+  this.isMinHeap = isMinHeap;
+  this.storage = [];
+}
+
+MinMaxHeap.prototype.parentKidOrdered = function(parentIndex, kidIndex) {
+  if (!this.storage.hasOwnProperty(parentIndex)
+   || !this.storage.hasOwnProperty(kidIndex)) {
+    return true;
+  }
+  let parent = this.storage[parentIndex];
+  let kid = this.storage[kidIndex];
+  return this.isMinHeap ? parent <= kid : parent >= kid;
+};
+
+MinMaxHeap.prototype.getParentIndex = function(curentIndex) {
+  return {
+    parent: Math.max(Math.floor((curentIndex - 1) / 2), 0)
+  };
+};
+
+MinMaxHeap.prototype.getKidsIndexes = function(currentIndex) {
+  return {
+    leftChild: currentIndex * 2 + 1,
+    rightChild: currentIndex * 2 + 2,
+  };
+};
+
+MinMaxHeap.prototype.insert = function(value) {
+  // always insert from the end of the storege
+  // because min/max heap are the complete binary trees
+  // inserting from the end can help to preserve that feature
+  // insert from end then swap with parent if have to
+  this.storage.push(value);
+  let kidIndex = this.storage.length - 1;
+  let parentIndex = this.getParentIndex(kidIndex).parent;
+
+  while (!this.parentKidOrdered(parentIndex, kidIndex)) {
+    let temp = this.storage[kidIndex];
+    this.storage[kidIndex] = this.storage[parentIndex];
+    this.storage[parentIndex] = temp;
+    kidIndex = parentIndex;
+    parentIndex = this.getParentIndex(kidIndex).parent;
+  }
+  return this.storage.length;
+}
+
+MinMaxHeap.prototype.peek = function() {
+  return this.storage[0];
+}
+
+MinMaxHeap.prototype.remove = function() {
+  // swap head with the last element, then pop
+  // doing so to preserve the "complete" level feature of heap
+  // then bubble down the head
+  let returnVal = this.storage[0];
+  this.storage[0] = this.storage[this.storage.length - 1];
+  this.storage.pop();
+  let parentIndex = 0;
+  let {leftChild, rightChild} = this.getKidsIndexes(0);
+  while (!this.parentKidOrdered(parentIndex, leftChild)
+      || !this.parentKidOrdered(parentIndex, rightChild)) {
+    // get which kid index to swap with
+    let swapIndex;
+    if (this.minHeap) {
+      swapIndex = this.storage[leftChild] < this.storage[rightChild]
+                ? leftChild
+                : rightChild;
+    } else {
+      swapIndex = this.storage[leftChild] > this.storage[rightChild]
+                ? leftChild
+                : rightChild;
+    }
+    let temp = this.storage[parentIndex];
+    this.storage[parentIndex] = this.storage[swapIndex];
+    this.storage[swapIndex] = temp;
+    parentIndex = swapIndex;
+    let { leftChild, rightChild } = this.getKidsIndexes(parentIndex);
+  }
+
+  return returnVal;
 }
