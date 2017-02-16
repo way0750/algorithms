@@ -1,7 +1,7 @@
-// make binary trees: binary, search, heaps(max and min)
-// methods: traversals: in pre post
-// depth and breath first
-// even balancing and check how unbalance the tree is
+/* make binary trees: binary, search, heaps(max and min)
+ * methods: traversals: in pre post
+ * depth and breath first
+ * even balancing and check how unbalance the tree is*/
 function BinarySearchTree(value) {
   this.leftChild = null;
   this.rightChild = null;
@@ -46,3 +46,33 @@ BinarySearchTree.prototype.postOrder = function(callBack) {
   if (this.rightChild) this.rightChild.postOrder(callBack);
   callBack(this);
 };
+
+
+/* time and space
+ * if N is the total amount of node
+ * then time would be N
+ * and space would be log N*/
+
+BinarySearchTree.prototype.depthFirstSearch = function(value) {
+  if (this.value === value) return true;
+  if (this.leftChild && this.leftChild.depthFirstSearch(value)) {
+    return true;
+  }
+  if (this.rightChild && this.rightChild.depthFirstSearch(value)) {
+    return true;
+  }
+  return false;
+}
+
+BinarySearchTree.prototype.breathFirstSearch = function(value) {
+  // invariant in this case
+  // stack = [], this contains trees nodes in order of level
+  let stack = [this];
+  while(stack.length) {
+    let currentTree = stack.shift();
+    if (currentTree.value === value) return true;
+    if(currentTree.leftChild) stack.push(currentTree.leftChild);
+    if(currentTree.rightChild) stack.push(currentTree.rightChild);
+  }
+  return false;
+}

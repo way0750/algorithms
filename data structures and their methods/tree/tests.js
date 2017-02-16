@@ -39,5 +39,14 @@ describe('BinarySearchTree', function() {
       arr.push(tree.value);
     });
     arr.should.deep.equal(result);
+  });
+  it('depthFirstSearch works', function() {
+    bsTree.depthFirstSearch(9).should.be.true;
+    bsTree.depthFirstSearch(9999).should.be.false;
+  });
+
+  it('breadthFirstSearch', function() {
+    bsTree.breathFirstSearch(9).should.be.true;
+    bsTree.breathFirstSearch(99999).should.be.false;
   })
 });
