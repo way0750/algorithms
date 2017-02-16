@@ -149,11 +149,11 @@ MinMaxHeap.prototype.remove = function() {
   this.storage.pop();
   let parentIndex = 0;
   let {leftChild, rightChild} = this.getKidsIndexes(0);
+
   while (!this.parentKidOrdered(parentIndex, leftChild)
       || !this.parentKidOrdered(parentIndex, rightChild)) {
-    // get which kid index to swap with
     let swapIndex;
-    if (this.minHeap) {
+    if (this.isMinHeap) {
       swapIndex = this.storage[leftChild] < this.storage[rightChild]
                 ? leftChild
                 : rightChild;
@@ -166,7 +166,9 @@ MinMaxHeap.prototype.remove = function() {
     this.storage[parentIndex] = this.storage[swapIndex];
     this.storage[swapIndex] = temp;
     parentIndex = swapIndex;
-    let { leftChild, rightChild } = this.getKidsIndexes(parentIndex);
+    let newKidIndexes = this.getKidsIndexes(parentIndex);
+    leftChild = newKidIndexes.leftChild;
+    rightChild = newKidIndexes.rightChild;
   }
 
   return returnVal;

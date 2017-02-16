@@ -85,5 +85,28 @@ describe('MinMaxHeap', function() {
     maxHeap.insert(0);
     maxHeap.insert(largestNum);
     maxHeap.storage[0].should.equal(largestNum);
+  });
+  it('min max heap', function() {
+    let minHeap = new MinMaxHeap(true);
+    minHeap.insert(4);
+    minHeap.insert(6);
+    minHeap.insert(33);
+    minHeap.insert(8);
+    minHeap.insert(35);
+    minHeap.insert(41);
+    minHeap.remove().should.equal(4)
+    minHeap.storage[0].should.equal(6);
   })
+  it('min max heap', function() {
+    let minHeap = new MinMaxHeap();
+    minHeap.insert(4);
+    minHeap.insert(6);
+    minHeap.insert(33);
+    minHeap.insert(8);
+    minHeap.insert(35);
+    minHeap.insert(41);
+    minHeap.remove().should.equal(41)
+    minHeap.storage[0].should.equal(35);
+  })
+
 })
