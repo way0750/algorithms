@@ -107,6 +107,15 @@ describe('MinMaxHeap', function() {
     minHeap.insert(41);
     minHeap.remove().should.equal(41)
     minHeap.storage[0].should.equal(35);
-  })
+  });
 
-})
+});
+
+describe('tries', function() {
+  it('insert should work', function() {
+    let tries = new Tries();
+    tries.insert('dog');
+    console.log(tries);
+  });
+  it('')
+});

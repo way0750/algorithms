@@ -173,3 +173,58 @@ MinMaxHeap.prototype.remove = function() {
 
   return returnVal;
 }
+
+
+// Tries
+/*
+   methods, input a string check and see if it is found
+   insert a word
+   remove a word
+*/
+
+function Tries(char = '') {
+  this.char = char;
+  this.children = {};
+}
+
+
+/*
+  basecase: input string is ''
+    if '' is found as current node child, return
+    else make key '' and add as child to current node
+  how to make problem smaller:
+    is the first character of the input string found as child in current
+    node?
+   yes: and call that node with input string slice at 1
+   no, make node and then call
+  what to return: true
+  what to do about return, return true;
+*/
+
+Tries.prototype.insert = function (word = '') {
+  let char = word ? word[0] : word;
+  let child = this.children[char];
+  if (!child) {
+    child = new Tries(char);
+    this.children[char] = child;
+  }
+  if (word === '') {
+    return true;
+  } else {
+    return child.insert(word.slice(1));
+  }
+};
+
+Tries.prototype.searchWord = function(word) {
+  let char = word ? word[0] : word;
+  let child = this.children[char];
+  if (!child) {
+    return false;
+  }
+
+  if (word === '') {
+    return true;
+  } else {
+    return child.insert(word.slice(1));
+  }
+}
