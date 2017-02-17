@@ -288,6 +288,7 @@ class Graph {
   }
 
   connect(nodeID, undirected, edges=[]) {
+    nodeID = nodeID instanceof Node ? nodeID.ID : nodeID;
     let targetNode = this.children[nodeID];
     if(!targetNode) return false;
 
@@ -298,7 +299,6 @@ class Graph {
     if (undirected) {
       // go through each node and add this targetNode
       edges.forEach((ID) => {
-        console.log(ID)
         if(this.children[ID]) {
           this.children[ID].edges[ nodeID ] = true;
         }
@@ -318,5 +318,34 @@ class Graph {
 
   getNode(nodeID) {
     return this.children[nodeID];
+  }
+
+  depthFirstSearch(value) {
+    // go through all nodes on graph level
+    // mark each node as searched
+    // then for each node, do depth first seach
+    let search = function(node, value) {
+      if (node.value === value) return true;
+      node.searched = true;
+      // go through all edges;
+      let edgeIDs = Object.keys(node.edges);
+      for (let i = 0; i < edgeIDs; i++) {
+        let node = this.getNode(edgeIDs[i]);
+        if (node && !node.searched && search(node, value)) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    let allIDs = Object.keys(this.children);
+    for (let i = 0; i < allIDs.length; i++) {
+      let node = this.getNode(allIDs[i]);
+      if(!node.searched && search(node, value)) {
+        return true;
+      }
+    }
+    return false;
   }
 }
