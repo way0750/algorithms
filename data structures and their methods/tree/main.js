@@ -221,10 +221,6 @@ Tries.prototype.searchWord = function(word) {
   if (!child) {
     return false;
   }
-
-  if (word === '') {
-    return true;
-  } else {
-    return child.insert(word.slice(1));
-  }
+  if(child && word === '') return true
+  return child.searchWord(word.slice(1));
 }

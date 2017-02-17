@@ -115,7 +115,9 @@ describe('tries', function() {
   it('insert should work', function() {
     let tries = new Tries();
     tries.insert('dog');
-    console.log(tries);
+    tries.insert('doing')
+    tries.searchWord('dog').should.be.true;
+    tries.searchWord('doing').should.be.true;
+    tries.searchWord('do').should.be.false;
   });
-  it('')
 });
