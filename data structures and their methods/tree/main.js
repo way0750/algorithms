@@ -306,6 +306,16 @@ class Graph {
     }
   }
 
+  remove(targetID) {
+    // go through each node and delete id as key
+    let node = this.getNode(targetID);
+    delete this.children[targetID];
+    Object.keys(node.edges).forEach((id) => {
+      let node = this.getNode(id);
+      delete node.edges[targetID];
+    });
+  }
+
   getNode(nodeID) {
     return this.children[nodeID];
   }

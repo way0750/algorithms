@@ -136,7 +136,7 @@ describe('tries', function() {
 });
 
 describe('Graph', function() {
-  xit('can insert nodes', function() {
+  it('can insert nodes', function() {
     let graph = new Graph();
     graph.insert(3)
     graph.children[0].ID.should.equal(0);
@@ -161,5 +161,18 @@ describe('Graph', function() {
     node3.edges.should.deep.equal({0: true, 1: true})
     node1.edges.should.deep.equal({[n2]: true});
     node2.edges.should.deep.equal({[n1]: true});
+  });
+  it('removing edges should work', function() {
+    let graph = new Graph();
+    let n1 = graph.insert(3);
+    let n2 = graph.insert(53, true, [n1]);
+    let n3 = graph.insert(4);
+    let node1 = graph.getNode(n1);
+    let node2 = graph.getNode(n2);
+    let node3 = graph.getNode(n3);
+    graph.connect(node3.ID, false, [0, 1]);
+    graph.remove(1);
+    (graph.getNode(1) === undefined).should.be.true;
+    graph.getNode(0).edges.should.deep.equal({})
   });
 })
