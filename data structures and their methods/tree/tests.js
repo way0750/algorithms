@@ -120,4 +120,17 @@ describe('tries', function() {
     tries.searchWord('doing').should.be.true;
     tries.searchWord('do').should.be.false;
   });
+  it('removing should work', function() {
+    let tries = new Tries();
+    tries.insert('dog');
+    tries.insert('doing');
+    tries.insert('do');
+    tries.searchWord('dog').should.be.true;
+    tries.removeWord('dog').should.be.true;
+    tries.searchWord('dog').should.be.false;
+    tries.searchWord('doing').should.be.true;
+    tries.removeWord('doing').should.be.true;
+    tries.searchWord('doing').should.be.false;
+    tries.searchWord('do').should.be.true;
+  })
 });

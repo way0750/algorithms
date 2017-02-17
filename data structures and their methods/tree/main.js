@@ -214,6 +214,7 @@ Tries.prototype.insert = function (word = '') {
     return child.insert(word.slice(1));
   }
 };
+// time and space: time length of the word, space: length^2
 
 Tries.prototype.searchWord = function(word) {
   let char = word ? word[0] : word;
@@ -223,4 +224,40 @@ Tries.prototype.searchWord = function(word) {
   }
   if(child && word === '') return true
   return child.searchWord(word.slice(1));
-}
+};
+// time and space: time length of the word, space: length^2
+
+Tries.prototype.removeWord = function(word) {
+  // if found then remove the '' key
+  // if not then no need to do anything
+  let char = word ? word[0] : word;
+  let child = this.children[char];
+  console.log(word, '-', this, '-' ,char);
+
+  if (this.char === '' && word === '') {
+    return true;
+  } else if (!child) {
+    return false;
+  } else {
+    let pathFound = child.removeWord(word.slice(1));
+    let shouldDeleteChild = !Object.keys(child.children).length;
+    if (pathFound && shouldDeleteChild) {
+      delete this.children[char];
+    }
+    return pathFound;
+  }
+
+  /* if (!child) {
+   *   return false;
+   * }
+   * if(child && word === '') {
+   *   delete this.children[word]
+   *   return true;
+   * } else {
+   *   let deleted = this.removeWord(word.slice(1));
+   *   if (deleted && !Object.keys(child.children).length) {
+   *     delete this.children[char];
+   *   }
+   *   return deleted;
+   * }*/
+};
