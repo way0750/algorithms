@@ -271,6 +271,9 @@ class Node {
     this.value = value;
     this.edges = {};
   }
+  edgeKeysToArray() {
+    return Object.keys(this.edges).map((id) => +id);
+  }
 }
 
 class Graph {
@@ -320,6 +323,17 @@ class Graph {
     return this.children[nodeID];
   }
 
+  keysToArray() {
+    return Object.keys(this.children).map((id) => +id);
+  }
+
+  unMarkAfterSearch() {
+    this.keysToArray().forEach((id) => {
+      this.getNode(id).searched = false;
+      this.getNode(id).added = false;
+    });
+  }
+
   depthFirstSearch(value) {
     // go through all nodes on graph level
     // mark each node as searched
@@ -335,17 +349,52 @@ class Graph {
           return true;
         }
       }
-
       return false;
     };
 
-    let allIDs = Object.keys(this.children);
-    for (let i = 0; i < allIDs.length; i++) {
-      let node = this.getNode(allIDs[i]);
-      if(!node.searched && search(node, value)) {
-        return true;
+    let allIDs = this.keysToArray();
+    let found = allIDs.some((id) => {
+      let node = this.getNode(id);
+      if(!node.searched && search(node, value)) return true;
+    });
+
+    this.unMarkAfterSearch();
+    return found;
+  }
+
+  breadthFirstSearch(value) {
+    /* start with one node, then check for value
+     * if not found then
+       set searched to true and add all edges that has yet been searched
+     */
+    let allIDs = this.keysToArray();
+    let found = allIDs.some((id) => {
+      let node = this.getNode(id);
+
+      if (node.searched) return false;
+
+      let stack = [node];
+      while(stack.length) {
+        let node = stack.shift();
+
+        if (node.value === value) return true;
+
+        node.searched = true;
+
+        let edgeNodes = node.edgeKeysToArray().reduce((nodes, id) => {
+          let edgeNode = this.getNode(id);
+          if (!edgeNode.searched && !edgeNode.added) {
+            edgeNode.added = true;
+            nodes.push(edgeNode);
+          }
+          return nodes;
+        }, []);
+
+        stack = stack.concat(edgeNodes);
       }
-    }
-    return false;
+    });
+
+    this.unMarkAfterSearch();
+    return found;
   }
 }

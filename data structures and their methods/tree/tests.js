@@ -196,5 +196,30 @@ describe('Graph', function() {
     graph.connect(i5, false, [i6, i7, i8, i9, i10]);
     graph.connect(i6, false, [i7, i8, i9, i10]);
     graph.depthFirstSearch(14).should.be.true;
-  })
+    graph.getNode(0).searched.should.be.false
+  });
+  it('breadthFirstSearch', function() {
+    let graph = new Graph();
+    let i1 = graph.insert(4);
+    let i2 = graph.insert(67);
+    let i3 = graph.insert(44);
+    let i4 = graph.insert(38);
+    let i5 = graph.insert(9);
+    let i6 = graph.insert(1);
+    let i7 = graph.insert(14);
+    let i8 = graph.insert(14);
+    let i9 = graph.insert(8);
+    let i10 = graph.insert(41);
+    let i11 = graph.insert(96);
+    graph.connect(i4, true, [i3]);
+    graph.connect(i3, true, [i2]);
+    graph.connect(i2, true, [i1]);
+    graph.connect(i1, true, [i4]);
+    graph.connect(i4, false, [i5, i6, i7, i8, i9, i10]);
+    graph.connect(i5, false, [i6, i7, i8, i9, i10]);
+    graph.connect(i6, false, [i7, i8, i9, i10]);
+    graph.breadthFirstSearch(1).should.be.true;
+    graph.getNode(0).searched.should.be.false
+  });
+
 });
