@@ -397,4 +397,54 @@ class Graph {
     this.unMarkAfterSearch();
     return found;
   }
+
+  biDirectionBreadthSearch(node1, node2) {
+    node1 = node1 instanceof Node ? node1 : this.getNode(node1);
+    node2 = node2 instanceof Node ? node2 : this.getNode(node2);
+    let [stack1, stack2] = [[node1], [node2]];
+
+    let search = (stack, targetID, sourceID) => {
+      if (!stack.length) return [];
+      let node = stack.shift();
+      if (node.searched === targetID) {
+        return true;
+      }
+
+      node.searched = sourceID;
+      let kids = node.edgeKeysToArray()
+        .reduce((nodes, nodeID) => {
+          let node = this.getNode(nodeID);
+          if (node.searched !== sourceID) nodes.push(node);
+          return nodes;
+        }, []);
+
+      return kids;
+    };
+
+    let found = false;
+    while (!found && (stack1.length || stack2.length)) {
+      let searchStack1 = search(stack1, 'node2', 'node1');
+      if (Array.isArray(searchStack1)) {
+        stack1 = stack1.concat(searchStack1);
+      } else if (searchStack1 === true){
+        found = true;
+      }
+
+      let searchStack2 = search(stack2, 'node1', 'node2');
+      if (Array.isArray(searchStack2)) {
+        stack2 = stack2.concat(searchStack2);
+      } else if (searchStack2 === true){
+        console.log('what 2')
+        found = true;
+      }
+
+    }
+
+    this.unMarkAfterSearch();
+    return found;
+  }
 }
+
+// Bidirectional
+// two breadth first search going at the same time
+// return path or boolean?

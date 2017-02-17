@@ -26,9 +26,9 @@ makeChange(2) === 2
 
 
 // 5:
-// 
+//
 // start from 5 then lower to 1
-// 
+//
 // 5:
 //  5:
 //  5 * 1, done don't go further!
