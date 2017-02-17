@@ -187,7 +187,6 @@ function Tries(char = '') {
   this.children = {};
 }
 
-
 /*
   basecase: input string is ''
     if '' is found as current node child, return
@@ -202,26 +201,19 @@ function Tries(char = '') {
 */
 
 Tries.prototype.insert = function (word = '') {
-  let char = word ? word[0] : word;
-  let child = this.children[char];
-  if (!child) {
-    child = new Tries(char);
-    this.children[char] = child;
-  }
-  if (word === '') {
-    return true;
-  } else {
-    return child.insert(word.slice(1));
-  }
+  let char = word.slice(0, 1);
+  this.children[char] = this.children[char] || new Tries(char);
+
+  let child = this.children[char]
+  return word === '' ? true : child.insert(word.slice(1));
 };
 // time and space: time length of the word, space: length^2
 
-Tries.prototype.searchWord = function(word) {
-  let char = word ? word[0] : word;
+Tries.prototype.searchWord = function(word = '') {
+  let char = word.slice(0, 1);
   let child = this.children[char];
-  if (!child) {
-    return false;
-  }
+  if (!child) return false;
+
   if(child && word === '') return true
   return child.searchWord(word.slice(1));
 };
@@ -230,9 +222,8 @@ Tries.prototype.searchWord = function(word) {
 Tries.prototype.removeWord = function(word) {
   // if found then remove the '' key
   // if not then no need to do anything
-  let char = word ? word[0] : word;
+  let char = word.slice(0, 1);
   let child = this.children[char];
-  console.log(word, '-', this, '-' ,char);
 
   if (this.char === '' && word === '') {
     return true;
@@ -246,18 +237,76 @@ Tries.prototype.removeWord = function(word) {
     }
     return pathFound;
   }
-
-  /* if (!child) {
-   *   return false;
-   * }
-   * if(child && word === '') {
-   *   delete this.children[word]
-   *   return true;
-   * } else {
-   *   let deleted = this.removeWord(word.slice(1));
-   *   if (deleted && !Object.keys(child.children).length) {
-   *     delete this.children[char];
-   *   }
-   *   return deleted;
-   * }*/
 };
+
+/*
+  time and space:
+   time: N as the length of the word
+   space: N ^ 2 since we are slicing the string one char at the time
+*/
+
+/*
+   Graph
+   use node list
+   use node class as well as graph class in case need to save
+   a lot of data in the node
+
+   save all the connected nodes for each node?
+   when going through all the nodes then how do you do that?
+   also have a comprehensive list of all nodes?
+   [
+   0: node[4,5,6]
+   4: node[0]
+   5: node[0,6]
+   6: node[0,5]
+   ]
+   so all the traversal methods are on the nodes?
+   and there will similar ones on the graph class but they are more
+   of wrappers?
+*/
+
+class Node {
+  constructor(ID, value) {
+    this.ID = ID;
+    this.value = value;
+    this.edges = {};
+  }
+}
+
+class Graph {
+  constructor() {
+    this.children = {};
+    this.nextID = 0;
+  }
+
+  insert(value, undirected, edges=[]) {
+    let ID = this.nextID++;
+    let node = new Node(ID, value);
+    this.children[ID] = node;
+    this.connect(ID, undirected, edges);
+    return ID;
+  }
+
+  connect(nodeID, undirected, edges=[]) {
+    let targetNode = this.children[nodeID];
+    if(!targetNode) return false;
+
+    edges.forEach((nodeID) => {
+      targetNode.edges[nodeID] = true;
+    });
+
+    if (undirected) {
+      // go through each node and add this targetNode
+      edges.forEach((ID) => {
+        console.log(ID)
+        if(this.children[ID]) {
+          this.children[ID].edges[ nodeID ] = true;
+        }
+      });
+    }
+  }
+
+  getNode(nodeID) {
+    return this.children[nodeID];
+  }
+}
