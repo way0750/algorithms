@@ -215,7 +215,13 @@ describe('Graph', function() {
 
   it('depthFirst search 2 nodes for path', function() {
     graph.depthFirstSearch2Nodes(0, 9).should.be.true;
-  })
+    graph.depthFirstSearch2Nodes(0, 11).should.be.false;
+  });
+
+  it('breadth search 2 nodes for path', function() {
+    graph.depthFirstSearch2Nodes(0, 9).should.be.true;
+    graph.depthFirstSearch2Nodes(0, 11).should.be.false;
+  });
 
   it('bi direction search', function() {
     graph.biDirectionBreadthSearch(0, 11).should.be.false;

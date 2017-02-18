@@ -398,6 +398,31 @@ class Graph {
     return found;
   }
 
+  breadthFirstSearch2Nodes(node1, node2) {
+    node1 = node1 instanceof Node ? node1 : this.getNode(node1);
+    node2 = node2 instanceof Node ? node2 : this.getNode(node2);
+
+    let search = (node1, node2) => {
+      let stack = [node1];
+      while(stack.length) {
+        let node = stack.shift();
+        if (node === node2) return true;
+        node.searched = true;
+        let edgeNodes = node.edgeKeysToArray(this)
+          .reduce((nodes, id) => {
+            let node = this.getNode(id) || { searched: true };
+            return node.searched ? nodes : nodes.concat(node);
+          });
+        stack = stack.concat(edgeNodes);
+      }
+      return false;
+    };
+
+    let found = search(node1, node2) ? true : search(node2, node1);
+    this.unMarkAfterSearch();
+    return found;
+  }
+
   depthFirstSearch2Nodes(node1, node2) {
     node1 = node1 instanceof Node ? node1 : this.getNode(node1);
     node2 = node2 instanceof Node ? node2 : this.getNode(node2);
@@ -422,7 +447,9 @@ class Graph {
       }
     }
 
-    return search(node1, node2) ? true : search(node2, node1);
+    let found = search(node1, node2) ? true : search(node2, node1);
+    this.unMarkAfterSearch();
+    return found;
   }
 
   biDirectionBreadthSearch(node1, node2) {
