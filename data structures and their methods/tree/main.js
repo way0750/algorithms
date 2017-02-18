@@ -398,6 +398,33 @@ class Graph {
     return found;
   }
 
+  depthFirstSearch2Nodes(node1, node2) {
+    node1 = node1 instanceof Node ? node1 : this.getNode(node1);
+    node2 = node2 instanceof Node ? node2 : this.getNode(node2);
+    // in case some edges are directed, should search nodes
+    // and if not found then search the second now
+    // so make a helper function
+    let search = (node1, node2) => {
+      if (node1 === node2) return true;
+      node1.searched = true;
+      let kids = node1.edgeKeysToArray()
+        .reduce((nodes, id) => {
+          let node = this.getNode(id) || { searched: true };
+          return node.searched ?  nodes : nodes.concat(node);
+        }, []);
+
+      if (kids.length) {
+        return kids.some((node1) => {
+          return search(node1, node2);
+        });
+      } else {
+        return false;
+      }
+    }
+
+    return search(node1, node2) ? true : search(node2, node1);
+  }
+
   biDirectionBreadthSearch(node1, node2) {
     node1 = node1 instanceof Node ? node1 : this.getNode(node1);
     node2 = node2 instanceof Node ? node2 : this.getNode(node2);
@@ -430,14 +457,14 @@ class Graph {
         found = true;
       }
 
-      let searchStack2 = search(stack2, 'node1', 'node2');
-      if (Array.isArray(searchStack2)) {
-        stack2 = stack2.concat(searchStack2);
-      } else if (searchStack2 === true){
-        console.log('what 2')
-        found = true;
+      if (!found) {
+        let searchStack2 = search(stack2, 'node1', 'node2');
+        if (Array.isArray(searchStack2)) {
+          stack2 = stack2.concat(searchStack2);
+        } else if (searchStack2 === true){
+          found = true;
+        }
       }
-
     }
 
     this.unMarkAfterSearch();
@@ -445,6 +472,11 @@ class Graph {
   }
 }
 
-// Bidirectional
-// two breadth first search going at the same time
-// return path or boolean?
+/*
+   time and space complexity
+   time: given one node, then if going 1 direction
+     then: for each node you get k nodes and lets say there are
+     d nodes to reach the target node then: k^d is the time
+     but if we are going bi direction then we get 2 * k^(d/2)
+   space: 2 * k^(d/2);
+*/

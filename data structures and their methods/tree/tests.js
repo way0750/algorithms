@@ -136,6 +136,32 @@ describe('tries', function() {
 });
 
 describe('Graph', function() {
+
+  let graph;
+  let [i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12] = [];
+
+  beforeEach(function() {
+    graph = new Graph();
+    i1 = graph.insert(4);
+    i2 = graph.insert(67);
+    i3 = graph.insert(44);
+    i4 = graph.insert(38);
+    i5 = graph.insert(9);
+    i6 = graph.insert(1);
+    i7 = graph.insert(14);
+    i8 = graph.insert(14);
+    i9 = graph.insert(8);
+    i10 = graph.insert(41);
+    i11 = graph.insert(96);
+    i12 = graph.insert(100);
+    graph.connect(i4, true, [i3]);
+    graph.connect(i3, true, [i2]);
+    graph.connect(i2, true, [i1]);
+    graph.connect(i1, true, [i4]);
+    graph.connect(i4, false, [i5, i6, i7, i8, i9, i10]);
+    graph.connect(i5, false, [i6, i7, i8, i9, i10]);
+    graph.connect(i6, false, [i7, i8, i9, i10]);
+  })
   it('can insert nodes', function() {
     let graph = new Graph();
     graph.insert(3)
@@ -162,6 +188,7 @@ describe('Graph', function() {
     node1.edges.should.deep.equal({[n2]: true});
     node2.edges.should.deep.equal({[n1]: true});
   });
+
   it('removing edges should work', function() {
     let graph = new Graph();
     let n1 = graph.insert(3);
@@ -175,74 +202,22 @@ describe('Graph', function() {
     (graph.getNode(1) === undefined).should.be.true;
     graph.getNode(0).edges.should.deep.equal({})
   });
+
   it('depth frist search', function() {
-    let graph = new Graph();
-    let i1 = graph.insert(4);
-    let i2 = graph.insert(67);
-    let i3 = graph.insert(44);
-    let i4 = graph.insert(38);
-    let i5 = graph.insert(9);
-    let i6 = graph.insert(1);
-    let i7 = graph.insert(14);
-    let i8 = graph.insert(14);
-    let i9 = graph.insert(8);
-    let i10 = graph.insert(41);
-    let i11 = graph.insert(96);
-    graph.connect(i4, true, [i3]);
-    graph.connect(i3, true, [i2]);
-    graph.connect(i2, true, [i1]);
-    graph.connect(i1, true, [i4]);
-    graph.connect(i4, false, [i5, i6, i7, i8, i9, i10]);
-    graph.connect(i5, false, [i6, i7, i8, i9, i10]);
-    graph.connect(i6, false, [i7, i8, i9, i10]);
     graph.depthFirstSearch(14).should.be.true;
     graph.getNode(0).searched.should.be.false
   });
+
   it('breadthFirstSearch', function() {
-    let graph = new Graph();
-    let i1 = graph.insert(4);
-    let i2 = graph.insert(67);
-    let i3 = graph.insert(44);
-    let i4 = graph.insert(38);
-    let i5 = graph.insert(9);
-    let i6 = graph.insert(1);
-    let i7 = graph.insert(14);
-    let i8 = graph.insert(14);
-    let i9 = graph.insert(8);
-    let i10 = graph.insert(41);
-    let i11 = graph.insert(96);
-    graph.connect(i4, true, [i3]);
-    graph.connect(i3, true, [i2]);
-    graph.connect(i2, true, [i1]);
-    graph.connect(i1, true, [i4]);
-    graph.connect(i4, false, [i5, i6, i7, i8, i9, i10]);
-    graph.connect(i5, false, [i6, i7, i8, i9, i10]);
-    graph.connect(i6, false, [i7, i8, i9, i10]);
     graph.breadthFirstSearch(1).should.be.true;
     graph.getNode(0).searched.should.be.false
   });
 
+  it('depthFirst search 2 nodes for path', function() {
+    graph.depthFirstSearch2Nodes(0, 9).should.be.true;
+  })
+
   it('bi direction search', function() {
-    let graph = new Graph();
-    let i1 = graph.insert(4);
-    let i2 = graph.insert(67);
-    let i3 = graph.insert(44);
-    let i4 = graph.insert(38);
-    let i5 = graph.insert(9);
-    let i6 = graph.insert(1);
-    let i7 = graph.insert(14);
-    let i8 = graph.insert(14);
-    let i9 = graph.insert(8);
-    let i10 = graph.insert(41);
-    let i11 = graph.insert(96);
-    let i12 = graph.insert(100);
-    graph.connect(i4, true, [i3]);
-    graph.connect(i3, true, [i2]);
-    graph.connect(i2, true, [i1]);
-    graph.connect(i1, true, [i4]);
-    graph.connect(i4, false, [i5, i6, i7, i8, i9, i10]);
-    graph.connect(i5, false, [i6, i7, i8, i9, i10]);
-    graph.connect(i6, false, [i7, i8, i9, i10]);
     graph.biDirectionBreadthSearch(0, 11).should.be.false;
   });
 
