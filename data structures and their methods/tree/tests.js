@@ -243,3 +243,22 @@ describe('minimalTree', function() {
     (tree === null).should.be.true;
   });
 });
+
+describe('tree to level lists', function() {
+  it('works for [1,2,3,4,5,6,7,8,9]', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    let lists = treeToLeveledLists(tree);
+    let listsToArray = lists.reduce((arr, list) => {
+      let numArr = [];
+      while(list) {
+        numArr.push(list.value);
+        list = list.next;
+      }
+      arr.push(numArr);
+      return arr;
+    }, []);
+    let result = [[5], [3,8], [2,4,7,9], [1,6]];
+    listsToArray.should.deep.equal(result);
+  })
+})

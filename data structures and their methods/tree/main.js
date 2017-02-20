@@ -566,3 +566,45 @@ let minimalTree = (array) => {
 
   return parentNode;
 };
+
+
+/*
+   List of Depths: Given a binary tree, design an algorithm which creates a linked
+   list of all the nodes at each depth (e.g., if you have a tree with depth D, you'll have D linked lists).
+
+   so use a stack, do something similar to breadth first search
+   except you have to add all nodes from each level from last level
+
+   given a binary tree
+   return linked lists of same amount of the depth, and each depth has its own list
+
+   set stack to array with the top most node
+   set lists to empty array
+   while stack is not empty
+   make a linked list with all the nodes in it and put this list to the lists array
+   then reassign the stack array to the return of reducing the stack to all of its own
+     kids
+
+   return the lists array;
+*/
+
+let treeToLeveledLists = (tree) => {
+  let stack = [tree];
+  let lists = [];
+
+  while (stack.length) {
+    let list = stack.reduceRight((list, node) => {
+      return { value: node.value, next: list};
+    }, null);
+
+    lists.push(list);
+
+    stack = stack.reduce((newStack, node) => {
+      if (node.leftChild) newStack.push(node.leftChild);
+      if (node.rightChild) newStack.push(node.rightChild);
+      return newStack;
+    }, []);
+  }
+
+  return lists;
+};
