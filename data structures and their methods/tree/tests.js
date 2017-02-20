@@ -226,5 +226,20 @@ describe('Graph', function() {
   it('bi direction search', function() {
     graph.biDirectionBreadthSearch(0, 11).should.be.false;
   });
+});
 
+describe('minimalTree', function() {
+  it('works: [1,2,3,4,5,6,7,8,9]', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    tree.value.should.equal(5);
+    tree.leftChild.value.should.equal(3);
+    tree.rightChild.value.should.equal(8);
+  });
+
+  it('works: [] should return null', function() {
+    let arr = [];
+    let tree = minimalTree(arr);
+    (tree === null).should.be.true;
+  });
 });

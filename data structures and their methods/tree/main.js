@@ -507,3 +507,62 @@ class Graph {
      but if we are going bi direction then we get 2 * k^(d/2)
    space: 2 * k^(d/2);
 */
+
+
+/*
+   Given a sorted (increasing order) array with unique integer elements,
+   write an algorithm to create a binary search tree with minimal height.
+
+   basically don't turn it into a linked list
+   always pick the middle node and make a tree with it
+   so divide the array into three parts: left mid right
+   make tree with mid, then recursively add left and right
+
+   give an sort array of unique #s
+   how to make problem smaller: divide array into 3 parts, left mid right
+     left and right are the smaller version of the problem
+   base case: array is empty
+     what to do: return null, this will be used as child for other node
+   what to return: either a node or null
+   what to do with returns: if return from left array, then add
+     the return as left child, do the same for right
+
+   1 : mid index: 0
+   2 : mid index: 1
+   3 : mid index: 1
+   4: mid index: 2
+
+   Math.floor(length/2)
+
+   time and space:
+   time: making all of those arrays: n for each leave
+   for a total of log N amount
+   so n Log n
+
+   space: how many stack exist at the same time?
+   log N calls can exist at the same time.
+
+   it will look like a upside down trangle
+
+   more precise one: branch(depth + 1) - 1
+
+   2^(log n + 1) - 1;
+
+*/
+
+
+let minimalTree = (array) => {
+  //base case
+  if (!array.length) return null;
+
+  let arrayLength = array.length
+  let mid = Math.floor(arrayLength / 2);
+  let leftArray = array.slice(0, mid);
+  let rightArray = array.slice(mid + 1);
+
+  let parentNode = new BinarySearchTree(array[mid]);
+  parentNode.leftChild = minimalTree(leftArray);
+  parentNode.rightChild = minimalTree(rightArray);
+
+  return parentNode;
+};
