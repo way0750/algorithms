@@ -338,18 +338,19 @@ class Graph {
     // go through all nodes on graph level
     // mark each node as searched
     // then for each node, do depth first seach
-    let search = function(node, value) {
+    let search = (node, value) => {
       if (node.value === value) return true;
       node.searched = true;
       // go through all edges;
       let edgeIDs = Object.keys(node.edges);
-      for (let i = 0; i < edgeIDs; i++) {
-        let node = this.getNode(edgeIDs[i]);
+      let searchResult = edgeIDs.some((nodeID) => {
+        let node = this.getNode(nodeID);
         if (node && !node.searched && search(node, value)) {
           return true;
         }
-      }
-      return false;
+      });
+
+      return searchResult;
     };
 
     let allIDs = this.keysToArray();
