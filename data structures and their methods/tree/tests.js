@@ -260,5 +260,10 @@ describe('tree to level lists', function() {
     }, []);
     let result = [[5], [3,8], [2,4,7,9], [1,6]];
     listsToArray.should.deep.equal(result);
+  });
+  it('functional breadth first search', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    breadthFirstSearchFunctional(tree, 16).should.be.false;
   })
-})
+});

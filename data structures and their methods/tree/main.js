@@ -609,3 +609,36 @@ let treeToLeveledLists = (tree) => {
 
   return lists;
 };
+
+
+function breadthFirstSearchFunctional (tree, value) {
+  let search = (sameLevelNodes, value) => {
+    let searchResult = sameLevelNodes.some((node) => node.value === value);
+    if (searchResult) return true;
+
+    sameLevelNodes = sameLevelNodes.reduce((arr, parentNode) => {
+      if (parentNode.leftChild) arr.push(parentNode.leftChild);
+      if (parentNode.rightChild) arr.push(parentNode.rightChild);
+      return arr;
+    }, []);
+
+    return  sameLevelNodes.length ? search(sameLevelNodes, value) : false;
+  }
+
+  return search([tree], value);
+}
+
+
+function curry(callBack) {
+  let args = [];
+  return function (...subArgs) {
+    if (args.length === 3) {
+      let str = args[0] + '---' + args[1] + '?????' + args[2];
+      callBack(str);
+    } else {
+      args = args.concat(subArgs);
+    }
+  };
+}
+
+let curriedConsole = curry(console.log.bind(console));
