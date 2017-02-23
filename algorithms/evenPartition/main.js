@@ -60,14 +60,26 @@ let evenPartition = function(array) {
   let masterSum = array.reduce((sum, num) => sum + num);
   if (masterSum % 2 === 1) return false;
 
+  let cache = {};
   let subSum = masterSum / 2;
+
   let search = (num, array) => {
     if (array.length <= 1) return false;
     if (array.length === 2) return array[0] === num || array[1] === num;
+
     return array.some((n, i) => {
       let newSum = num - n;
       if (newSum === 0) return true;
-      return search(newSum, array.slice(0, i).concat(array.slice(i + 1)));
+
+      let newArray = array.slice(0, i).concat(array.slice(i + 1));
+      let cacheKey = `${newSum}: ${newArray}`
+
+      if (cache.hasOwnProperty(cacheKey)) {
+        return cache[cacheKey];
+      } else {
+        cache[cacheKey] = search(newSum, newArray);
+        return cache[cacheKey];
+      }
     });
   };
 
