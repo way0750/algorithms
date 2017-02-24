@@ -283,3 +283,21 @@ describe('check balance', function() {
     checkBalance(tree).should.be.false;
   });
 })
+
+describe('validateBST', function() {
+  it('works for a sorted minimalTree', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    validateBST(tree).should.be.true;
+  });
+  it(' does not work for a none binary search tree', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    tree.leftChild.leftChild.value = 999999;
+    validateBST(tree).should.be.false;
+  });
+  it(' if nothing has passed in then, should return false', function() {
+    validateBST(null).should.be.false;
+  })
+
+})

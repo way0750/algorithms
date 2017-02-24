@@ -685,3 +685,36 @@ let checkBalance = function(tree) {
 
   return search([tree], null, 0);
 };
+
+
+/*
+   Implement a function to check if a binary tree is a binary search tree.
+   input a binary tree output boolean
+   true for tree is binary search tree
+   just check and see if  left <= parent <= right
+   if anytime that return false, reture false
+
+   recursive function?
+   base case: tree is null, return true reach the end without encountering
+     anything sub tree that is not in order
+   how to make it smaller: pass left and right to recursive function
+   what to return always: boolean
+   what to do with returns: just return them
+
+   maybe should return as early as possible instead of going all the way down
+   the tree and up
+   check current level first, then recursively call
+ */
+
+let validateBST = function(tree) {
+  if (!tree) return false;
+
+  let leftValue = ( tree.leftChild || { value: -Infinity } ).value;
+  let rightValue = ( tree.rightChild || { value: Infinity } ).value;
+  if ( !( leftValue <= tree.value && tree.value <= rightValue ) ) return false;
+
+  let leftSubTreeOrdered = !tree.leftChild || validateBST(tree.leftChild);
+  let rightSubTreeOrdered = !tree.rightChild || validateBST(tree.rightChild);
+
+  return leftSubTreeOrdered && rightSubTreeOrdered;
+};
