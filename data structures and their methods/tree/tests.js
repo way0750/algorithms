@@ -279,7 +279,6 @@ describe('check balance', function() {
     let tree = minimalTree(arr);
     tree.insert(10);
     tree.insert(11);
-    console.log(tree)
     checkBalance(tree).should.be.false;
   });
 })

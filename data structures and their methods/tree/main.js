@@ -706,7 +706,7 @@ let checkBalance = function(tree) {
    check current level first, then recursively call
  */
 
-let validateBST = function(tree) {
+let validateBSTWorking = function(tree) {
   if (!tree) return false;
 
   let leftValue = ( tree.leftChild || { value: -Infinity } ).value;
@@ -717,4 +717,43 @@ let validateBST = function(tree) {
   let rightSubTreeOrdered = !tree.rightChild || validateBST(tree.rightChild);
 
   return leftSubTreeOrdered && rightSubTreeOrdered;
+};
+
+
+/* what if:
+ * 
+ *                   20
+ *              10         89
+ *                   25
+
+   turn the whole thing into an array and check and see if
+   it is sorted
+   or get min and max of every single sub tree and see if current node
+   is min <= currentNode <= max
+
+   can recursively go all the way down to a leaf then return min max
+   recursive case: if left/right node is a node then recursively call
+   what to return: { min and max } or false;
+   what to do with return: compare min and max to current node value
+     if not ordered, return false;
+ */
+
+
+let validateBST = function(tree) {
+  if(!tree) return false;
+
+  let search = (tree) => {
+    let defaultMinMax = { min: tree.value, max: tree.value };
+    let leftMinMax = tree.leftChild ? search(tree.leftChild) : defaultMinMax;
+    let rightMinMax = tree.rightChild ? search(tree.rightChild) : defaultMinMax;
+
+    // one side of the tree isn't ordered
+    if (!(leftMinMax && rightMinMax)) return false;
+
+    let ordered = leftMinMax.max <= tree.value && tree.value <= rightMinMax.min;
+
+    return ordered ? { min: leftMinMax.min, max: rightMinMax.max } : false;
+  };
+
+  return !!search(tree);
 };
