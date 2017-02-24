@@ -267,3 +267,19 @@ describe('tree to level lists', function() {
     breadthFirstSearchFunctional(tree, 16).should.be.false;
   })
 });
+
+describe('check balance', function() {
+  it('works for a minimalTree', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    checkBalance(tree).should.be.true;
+  });
+  it('should not work for an unbalance tree', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    tree.insert(10);
+    tree.insert(11);
+    console.log(tree)
+    checkBalance(tree).should.be.false;
+  });
+})

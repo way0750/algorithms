@@ -629,16 +629,59 @@ function breadthFirstSearchFunctional (tree, value) {
 }
 
 
-function curry(callBack) {
-  let args = [];
-  return function (...subArgs) {
-    if (args.length === 3) {
-      let str = args[0] + '---' + args[1] + '?????' + args[2];
-      callBack(str);
-    } else {
-      args = args.concat(subArgs);
-    }
-  };
-}
+/*
+   Check Balanced: Implement a function to check if a binary tree is balanced.
+   For the purposes of this question, a balanced tree is defined to be a tree
+   such that the heights of the two subtrees of any node never differ by more
+   than one.
 
-let curriedConsole = curry(console.log.bind(console));
+   recursively check the depth of each branch? anytime when there is more than 1
+   degree of difference return false
+   if there is 1 degree of difference so far, then what? return what to upper stack?
+   return the min and max? then compare?
+   why?
+   to get the global min max depth as a way to tell the unbalance-ness of the entire
+   tree;
+
+   but do you have to through the entire tree?
+   check one side at the time
+
+   breadth search first?
+   firstStop level vs current level is larger than 1 then return false?
+   similar to bread first search on a graph, breadth first search can check the
+   distance between two nodes faster. In this case it is used for check two nodes
+   to see if they are too far apart
+
+
+   get nodes level by level
+   for each level check and see if all nodes have children
+   set min to the level number in which there is a node doesn't have all children
+   then compare to current level number, if difference is larger than 1 return false;
+
+   set min to null
+   set stack to an array with top node
+   base case: if stack is empty return true;
+   how to make problem smaller: make new stack with children
+     if any one node doesn't have both children and min isn't null, then set min
+     to current num
+   what to return: boolean
+   what to do about return: just return it
+*/
+
+let checkBalance = function(tree) {
+  let search = (parents, min, curStackNum) => {
+    if (!parents.length) return true;
+
+    let children = parents.reduce((stack, parent) => {
+      if (parent.leftChild) stack.push(parent.leftChild);
+      if (parent.rightChild) stack.push(parent.rightChild);
+      return stack;
+    }, []);
+
+    if (parents.length * 2 !== children.length) min = min || curStackNum;
+
+    return curStackNum - min > 1 ? false : search(children, min, ++curStackNum);
+  }
+
+  return search([tree], null, 0);
+};
