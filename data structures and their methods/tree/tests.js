@@ -299,4 +299,13 @@ describe('validateBST', function() {
     validateBST(null).should.be.false;
   })
 
-})
+});
+
+describe('successor', function() {
+  it('works if node is not at the far right', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    let node = tree.leftChild
+    successor(node).value.should.equal(4);
+  });
+});

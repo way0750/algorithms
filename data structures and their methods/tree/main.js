@@ -757,3 +757,49 @@ let validateBST = function(tree) {
 
   return !!search(tree);
 };
+
+
+/* Successor: Write an algorithm to find the "next" node (i.e., in-order successor)
+ * of a given node in a binary search tree. You may assume that each node has a
+ * link to its parent.
+
+   given a node, find the next inorder node
+   what if next node is null? then return parent
+
+   get right kid's furthest left child
+   or right kid if right kid has no children
+   or parent if right kid si null
+
+   so if right kid exist, do search on right kid
+   else compare to parent
+     if larger than parent, return null;
+     else return parent;
+
+   how to search on right?
+   recursively search left child
+   base case: left is null, return null
+   what to do about return values: return the return if true, else self
+ */
+
+let successor = function(node) {
+  // yes right, return right search;
+  // no right, and smaller or equal to parent return parent;
+  // default return null;
+  let searchRight = (node) => {
+    return node.leftChild ? searchRight(node.leftChild) : node;
+  };
+
+  let searchParent = (node) => {
+    if ((node.parent || {}).rightChild === node) {
+      return searchParent(node.parent);
+    } else {
+      return node.parent;
+    }
+  };
+
+  if (node.rightChild) {
+    return searchRight(node.rightChild);
+  } else if (node.value <= node.parent.value) {
+    return searchParent(node);
+  }
+};
