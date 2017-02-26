@@ -779,6 +779,18 @@ let validateBST = function(tree) {
    recursively search left child
    base case: left is null, return null
    what to do about return values: return the return if true, else self
+
+   time and space when searching right, you would have to go through the entire
+   length of left of the right child
+     name rd as right depth
+   when searching parent, you would have to go all the way to the first ancestor
+   that is a left child of its parent
+
+   ah as ancetorHeight
+
+   so this could be rd or ah
+   space same as rd or ah
+
  */
 
 let successor = function(node) {
@@ -803,3 +815,43 @@ let successor = function(node) {
     return searchParent(node);
   }
 };
+
+
+
+/* Build Order: You are given a list of projects and a list of dependencies
+   (which is a list of pairs of projects, where the second project is dependent
+   on the first project). All of a project's dependencies must be built before
+   the project is. Find a build order that will allow the projects to be built.
+   If there is no valid build order, return an error.
+   input:
+   tasks a, b, c, d, e, f
+   dependencies: (a, d), (f, b), (b, d), (f, a), (d, c)
+   Output: f, e, a, b, d, c
+
+   input an array of tasks
+   and an 2d array dependencies
+   output a array of how tasks can be arrange to be completed
+
+   make graph with tasks array
+   then make edges with dependencies array, all edges should be directed
+   then depth first search or breadth first search edges and enter each node
+   into array as you traverse through them
+   any time you find a node that has been searched, return false due to
+   circularity else return that array
+
+   what is a b c have to be completed before d?
+   maybe should go backward from d to a b c and the edges are direct form
+   d to a b c
+
+   and as long as there is no circularity with one tree then it is good
+   then move on to next tree but then it could be connected to another
+   already traversed tree
+
+   how about maintain a record for each tree as well
+   if node is found in it then there is circularity
+   if a node has been searched, ignore it
+
+   time and space: going through tasks array: n
+   going through dependencies: d
+   then 
+ */
