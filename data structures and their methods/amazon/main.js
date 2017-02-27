@@ -113,7 +113,9 @@ let findConnection = function(word, dict) {
       console.log('adding :', newWord);
       if (dict[newWord]) arr.push(newWord);
     });
+
     ++charIndex
+
     return charIndex <= str.length
          ? arr.concat(addingChars(str, charIndex))
          : arr;
@@ -123,6 +125,7 @@ let findConnection = function(word, dict) {
   console.log('\n----------\n');
   console.log(`dictionary words that are one edit away for "${word}", ${found.length} of them: `, found);
   console.log('\n----------\n');
+  return found;
 }
 
-findConnection('hardware', dict);
+findConnection('cat', dict);

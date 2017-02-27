@@ -1,4 +1,5 @@
 chai.should();
+chai.expect();
 
 describe('Describe a topic, an area of tests. Can be nested', function() {
   var graph;
@@ -38,7 +39,7 @@ describe('Describe a topic, an area of tests. Can be nested', function() {
   })
 
   it('graph, does it work?', function() {
-    console.log(graph.nodes);
+    //console.log(graph.nodes);
   });
 
   it('depthFirstSearch should go through every node', function() {
@@ -63,5 +64,17 @@ describe('Describe a topic, an area of tests. Can be nested', function() {
     first.should.equal(false);
     second.should.equal(true);
   })
+
+});
+
+describe('buildOrder', function() {
+  it('buildOrder works without circularity', function() {
+    let tasks = ['a', 'b', 'c', 'd', 'e', 'f'];
+    // (a, d), (f, b), (b, d), (f, a), (d, c)
+    let dependencies = [['a', 'd'], ['f', 'b'], ['b', 'd'], ['f', 'a'], ['d', 'c']];
+    let order = buildOrder(tasks, dependencies);
+    let result = [ 'f', 'e', 'b', 'a', 'd', 'c' ];
+    order.should.deep.equal(result)
+  });
 
 });
