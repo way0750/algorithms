@@ -77,4 +77,9 @@ describe('buildOrder', function() {
     order.should.deep.equal(result)
   });
 
+  it('buildOrder should throw if there is circularity', function() {
+    let tasks = ['a', 'b', 'c', 'd', 'e', 'f'];
+    let dependencies = [['d', 'a'], ['a', 'd'], ['f', 'b'], ['b', 'd'], ['f', 'a'], ['d', 'c']];
+    (function() {buildOrder(tasks, dependencies)}).should.throw();
+  });
 });
