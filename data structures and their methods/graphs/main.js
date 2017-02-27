@@ -258,11 +258,4 @@ let toHierarchyArray = function(graph) {
 };
 
 let buildOrder = function(tasks, dependencies) {
-  let {graph, nodeIDs} = makeGraph(tasks);
-
-  dependencies = makeEdgesInIDs(dependencies, nodeIDs);
-
-  graph.addBunchEdge(dependencies);
-
-  return toHierarchyArray(graph);
 };
