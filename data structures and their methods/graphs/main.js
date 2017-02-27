@@ -223,6 +223,10 @@ let makeGraph = function(taskArray) {
 };
 
 let makeEdgesInIDs = function(edgesArray, nodeIDs) {
+  return edgesArray.map((edgeArr) => {
+    let [fromVal, toVal] = edgeArr;
+    return [nodeIDs[fromVal], nodeIDs[toVal]];
+  });
 };
 
 let toHierarchyArray = function(graph) {
