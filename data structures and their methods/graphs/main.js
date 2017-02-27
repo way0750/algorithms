@@ -230,6 +230,31 @@ let makeEdgesInIDs = function(edgesArray, nodeIDs) {
 };
 
 let toHierarchyArray = function(graph) {
+  // visited, existing edge
+  let visted = {};
+  let inProgress = {};
+  let orderTasks = [];
+  let search = (node) => {
+    /* if (inProgress[node.id]) throw Error('circularity detected');*/
+    if (inProgress[node.id]) throw 'circularity detected';
+    if (node.visited) return;
+    node.visited = true;
+    inProgress[node.id] = true;
+    let edges = node.connectedNodeIDs();
+    edges.forEach((nodeID) => {
+      let connectedNode = graph.getNode(nodeID);
+      search(connectedNode);
+    });
+
+    orderTasks.unshift(node.value);
+    delete inProgress[node.id];
+  }
+
+  let addNodeIDs = graph.nodes.forEach((node) => {
+    search(node);
+  });
+
+  return orderTasks;
 };
 
 let buildOrder = function(tasks, dependencies) {
