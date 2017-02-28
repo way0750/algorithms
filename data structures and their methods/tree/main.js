@@ -816,6 +816,23 @@ let successor = function(node) {
   }
 };
 
+let closestAncestor = function(tree, node1, node2){
+  let isOneOfTheNodes = (node) => node === node1 || node === node2;
+  let ancestor = null;
 
+  let search = (currentNode, neededAmount) => {
+    if (!currentNode || !neededAmount) return neededAmount;
+    if (isOneOfTheNodes(currentNode)) {
+      --neededAmount;
+      if (!neededAmount && !ancestor) ancestor = currentNode;
+      if (!neededAmount) return neededAmount;
+    }
 
+    neededAmount = search(currentNode.leftChild, neededAmount);
+    if (!neededAmount) return neededAmount;
+    return search(currentNode.rightChild, neededAmount);
+  };
 
+  search(tree, node1, node2);
+  return ancestor;
+};
