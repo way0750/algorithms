@@ -821,18 +821,19 @@ let closestAncestor = function(tree, node1, node2){
   let ancestor = null;
 
   let search = (currentNode, neededAmount) => {
-    if (!currentNode || !neededAmount) return neededAmount;
-    if (isOneOfTheNodes(currentNode)) {
-      --neededAmount;
-      if (!neededAmount && !ancestor) ancestor = currentNode;
-      if (!neededAmount) return neededAmount;
+    if (!neededAmount || !currentNode) return neededAmount;
+    let stillNeedAmount = neededAmount;
+    if (isOneOfTheNodes(currentNode)) --stillNeedAmount;
+
+    if (!stillNeedAmount) {
+      return stillNeedAmount;
+    } else {
+      stillNeedAmount = search(currentNode.leftChild, stillNeedAmount);
+
     }
 
-    neededAmount = search(currentNode.leftChild, neededAmount);
-    if (!neededAmount) return neededAmount;
-    return search(currentNode.rightChild, neededAmount);
   };
 
-  search(tree, node1, node2);
+  search(tree, 2);
   return ancestor;
 };
