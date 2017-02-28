@@ -873,4 +873,37 @@ let closestAncestor = function(tree, node1, node2){
    what to return always: an array which contains possible permutations
 */
 
+let crossConcat = function(arr1, arr2, callBack) {
+  callBack = callBack || function(arr) {return arr;};
+  let concat = function(source, target) {
+    return source.reduce((finalArr, sourceSubArr) => {
+      let newConcats = target.map((targetSubArr) => {
+        console.log(targetSubArr);
+        return sourceSubArr.concat(targetSubArr);
+      });
 
+      newConcats = newConcats.length ? newConcats : [sourceSubArr];
+      newConcats = newConcats.map((permute) => callBack(permute));
+      return finalArr.concat(newConcats);
+    }, []);
+  };
+
+  let leftSide = concat(arr1, arr2);
+  let rightSide = concat(arr2, arr1);
+  let returnVal = leftSide.concat(rightSide);
+  return returnVal;
+}
+
+let BSTSequences = function(tree) {
+  if (!tree) return [];
+  let leftPermutes = BSTSequences(tree.leftChild);
+  let rightPermutes = BSTSequences(tree.rightChild);
+  let sequences = crossConcat(
+    leftPermutes,
+    rightPermutes,
+    (arr) => {
+      return [tree.value].concat(arr);
+    }
+  );
+  return sequences.length ? sequences : [[tree.value]];
+};

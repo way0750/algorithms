@@ -329,4 +329,68 @@ describe('closestAncestor', function() {
     closestAncestor(tree, node1, node2).should.equal(ancestor.value);
   });
 
-})
+});
+
+describe('BSTSEquences', function() {
+  it('crossConcat works', function() {
+    let leftArr = [[1,2], [3,4]];
+    let rightArr = [[5,6], [7,8]];
+    let result = crossConcat(leftArr, rightArr);
+    let testTarget = [
+      [1,2,5,6],
+      [1,2,7,8],
+      [3,4,5,6],
+      [3,4,7,8],
+      [5,6,1,2],
+      [5,6,3,4],
+      [7,8,1,2],
+      [7,8,3,4]
+    ];
+    result.should.deep.equal(testTarget);
+  });
+  it('crossConcat works with empty arr', function() {
+    let leftArr = [];
+    let rightArr = [[1,2],[3,4]];
+    crossConcat(rightArr, leftArr).should.deep.equal(rightArr);
+  });
+
+  it('crossConcat works with two empty arr', function() {
+    let leftArr = [];
+    let rightArr = [];
+    crossConcat(rightArr, leftArr).should.deep.equal(rightArr);
+  });
+
+  it('crossConcat works', function() {
+    let leftArr = [[1,2], [3,4]];
+    let rightArr = [[5,6], [7,8]];
+    let result = crossConcat(leftArr, rightArr, (arr) => [9].concat(arr));
+    let testTarget = [
+      [9,1,2,5,6],
+      [9,1,2,7,8],
+      [9,3,4,5,6],
+      [9,3,4,7,8],
+      [9,5,6,1,2],
+      [9,5,6,3,4],
+      [9,7,8,1,2],
+      [9,7,8,3,4]
+    ];
+    result.should.deep.equal(testTarget);
+  });
+
+  it('BSTSEquences works', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    let result = BSTSequences(tree)
+    let testTarget = [
+      [5,3,2,1,4,8,7,6,9],
+      [5,3,2,1,4,8,9,7,6],
+      [5,3,4,2,1,8,7,6,9],
+      [5,3,4,2,1,8,9,7,6],
+      [5,8,7,6,9,3,2,1,4],
+      [5,8,7,6,9,3,4,2,1],
+      [5,8,9,7,6,3,2,1,4],
+      [5,8,9,7,6,3,4,2,1]
+    ];
+    result.should.deep.equal(testTarget);
+  });
+});
