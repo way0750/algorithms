@@ -837,3 +837,40 @@ let closestAncestor = function(tree, node1, node2){
   search(tree, 2);
   return ancestor;
 };
+
+
+
+/*
+    BST Sequences: A binary search tree was created by traversing through an array
+   from left to right and inserting each element. Given a binary search tree
+   with distinct elements, print all possible arrays that could have led to
+   this tree.
+
+       ex:
+        2
+      1   3
+   only two possible permutation can lead to this:
+   2 1 3
+   2 3 1
+
+   a larger tree can be solved with a smaller one like this
+   basically parent left right and parent right left
+   but left and right might come with many permutations
+   so it is parent -> each one of the left permutations concat with each
+   of the right permutations
+   then parent -< each one of the right permutations concat with each of the
+   left permutations
+
+
+   this can be done with recursion:
+
+   base case: node is null, return []
+   make problem smaller: recursively call on left and right child
+   what to do with returns:
+     concat each left return with all of right returns
+     concat each right return with all of left returns
+     make sure to also add current node value to each new permutation
+   what to return always: an array which contains possible permutations
+*/
+
+
