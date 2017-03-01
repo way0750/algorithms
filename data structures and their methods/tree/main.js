@@ -873,12 +873,17 @@ let closestAncestor = function(tree, node1, node2){
    what to return always: an array which contains possible permutations
 */
 
+/*
+   time and space:
+   arr1 length * arr2 length * 2 * longest ele in arr1 + arr2 * 2
+   l1 * l2 * 2 * (le1 + le2) * 2
+*/
+
 let crossConcat = function(arr1, arr2, callBack) {
   callBack = callBack || function(arr) {return arr;};
   let concat = function(source, target) {
     return source.reduce((finalArr, sourceSubArr) => {
       let newConcats = target.map((targetSubArr) => {
-        console.log(targetSubArr);
         return sourceSubArr.concat(targetSubArr);
       });
 
@@ -890,9 +895,8 @@ let crossConcat = function(arr1, arr2, callBack) {
 
   let leftSide = concat(arr1, arr2);
   let rightSide = concat(arr2, arr1);
-  let returnVal = leftSide.concat(rightSide);
-  return returnVal;
-}
+  return leftSide.concat(rightSide);
+};
 
 let BSTSequences = function(tree) {
   if (!tree) return [];
@@ -907,3 +911,51 @@ let BSTSequences = function(tree) {
   );
   return sequences.length ? sequences : [[tree.value]];
 };
+
+
+/*
+   Check Subtree: Tl and T2 are two very large binary trees, with Tl much bigger
+   than T2. Create an algorithm to determine if T2 is a subtree of Tl.
+   A tree T2 is a subtree of T1 if there exists a node n in Tl such that the
+   subtree of n is identical to T2. That is, if you cut off the tree at node n,
+   the two trees would be identical.
+
+
+   first search the larger tree T1 for a node that is the same value as T2 root
+   node
+   if found multiple that is fine
+
+   then compare the found node with T2 tree recursively to see if all nodes
+   share same value;
+
+   time and space:
+   time, searching for node in T1: let t1 to be the size of the T1 tree,
+   then it is t1, then go through both trees: let t2 be the size of T2
+   then it takes t2 to go through the entrie T2
+   total: t1 + t2
+
+   space: if we use depth first search then the first search is going to be
+   log t1
+   and for comparing two trees:
+   log t1 + log t2 * 2
+   which log t1 + log t2
+
+   base case for searching: if input tree1 is null then return false;
+     or if node found, then call the comparing function, and if it returns true
+     then just return true;
+   how to make problem smaller: recursively call left and right child;
+     if one returns true, then stop recursion;
+   what to return always: boolean
+   what to do with return: keep returning it
+
+
+   for comparing:
+   make another function: that takes 2 nodes
+   base case: current nodes values aren't the same return false;
+     or one of the node is null then return node1 value === node2 value
+   what to return always: boolean;
+   how to make problem smaller: recursively call leftChild
+     if return true, rightChild
+   what to do with returns, keep returning;
+ */
+

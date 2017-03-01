@@ -394,3 +394,34 @@ describe('BSTSEquences', function() {
     result.should.deep.equal(testTarget);
   });
 });
+
+describe('checkSubtree', function() {
+  it('should work', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree1 = minimalTree(arr);
+    let tree2 = minimalTree(arr);
+    checkSubtree(tree1, tree2).should.be.true;
+  });
+  it('should work', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree1 = minimalTree(arr);
+    let arr2 = [1,2,3,4];
+    let tree2 = minimalTree(arr2);
+    checkSubtree(tree1, tree2).should.be.true;
+  });
+  it('should not work', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree1 = minimalTree(arr);
+    let arr2 = [1,2,3,4,5.5,6,7,8,9];
+    let tree2 = minimalTree(arr2);
+    checkSubtree(tree1, tree2).should.be.false;
+  });
+  it('should not work', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree1 = minimalTree(arr);
+    let arr2 = [1,2,3,4];
+    let tree2 = minimalTree(arr2);
+    tree2.leftChild.leftChild.value = 'it is life';
+    checkSubtree(tree1, tree2).should.be.false;
+  });
+});

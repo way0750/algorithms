@@ -73,12 +73,13 @@ let findConnection = function(word, dict) {
   let chars = word.toLowerCase().split('');
 
   //subtracting
-  let found = chars.reduce((foundWords, _, i) => {
-    let newWord = word.slice(0, i) + word.slice(i + 1);
-    console.log('subtracting :', newWord)
-    let foundWord = dict[newWord];
-    return foundWord ? foundWords.concat(foundWord) : foundWords;
-  }, []);
+  /* let found = chars.reduce((foundWords, _, i) => {
+   *   let newWord = word.slice(0, i) + word.slice(i + 1);
+   *   console.log('subtracting :', newWord)
+   *   let foundWord = dict[newWord];
+   *   return foundWord ? foundWords.concat(foundWord) : foundWords;
+   * }, []);
+   */
 
   //replacing
   let loopThroughChars = (cb, num = 97) => {
@@ -86,6 +87,8 @@ let findConnection = function(word, dict) {
     cb(String.fromCharCode(num));
     loopThroughChars(cb, ++num);
   };
+
+  let found = []
 
   found = chars.reduce((foundWords, _, i) => {
     let curChar = chars[i];
@@ -104,28 +107,29 @@ let findConnection = function(word, dict) {
   // adding: adding one char(from a to z) to each position
   // cat: 1c2a3t4
 
-  let addingChars = (str, charIndex = 0) => {
-    let arr = [];
-    loopThroughChars((char) => {
-      let newWord = str.slice(0, charIndex)
-        + char
-        + str.slice(charIndex);
-      console.log('adding :', newWord);
-      if (dict[newWord]) arr.push(newWord);
-    });
+  /* let addingChars = (str, charIndex = 0) => {
+   *   let arr = [];
+   *   loopThroughChars((char) => {
+   *     let newWord = str.slice(0, charIndex)
+   *       + char
+   *       + str.slice(charIndex);
+   *     console.log('adding :', newWord);
+   *     if (dict[newWord]) arr.push(newWord);
+   *   });
 
-    ++charIndex
+   *   ++charIndex
 
-    return charIndex <= str.length
-         ? arr.concat(addingChars(str, charIndex))
-         : arr;
-  };
+   *   return charIndex <= str.length
+   *        ? arr.concat(addingChars(str, charIndex))
+   *        : arr;
+   * };*/
 
-  found = found.concat(addingChars(word));
+  /* found = found.concat(addingChars(word));*/
   console.log('\n----------\n');
   console.log(`dictionary words that are one edit away for "${word}", ${found.length} of them: `, found);
   console.log('\n----------\n');
   return found;
 }
 
-findConnection('cat', dict);
+findConnection('avenue', dict);
+
