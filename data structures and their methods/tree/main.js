@@ -1057,11 +1057,24 @@ let checkSubtree = function(t1, t2) {
      to get total
 */
 
-let pathSum = function(tree, target, pathSums = []) {
+let pathSumWorking = function(tree, target, pathSums = []) {
   if (!tree) return 0;
   pathSums = pathSums.map((sum) => sum + tree.value);
   pathSums.unshift(tree.value);
   let foundPaths = pathSums.filter((sum) => sum === target).length;
+  return foundPaths
+    + pathSum(tree.leftChild, target, pathSums)
+    + pathSum(tree.rightChild, target, pathSums);
+};
+
+
+let pathSum = function(tree, target, pathSums = []) {
+  if (!tree) return 0;
+  pathSums = pathSums.map((sum) => sum + tree.value);
+  pathSums.unshift(tree.value);
+  let foundPaths = pathSums.reduce((amount, sum) => {
+    return sum === target ? amount + 1 : amount;
+  }, 0);
   return foundPaths
     + pathSum(tree.leftChild, target, pathSums)
     + pathSum(tree.rightChild, target, pathSums);

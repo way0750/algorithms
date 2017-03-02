@@ -461,4 +461,4 @@ describe('path sum', function() {
     let tree = minimalTree(arr);
     pathSum(tree, 89999).should.equal(0);
   });
-})
+});
