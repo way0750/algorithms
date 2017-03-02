@@ -960,6 +960,18 @@ let BSTSequences = function(tree) {
  */
 
 let compareTree = function(t1, t2) {
+  if (!t1 || !t2) {
+    let defaultNode = { value: 'nothingness' };
+    // both or one has reach a leaf node
+    t1 = t1 || defaultNode;
+    t2 = t2 || defaultNode;
+    return t2.value === 'nothingness' ? true : t1.value === t2.value;
+  } else if (t1.value === t2.value) {
+    return compareTree(t1.leftChild, t2.leftChild) &&
+           compareTree(t1.rightChild, t2.rightChild);
+  }
+
+  return false;
 }
 
 let checkSubtree = function(t1, t2) {
