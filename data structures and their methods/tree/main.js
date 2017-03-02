@@ -1037,10 +1037,10 @@ let checkSubtree = function(t1, t2) {
    for depth2, there are 4 nodes and each has 3 interation so total: 12
    it can be expressed as (depth + 1) * 2^(depth)
    and you have to sum all it up
-   
+
    so use sumation to do it
 
-   log n
+   depth = log n
    _______
    \        (depth + 1) * 2^depth
    /
@@ -1057,3 +1057,12 @@ let checkSubtree = function(t1, t2) {
      to get total
 */
 
+let pathSum = function(tree, target, pathSums = []) {
+  if (!tree) return 0;
+  pathSums = pathSums.map((sum) => sum + tree.value);
+  pathSums.unshift(tree.value);
+  let foundPaths = pathSums.filter((sum) => sum === target).length;
+  return foundPaths
+    + pathSum(tree.leftChild, target, pathSums)
+    + pathSum(tree.rightChild, target, pathSums);
+};

@@ -445,3 +445,6 @@ describe('binary search tree, each node has left and right amount', function(){
     result.should.equal(testTarget);
   });
 });
+
+describe('path sum', function() {
+})
