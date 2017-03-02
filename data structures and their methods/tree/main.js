@@ -1007,4 +1007,43 @@ let checkSubtree = function(t1, t2) {
    (traveling only from parent nodes to child nodes).
 
    need to create all possible paths
+   all possible sum of all possible paths can be done this way once reaching the
+   a leaf node
+   and for each level, check the new/current array of sums and count the amount
+   of sum that are same as the targetSum
+          a [a]
+        b [b, ab]
+      c [c, cb, cba]
+    d [d, dc, dcb, dcba]
+   e [e, ed, edc, edcb, edcba]
+
+   time and space:
+   space: if using recursion, then look at the last depth it has total elements
+   same as the depth + 1 and it is depth + 1 down
+   and each level has one more element than last, so you can use the fomular to
+   calculate trangle to calculate the space complexity for all simutaniuosly
+   exisitng stack:
+   height: depth + 1 + 1 = depth + 2
+   width: depth + 1
+   height * width = ((depth + 2) * (dpeth + 1)) / 2
+   depth ^ 2 + depth + 2*depth + 2 = depth^2 + depth + depth = depth^2 + 2depth
+   = depth^2
+   then divide by 2: depth^2/2 which is depth^2 * 1/2 which is depth^2
+
+   time: you will have to go through all n nodes but for each n there can be
+   different amoutn of iteractions
+   for depth0, there is 1 node and there is only 1 interation so total: 1
+   for depth1, there are 2 nodes and each has 2 interation so total: 4
+   for depth2, there are 4 nodes and each has 3 interation so total: 12
+   it can be expressed as (depth + 1) * 2^(depth)
+   and you have to sum all it up
+   
+   so use sumation to do it
+
+   log n
+   _______
+   \        (depth + 1) * 2^depth
+   /
+   -------
+   depth = 0
 */
