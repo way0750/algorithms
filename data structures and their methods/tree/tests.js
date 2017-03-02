@@ -447,4 +447,18 @@ describe('binary search tree, each node has left and right amount', function(){
 });
 
 describe('path sum', function() {
+  it('should work right?', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    tree.leftChild.leftChild.leftChild.value = -2;
+    tree.leftChild.rightChild.value = 0;
+    tree.rightChild.leftChild.value = 1;
+    tree.rightChild.leftChild.leftChild.value = 7;
+    pathSum(tree, 8).should.equal(5);
+  });
+  it('should return 0 when nothing found', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = minimalTree(arr);
+    pathSum(tree, 89999).should.equal(0);
+  });
 })
