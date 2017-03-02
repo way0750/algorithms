@@ -1046,4 +1046,14 @@ let checkSubtree = function(t1, t2) {
    /
    -------
    depth = 0
+
+   using recursion to do it:
+   base case: tree is null, then return 0 for 0 amount of paths that
+     can be summed to targetSum
+   making the problem smaller: recursively call on left and right child
+   what to return always: a number which represents the amount of paths that can
+     be summed to target sum
+   what to do about returns: left return + right return + curernt node === sum?
+     to get total
 */
+
