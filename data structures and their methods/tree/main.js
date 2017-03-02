@@ -999,7 +999,12 @@ let checkSubtree = function(t1, t2) {
   return checkSubtree(t1.leftChild, t2) || checkSubtree(t1.rightChild, t2);
 };
 
-
 /*
-   get random node from tree;
+   You are given a binary tree in which each node contains an integer value
+   (which might be positive or negative). Design an algorithm to count the
+   number of paths that sum to a given value. The path does not need to
+   start or end at the root or a leaf, but it must go downwards
+   (traveling only from parent nodes to child nodes).
+
+   need to create all possible paths
 */
