@@ -6,6 +6,9 @@ function BinarySearchTree(value) {
   this.leftChild = null;
   this.rightChild = null;
   this.value = value;
+  this.leftAmount = 0;
+  this.rightAmount = 0;
+  this.totalNodeAmount = 1;
 }
 
 BinarySearchTree.prototype.insert = function(value) {
@@ -16,14 +19,28 @@ BinarySearchTree.prototype.insert = function(value) {
     } else {
       this.leftChild = new BinarySearchTree(value);
     }
+    this.leftAmount++;
   } else {
     if (this.rightChild) {
       this.rightChild.insert(value);
     } else {
       this.rightChild = new BinarySearchTree(value);
     }
+    this.rightAmount++;
   }
+  this.totalNodeAmount++;
 };
+
+BinarySearchTree.prototype.getRandomNode = function(memoIndex = 0, targetIndex) {
+  if (memoIndex + this.leftAmount + 1 === targetIndex) return this;
+  if (targetIndex < memoIndex + 1 + this.leftAmount) {
+    return this.leftChild.getRandomNode(memoIndex, targetIndex);
+  } else if (targetIndex > memoIndex + 1 + this.rightAmount) {
+    return this.rightChild.getRandomNode(memoIndex + 1 + this.leftAmount, targetIndex);
+  } else {
+    return null;
+  }
+}
 
 BinarySearchTree.prototype.inOrder = function(callBack) {
   callBack = callBack || function() {};
@@ -982,3 +999,7 @@ let checkSubtree = function(t1, t2) {
   return checkSubtree(t1.leftChild, t2) || checkSubtree(t1.rightChild, t2);
 };
 
+
+/*
+   get random node from tree;
+*/
