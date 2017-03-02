@@ -31,7 +31,9 @@ BinarySearchTree.prototype.insert = function(value) {
   this.totalNodeAmount++;
 };
 
-BinarySearchTree.prototype.getRandomNode = function(memoIndex = 0, targetIndex) {
+BinarySearchTree.prototype.getRandomNode = function(
+  memoIndex = 0,
+  targetIndex = Math.floor(Math.random() * this.totalNodeAmount)) {
   if (memoIndex + this.leftAmount + 1 === targetIndex) return this;
   if (targetIndex < memoIndex + 1 + this.leftAmount) {
     return this.leftChild.getRandomNode(memoIndex, targetIndex);
