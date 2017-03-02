@@ -959,3 +959,14 @@ let BSTSequences = function(tree) {
    what to do with returns, keep returning;
  */
 
+let compareTree = function(t1, t2) {
+}
+
+let checkSubtree = function(t1, t2) {
+  if (!t1) return false;
+  if (t1.value === t2.value && compareTree(t1, t2)) return true;
+  // not same value or compare failed
+  // check left and then right
+  return checkSubtree(t1.leftChild, t2) || checkSubtree(t1.rightChild, t2);
+};
+
