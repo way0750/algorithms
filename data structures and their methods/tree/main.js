@@ -40,7 +40,7 @@ BinarySearchTree.prototype.getRandomNode = function(
   } else if (targetID > memoID + this.leftAmount) {
     return this.rightChild.getRandomNode(memoID + 1 + this.leftAmount, targetID);
   }
-}
+};
 
 BinarySearchTree.prototype.inOrder = function(callBack) {
   callBack = callBack || function() {};

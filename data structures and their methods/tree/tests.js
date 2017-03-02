@@ -427,21 +427,21 @@ describe('checkSubtree', function() {
 });
 
 describe('binary search tree, each node has left and right amount', function(){
-  let arr = [1,2,3,4,5,6,7,8,9];
-  let tree = new BinarySearchTree(5);
-  tree.insert(3);
-  tree.insert(4);
-  tree.insert(2);
-  tree.insert(1);
-  tree.insert(7);
-  tree.insert(6);
-  tree.insert(8);
-  tree.insert(9);
+  it('picking random node works', function() {
+    let arr = [1,2,3,4,5,6,7,8,9];
+    let tree = new BinarySearchTree(5);
+    tree.insert(3);
+    tree.insert(4);
+    tree.insert(2);
+    tree.insert(1);
+    tree.insert(7);
+    tree.insert(6);
+    tree.insert(8);
+    tree.insert(9);
 
-  let randomIndex = Math.floor(Math.random() * arr.length);
-  let testTarget = arr[randomIndex];
-
-  let result = tree.getRandomNode(0, randomIndex).value
-  console.log(result, testTarget)
-  result.should.equal(testTarget);
+    let randomIndex = Math.floor(Math.random() * arr.length);
+    let testTarget = arr[randomIndex];
+    let result = tree.getRandomNode(0, randomIndex).value
+    result.should.equal(testTarget);
+  });
 });
