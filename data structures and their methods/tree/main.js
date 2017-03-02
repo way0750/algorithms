@@ -32,15 +32,13 @@ BinarySearchTree.prototype.insert = function(value) {
 };
 
 BinarySearchTree.prototype.getRandomNode = function(
-  memoIndex = 0,
-  targetIndex = Math.floor(Math.random() * this.totalNodeAmount)) {
-  if (memoIndex + this.leftAmount + 1 === targetIndex) return this;
-  if (targetIndex < memoIndex + 1 + this.leftAmount) {
-    return this.leftChild.getRandomNode(memoIndex, targetIndex);
-  } else if (targetIndex > memoIndex + 1 + this.rightAmount) {
-    return this.rightChild.getRandomNode(memoIndex + 1 + this.leftAmount, targetIndex);
-  } else {
-    return null;
+  memoID = 0,
+  targetID = Math.ceil(Math.random() * this.totalNodeAmount)) {
+  if (targetID === memoID + this.leftAmount + 1) return this;
+  if (targetID < memoID + this.leftAmount + 1) {
+    return this.leftChild.getRandomNode(memoID, targetID);
+  } else if (targetID > memoID + 1 + this.leftAmount) {
+    return this.rightChild.getRandomNode(memoID + 1 + this.leftAmount, targetID);
   }
 }
 

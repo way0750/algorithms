@@ -437,6 +437,11 @@ describe('binary search tree, each node has left and right amount', function(){
   tree.insert(6);
   tree.insert(8);
   tree.insert(9);
-  let result = tree.getRandomNode().value
-  console.log(result)
-})
+
+  let randomIndex = Math.floor(Math.random() * arr.length);
+  let testTarget = arr[randomIndex];
+
+  let result = tree.getRandomNode(0, randomIndex + 1).value
+  console.log(result, testTarget)
+  result.should.equal(testTarget);
+});
