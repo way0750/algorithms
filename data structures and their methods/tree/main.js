@@ -1068,7 +1068,7 @@ let pathSumWorking = function(tree, target, pathSums = []) {
 };
 
 
-let pathSum = function(tree, target, pathSums = []) {
+let pathSumWorking002 = function(tree, target, pathSums = []) {
   if (!tree) return 0;
   pathSums = pathSums.map((sum) => sum + tree.value);
   pathSums.unshift(tree.value);
@@ -1078,4 +1078,55 @@ let pathSum = function(tree, target, pathSums = []) {
   return foundPaths
     + pathSum(tree.leftChild, target, pathSums)
     + pathSum(tree.rightChild, target, pathSums);
+};
+
+
+/*
+   a better and faster way:
+   see the entire path as an array:
+      array:[10,  5,  1,  2, -1, -1,  7,  1,  2]
+running sum:[10, 15, 16, 18, 17, 16, 23, 24, 26]
+   if searching for any consecutive sub set of numbers that
+   can be sum to 8 you can use current running sum - 8
+   the difference if exist, that is the starting point of a sub set
+   for example: if 18 - 8 = 10
+   10 is found as a previous running sum, which means from item 10
+   to current running sum which 18, there is a path that can be summed
+   up to 8
+
+   another example: if 16 - 8 = 8
+   8 is not found as a previous running sum. It means there isn a point
+   (8) that is 8 after current running sum
+
+   also since 24 - 8 = 16 and there are two 16s that means there
+   are two paths that can be summed to 8
+
+   so can this pattern apply to anything that requires some sort of
+   going through array once and get many things?
+
+   use recursion:
+   base case: tree is null, return 0
+   make problem smaller: recursively call on left and right with hashTable
+   what to return? always a number, which represents the amount of paths
+   what to do with returns? current found amount + left and right amount
+
+   time and space complexity:
+   time: if n is the total amount of nodes then n is run time
+   space: only log n amount of stack and hash table exist at worst time
+    so it is log n
+*/
+
+
+let pathSum = function(tree, target, runningSum = 0, record = { 0: 1 }) {
+  if (!tree) return 0;
+
+  let curRunningSum = runningSum + tree.value;
+  record[curRunningSum] = (record[curRunningSum] || 0) + 1;
+
+  let foundAmount = (record[curRunningSum - target] || 0);
+  let foundOnLeft = pathSum(tree.leftChild, target, curRunningSum, record);
+  let foundOnRight = pathSum(tree.rightChild, target, curRunningSum, record);
+  delete record[[curRunningSum]];
+
+  return foundAmount + foundOnLeft + foundOnRight;
 };
