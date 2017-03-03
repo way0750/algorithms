@@ -311,7 +311,7 @@ describe('successor', function() {
 });
 
 describe('closestAncestor', function() {
-  xit('works if both nodes are on the same path', function() {
+  it('works if both nodes are on the same path', function() {
     let arr = [1,2,3,4,5,6,7,8,9];
     let tree = minimalTree(arr);
     let node1 = tree.leftChild.leftChild.leftChild
@@ -320,13 +320,13 @@ describe('closestAncestor', function() {
     closestAncestor(tree, node1, node2).should.equal(ancestor);
   });
 
-  xit('works if both nodes are on different path', function() {
+  it('works if both nodes are on different path', function() {
     let arr = [1,2,3,4,5,6,7,8,9];
     let tree = minimalTree(arr);
     let node1 = tree.leftChild.leftChild.leftChild
     let node2 = tree.rightChild.rightChild;
     let ancestor = tree;
-    closestAncestor(tree, node1, node2).should.equal(ancestor.value);
+    closestAncestor(tree, node1, node2).should.equal(ancestor);
   });
 
 });

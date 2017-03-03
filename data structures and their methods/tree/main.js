@@ -833,7 +833,7 @@ let successor = function(node) {
   }
 };
 
-let closestAncestor = function(tree, node1, node2){
+let closestAncestorNotWorking = function(tree, node1, node2){
   let isOneOfTheNodes = (node) => node === node1 || node === node2;
   let ancestor = null;
 
@@ -855,6 +855,23 @@ let closestAncestor = function(tree, node1, node2){
   return ancestor;
 };
 
+let closestAncestor = function(tree, node1, node2) {
+  let getPath = function(tree, node) {
+    if (!tree) return [];
+    if (tree === node) return [node];
+    let leftSearch = getPath(tree.leftChild, node);
+    if (leftSearch.length) return [tree].concat(leftSearch);
+    let rightSearch = getPath(tree.rightChild, node);
+    return rightSearch.length ? [tree].concat(rightSearch) : [];
+  };
+
+  let path1 = getPath(tree, node1);
+  let path2 = getPath(tree, node2);
+  return path1.reduce((curClosest, ancestor1, index) => {
+    let ancestor2 = path2[index];
+    return ancestor1 === ancestor2 ? ancestor2 : curClosest;
+  }, null);
+};
 
 
 /*
