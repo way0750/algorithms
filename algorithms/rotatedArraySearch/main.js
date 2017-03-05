@@ -37,7 +37,29 @@
      if yes, then target might be in there search it
    else return null;
 
-   
+   using binary search to find it?
+   base case min > max reutrn null
+       min === max return array[max] === target
+   how to make problem smaller: pass in same array but different min max
+   what to return always: number or null
+   what to do with returns: just return it
 
+   should write helper function to get min mid max
+   should write helper function to check if left side right side sorted or not?
  */
 
+let getMidIndex = function(minIndex, maxIndex) {
+  return Math.floor(maxIndex - minIndex) + minIndex;
+}
+
+let getArrayStat = function(array, targetValue, minIndex, midIndex, maxIndex) {
+  return {
+    leftSortedWithTarget: array[minIndex] <= targetValue && targetValue <= array[midIndex],
+    rightSortedWithTarget: arrau[midIndex] <= targetValue && targetValue <= array[maxIndex],
+    leftRotated: array[minIndex] > array[midIndex],
+    rightRotated: array[minIndex] > array[maxIndex],
+  };
+};
+
+let searchRotatedArray = function(array, minIndex = 0, maxIndex = array.length - 1) {
+}
