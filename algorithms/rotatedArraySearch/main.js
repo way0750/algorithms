@@ -49,19 +49,20 @@
  */
 
 let getMidIndex = function(minIndex, maxIndex) {
-  return Math.floor((maxIndex - minIndex) / 2) + minIndex;
+  return Math.ceil((maxIndex - minIndex) / 2) + minIndex;
 }
 
 let getArrayStat = function(array, targetValue, minIndex, midIndex, maxIndex) {
   return {
     leftSortedWithTarget: array[minIndex] <= targetValue && targetValue <= array[midIndex],
-    rightSortedWithTarget: arrau[midIndex] <= targetValue && targetValue <= array[maxIndex],
+    rightSortedWithTarget: array[midIndex] <= targetValue && targetValue <= array[maxIndex],
     leftRotated: array[minIndex] > array[midIndex],
-    rightRotated: array[minIndex] > array[maxIndex],
+    rightRotated: array[midIndex] > array[maxIndex],
   };
 };
 
 let searchRotatedArray = function(array, target, minIndex = 0, maxIndex = array.length - 1) {
+  console.log(minIndex, maxIndex)
   if (minIndex > maxIndex) return null;
   if (minIndex === maxIndex) return array[minIndex] === target;
 
@@ -69,13 +70,13 @@ let searchRotatedArray = function(array, target, minIndex = 0, maxIndex = array.
 
   let arrayStat = getArrayStat(array, target, minIndex, midIndex, maxIndex);
   if (arrayStat.leftSortedWithTarget) {
-    return searchRotatedArray(array, target, minIndex, midIndex);
+    return searchRotatedArray(array, target, minIndex, midIndex - 1);
   } else if (arrayStat.rightSortedWithTarget) {
-    return searchRotatedArray(array, target, midIndex, maxIndex);
+    return searchRotatedArray(array, target, midIndex + 1, maxIndex);
   } else if (arrayStat.leftRotated) {
-    return searchRotatedArray(array, target, minIndex, midIndex);
+    return searchRotatedArray(array, target, minIndex, midIndex - 1);
   } else if (arrayStat.rightRotated) {
-    return searchRotatedArray(array, target, midIndex, maxIndex);
+    return searchRotatedArray(array, target, midIndex + 1, maxIndex);
   } else {
     return null;
   }
