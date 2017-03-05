@@ -49,7 +49,7 @@
  */
 
 let getMidIndex = function(minIndex, maxIndex) {
-  return Math.floor(maxIndex - minIndex) + minIndex;
+  return Math.floor((maxIndex - minIndex) / 2) + minIndex;
 }
 
 let getArrayStat = function(array, targetValue, minIndex, midIndex, maxIndex) {
@@ -61,5 +61,22 @@ let getArrayStat = function(array, targetValue, minIndex, midIndex, maxIndex) {
   };
 };
 
-let searchRotatedArray = function(array, minIndex = 0, maxIndex = array.length - 1) {
-}
+let searchRotatedArray = function(array, target, minIndex = 0, maxIndex = array.length - 1) {
+  if (minIndex > maxIndex) return null;
+  if (minIndex === maxIndex) return array[minIndex] === target;
+
+  let midIndex = getMidIndex(minIndex, maxIndex);
+
+  let arrayStat = getArrayStat(array, target, minIndex, midIndex, maxIndex);
+  if (arrayStat.leftSortedWithTarget) {
+    return searchRotatedArray(array, target, minIndex, midIndex);
+  } else if (arrayStat.rightSortedWithTarget) {
+    return searchRotatedArray(array, target, midIndex, maxIndex);
+  } else if (arrayStat.leftRotated) {
+    return searchRotatedArray(array, target, minIndex, midIndex);
+  } else if (arrayStat.rightRotated) {
+    return searchRotatedArray(array, target, midIndex, maxIndex);
+  } else {
+    return null;
+  }
+};
