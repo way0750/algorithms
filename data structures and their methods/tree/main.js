@@ -833,28 +833,6 @@ let successor = function(node) {
   }
 };
 
-let closestAncestorNotWorking = function(tree, node1, node2){
-  let isOneOfTheNodes = (node) => node === node1 || node === node2;
-  let ancestor = null;
-
-  let search = (currentNode, neededAmount) => {
-    if (!neededAmount || !currentNode) return neededAmount;
-    let stillNeedAmount = neededAmount;
-    if (isOneOfTheNodes(currentNode)) --stillNeedAmount;
-
-    if (!stillNeedAmount) {
-      return stillNeedAmount;
-    } else {
-      stillNeedAmount = search(currentNode.leftChild, stillNeedAmount);
-
-    }
-
-  };
-
-  search(tree, 2);
-  return ancestor;
-};
-
 let closestAncestor = function(tree, node1, node2) {
   let getPath = function(tree, node) {
     if (!tree) return [];
@@ -872,6 +850,8 @@ let closestAncestor = function(tree, node1, node2) {
     return ancestor1 === ancestor2 ? ancestor2 : curClosest;
   }, null);
 };
+
+
 
 
 /*
@@ -1146,4 +1126,60 @@ let pathSum = function(tree, target, runningSum = 0, record = { 0: 1 }) {
   delete record[[curRunningSum]];
 
   return foundAmount + foundOnLeft + foundOnRight;
+};
+
+
+let padString = function(strArr, totalPadLen = 0) {
+  let str = strArr.map((str) => `${(str)}`).join(' ');
+  let padLeft = Math.floor((totalPadLen - str.length) / 2);
+  padLeft = Math.max(padLeft, 0)
+  let padRight = Math.ceil((totalPadLen - str.length) / 2);
+  padRight = Math.max(padRight, 0)
+  return `${'.'.repeat(padLeft)}${str}${'.'.repeat(padRight)}`;
+};
+
+let printTree = function(tree) {
+  if (!tree) return '';
+  // get nodes level by level and map each node to string
+  // need to make sure all node value will convert to same length string
+  // format should be (8);
+  // should fill in empty value same length but just "   ";
+  let nodeStringLenght = 0;
+  tree.inOrder((node) => {
+    let str = `${node.value}`;
+    nodeStringLenght = Math.max(nodeStringLenght, str.length);
+  });
+
+  let strArray = [];
+  let stack = [tree];
+  let defaultNode = { value: '', leftChild: null, rightChild: null };
+  while (stack.length) {
+    let strLevel = stack.map((node) => {
+      let valueStr = `${node.value}`;
+      let paddingAmount = Math.floor(nodeStringLenght - valueStr.length);
+      let paddingLeft = Math.floor(paddingAmount / 2);
+      let paddingRight = Math.ceil(paddingAmount / 2);
+      return `(${' '.repeat(paddingLeft)}${valueStr}${' '.repeat(paddingRight)})`
+    });
+    strArray.push(strLevel);
+
+    let newStack = stack.reduce((stack, node) => {
+      let leftChild = node.leftChild || defaultNode;
+      let rightChild = node.rightChild || defaultNode;
+      if (!stack.hasRealNode) {
+        stack.hasRealNode = leftChild.value !== '' || rightChild.value !== '';
+      }
+      stack.nodes.push(leftChild, rightChild);
+      return stack;
+    }, { nodes: [], hasRealNode: false});
+    stack = newStack.hasRealNode ? newStack.nodes : [];
+  }
+
+  let treeString = strArray.reduceRight((record, arr) => {
+    let levelStr = padString(arr, record.max);
+    record.max = record.max || levelStr.length;
+    record.str = levelStr + '\n' + record.str
+    return record;
+  }, { str: '', max: 0});
+  return treeString.str;
 };
