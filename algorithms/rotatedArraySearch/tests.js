@@ -17,6 +17,16 @@ describe('', function() {
   it('searchRotatedArray works', function() {
     let array = [6,7,8,9,1,2,3,4,5];
     let result = searchRotatedArray(array, 7);
-    console.log(result);
+    result.should.equal(1);
+  });
+  it('searchRotatedArray works', function() {
+    let array = [6,7,8,9,1,2,3,4,5];
+    let result = searchRotatedArray(array, 6);
+    result.should.equal(0);
+  });
+  it('searchRotatedArray works', function() {
+    let array = [6,7,8,9,1,2,3,4,5];
+    let result = searchRotatedArray(array, 5);
+    result.should.equal(8);
   });
 });

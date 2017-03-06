@@ -49,7 +49,7 @@
  */
 
 let getMidIndex = function(minIndex, maxIndex) {
-  return Math.ceil((maxIndex - minIndex) / 2) + minIndex;
+  return Math.floor((maxIndex - minIndex) / 2) + minIndex;
 }
 
 let getArrayStat = function(array, targetValue, minIndex, midIndex, maxIndex) {
@@ -64,9 +64,9 @@ let getArrayStat = function(array, targetValue, minIndex, midIndex, maxIndex) {
 let searchRotatedArray = function(array, target, minIndex = 0, maxIndex = array.length - 1) {
   console.log(minIndex, maxIndex)
   if (minIndex > maxIndex) return null;
-  if (minIndex === maxIndex) return array[minIndex] === target;
 
   let midIndex = getMidIndex(minIndex, maxIndex);
+  if (array[midIndex] === target) return midIndex;
 
   let arrayStat = getArrayStat(array, target, minIndex, midIndex, maxIndex);
   if (arrayStat.leftSortedWithTarget) {
