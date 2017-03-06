@@ -55,3 +55,30 @@
    what to do with return: keep on returning it.
  */
 
+let coinSums = function(array, target) {
+  let cache = {};
+  let search = (array, target, index) => {
+    if (target === 0) {
+      return 1;
+    } else if (index === array.length - 1) {
+      return target % array[index] === 0 ? 1 : 0;
+    } else if (target < 0 || index >= array.length) {
+      return 0;
+    }
+
+    let mutiplier = 0;
+    let curNum = array[index];
+    let product = curNum * mutiplier;
+    let foundPaths = 0;
+
+    while (product <= target) {
+      let subPath = search(array, target - product, index + 1);
+      foundPaths += subPath;
+      mutiplier++;
+      product = curNum * mutiplier;
+    }
+    return foundPaths;
+  }
+
+  return search(array, target, 0);
+};
