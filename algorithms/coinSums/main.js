@@ -57,6 +57,16 @@
 
 let coinSums = function(array, target) {
   let cache = {};
+  let amount = 0
+
+  let testDiffCoinAmount = (target, coin, callBack, multiplier = 0) => {
+    amount++;
+    let product = coin * multiplier;
+    if (product > target) return;
+    callBack(target - product);
+    testDiffCoinAmount(target, coin, callBack, multiplier + 1);
+  }
+
   let search = (array, target, index) => {
     if (target === 0) {
       return 1;
@@ -66,22 +76,18 @@ let coinSums = function(array, target) {
       return 0;
     }
 
-    let mutiplier = 0;
-    let curNum = array[index];
-    let product = curNum * mutiplier;
     let foundPaths = 0;
-
-    while (product <= target) {
-      let cacheKey = `${target - product}: ${index + 1}`;
-      if (!cache.hasOwnProperty(cacheKey)) {
-        cache[cacheKey] = search(array, target - product, index + 1);
-      }
+    testDiffCoinAmount(target, array[index], (deductedAmount) => {
+      let cacheKey = `${deductedAmount}: ${index + 1}`;
+      cache[cacheKey] = cache.hasOwnProperty(cacheKey)
+                      ? cache[cacheKey]
+                      : search(array, deductedAmount, index + 1);
       foundPaths += cache[cacheKey];
-      mutiplier++;
-      product = curNum * mutiplier;
-    }
+    });
     return foundPaths;
   }
 
-  return search(array, target, 0);
+  let returnVal = search(array, target, 0);
+  console.log(amount)
+  return returnVal;
 };
