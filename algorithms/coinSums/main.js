@@ -72,8 +72,11 @@ let coinSums = function(array, target) {
     let foundPaths = 0;
 
     while (product <= target) {
-      let subPath = search(array, target - product, index + 1);
-      foundPaths += subPath;
+      let cacheKey = `${target - product}: ${index + 1}`;
+      if (!cache.hasOwnProperty(cacheKey)) {
+        cache[cacheKey] = search(array, target - product, index + 1);
+      }
+      foundPaths += cache[cacheKey];
       mutiplier++;
       product = curNum * mutiplier;
     }

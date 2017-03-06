@@ -13,4 +13,7 @@ describe('coin sum', function() {
   it('return 12 for 10p', function() {
     coinSums(array, 10).should.equal(11);
   });
+  it('return 12 for 10p', function() {
+    coinSums(array, 100).should.equal(11);
+  });
 });
