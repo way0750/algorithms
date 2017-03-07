@@ -97,6 +97,3 @@ function deepEquals(obj1, obj2) {
     }
   });
 }
-
-deepEquals({a:1, b: {c:3}},{a:1, b: {c:3}}); // true
-deepEquals({a:1, b: {c:5}},{a:1, b: {c:6}}); // false

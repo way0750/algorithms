@@ -17,12 +17,12 @@ It is possible to make £2 in the following way:
 1 * £1 + 1 * 50p + 2 * 20p + 1 * 5p + 1 * 2p + 3 * 1p
 How many different ways can £2 be made using any number of coins?
 
-example usage of `makeChange`:
+example usage of `coinSum`:
 
 // aka, there's only one way to make 1p. that's with a single 1p piece
-makeChange(1) === 1
+coinSum(1) === 1
 // aka, there's only two ways to make 2p. that's with two, 1p pieces or with a single 2p piece
-makeChange(2) === 2
+coinSum(2) === 2
 */
 
 
@@ -67,7 +67,7 @@ makeChange(2) === 2
 //    
 // 
 
-var makeChange = function(amount, coinArray){
+var coinSum = function(amount, coinArray){
   coinArray = coinArray || [200, 100, 50, 20, 10, 5, 2, 1];
   if (coinArray.length === 0 && amount > 0) {
     return 0;
@@ -81,7 +81,7 @@ var makeChange = function(amount, coinArray){
     if (amount >= curCoinType) {
       var quantity = 1;
       while (amount >= curCoinType * quantity) {
-        totalCombo += makeChange(amount - curCoinType * quantity, coinArray.slice(i + 1));
+        totalCombo += coinSum(amount - curCoinType * quantity, coinArray.slice(i + 1));
         quantity++;
       }
     }
@@ -90,7 +90,7 @@ var makeChange = function(amount, coinArray){
 };
 
 //console all combo to face check the result
-var makeChange = function(amount, coinArray, comboStr){
+var coinSum = function(amount, coinArray, comboStr){
   coinArray = coinArray || [200, 100, 50, 20, 10, 5, 2, 1];
   if (coinArray.length === 0 && amount > 0) {
     return 0;
@@ -110,14 +110,10 @@ var makeChange = function(amount, coinArray, comboStr){
         if (amount === curCoinType * quantity) {
           console.log(curStr);
         }
-        totalCombo += makeChange(amount - curCoinType * quantity, coinArray.slice(i + 1), curStr);
+        totalCombo += coinSum(amount - curCoinType * quantity, coinArray.slice(i + 1), curStr);
         quantity++;
       }
     }
   }
   return totalCombo;
 };
-
-it('again', function() {
-  makeChange(10).should.equal(11);
-});
