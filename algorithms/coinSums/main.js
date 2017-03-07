@@ -53,19 +53,26 @@
    and the array, and pass in $value
    what to return: always return a number for the amount of legit ways found
    what to do with return: keep on returning it.
+
+   time and space complexity:
+     time go through each coin in the array
+     for each coin there could be target / last coin amount of iterations
+     so total of coin * target * 1/ last coin amount of iterations?
+   space:
+     there will be coin array size amount of stack of search
+     and for each search, there will be at most target / last coin amount of recursion
+     so soin array size * (target / last coin);
  */
 
 let coinSums = function(array, target) {
   let cache = {};
-  let amount = 0
 
   let testDiffCoinAmount = (target, coin, callBack, multiplier = 0) => {
-    amount++;
     let product = coin * multiplier;
-    if (product > target) return;
+    if (product > target) return 0;
     callBack(target - product);
     testDiffCoinAmount(target, coin, callBack, multiplier + 1);
-  }
+  };
 
   let search = (array, target, index) => {
     if (target === 0) {
@@ -87,7 +94,5 @@ let coinSums = function(array, target) {
     return foundPaths;
   }
 
-  let returnVal = search(array, target, 0);
-  console.log(amount)
-  return returnVal;
+  return search(array, target, 0);
 };
