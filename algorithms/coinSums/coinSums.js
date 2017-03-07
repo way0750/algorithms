@@ -89,10 +89,6 @@ var makeChange = function(amount, coinArray){
   return totalCombo;
 };
 
-makeChange(5);
-
-
-
 //console all combo to face check the result
 var makeChange = function(amount, coinArray, comboStr){
   coinArray = coinArray || [200, 100, 50, 20, 10, 5, 2, 1];
@@ -121,3 +117,7 @@ var makeChange = function(amount, coinArray, comboStr){
   }
   return totalCombo;
 };
+
+it('again', function() {
+  makeChange(10).should.equal(11);
+});

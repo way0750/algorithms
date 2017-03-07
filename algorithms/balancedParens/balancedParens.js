@@ -67,8 +67,3 @@ function balancedParens (str) {
   //check and see if there is any unmatched brackets in the array
   return stack.length === 0;
 }
-
-
-balancedParens(''); // true
-balancedParens('[({})]');   // true
-balancedParens('[(]{)}'); // false
