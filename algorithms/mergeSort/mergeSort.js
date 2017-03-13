@@ -166,7 +166,3 @@ let makeRandomArray = (length) => {
 };
 
 let arr = makeRandomArray(150000);
-
-console.time('mergeSort');
-mergeSort(arr);
-console.timeEnd('mergeSort');
