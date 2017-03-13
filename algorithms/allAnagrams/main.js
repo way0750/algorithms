@@ -86,4 +86,26 @@
    you end up with !depth
 
    if doing this in an iteractive way, then the time and space will be the same
-*/
+ */
+
+let makePermute = function(char, string, callBack, curPostion = 0) {
+  if (curPostion > string.length) return;
+  let leftStr = string.slice(0, curPostion);
+  let rightStr = string.slice(curPostion);
+  callBack(leftStr + char + rightStr);
+  makePermute(char, string, callBack, curPostion + 1);
+};
+
+
+let allAnagrams = function(str) {
+  if (!str.length) return [''];
+  let subPermutes = allAnagrams(str.slice(1));
+  let char = str[0];
+  // new permutes:
+  return subPermutes.reduce((allPermutes, subPermute) => {
+    makePermute(char, subPermute, (newPermute) => { allPermutes.push(newPermute); });
+    return allPermutes
+  }, []);
+}
+
+console.log(allAnagrams('abcd'));
