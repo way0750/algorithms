@@ -22,3 +22,31 @@ Given an array S of n integers, find three integers in S such that the sum is
    and O(1) for space
 */
 
+let getDiff = function(n1, n2) {
+  return n1 > n2 ? n1 - n2 : n2 - n1;
+}
+
+let sum3 = function(arr, target) {
+  let min = Number.MAX_SAFE_INTEGER;
+  let numArr = [];
+  for (let a = 0; a < arr.length - 2; a++) {
+    for (let b = a + 1; b < arr.length - 1; b++) {
+      for (let c = b + 1; c < arr.length; c++) {
+        let sum =  arr[a] + arr[b] + arr[c];
+        let diff = getDiff(sum, min);
+        if (diff < min) {
+          min = diff;
+          numArr = [arr[a], arr[b], arr[c]];
+        }
+        if (diff === 0) return numArr;
+      }
+    }
+  }
+  return numArr;
+}
+
+it('works?', function() {
+  let arr = [-1, 2, 1, -4];
+  let result = [-1, 2, 1];
+  sum3(arr, 1).should.deep.equal(result);
+});
