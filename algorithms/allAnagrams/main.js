@@ -52,10 +52,11 @@
    1 * ( 2 ) = 2
    2 * (3) = 6
    6 * (4) = 24
-   total = 1 + 2 + 6 + 24 = 33
    (((1 * (1)) * ( 2 )) * (3)) * (4)
    so basically !depth? to get the last depth that is
    1 * 1 * 2 * 3 * 4
+
+   total = 1 + 2 + 6 + 24 = 33
    !1 + !2 + !3 + !4 + !5 + !n
 
    depth = n
@@ -88,14 +89,13 @@
    if doing this in an iteractive way, then the time and space will be the same
  */
 
-let makePermute = function(char, string, callBack, curPostion = 0) {
+let makePermutes = function(char, string, callBack, curPostion = 0) {
   if (curPostion > string.length) return;
   let leftStr = string.slice(0, curPostion);
   let rightStr = string.slice(curPostion);
   callBack(leftStr + char + rightStr);
-  makePermute(char, string, callBack, curPostion + 1);
+  makePermutes(char, string, callBack, curPostion + 1);
 };
-
 
 let allAnagrams = function(str) {
   if (!str.length) return [''];
@@ -103,9 +103,7 @@ let allAnagrams = function(str) {
   let char = str[0];
   // new permutes:
   return subPermutes.reduce((allPermutes, subPermute) => {
-    makePermute(char, subPermute, (newPermute) => { allPermutes.push(newPermute); });
+    makePermutes(char, subPermute, (newPermute) => allPermutes.push(newPermute));
     return allPermutes
   }, []);
-}
-
-console.log(allAnagrams('abcd'));
+};

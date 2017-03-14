@@ -9,7 +9,6 @@
    if there is one or none character with odd amount of repetitions
    then the string can be rearrangemeed into palindrome
 
-
    keep a record of character with odd repetitions
    loop through the string
      check each character to see if it is found in the record
