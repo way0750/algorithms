@@ -75,29 +75,30 @@ let sum3Working = function(arr, target) {
    let arr = [1,3,6,8,10,20,30,44,57,88];
    let target = 57;
    can't find it
-*/
 
+   but we can iterate through the input array once, for each
+     iteration, do the zero in thing
+
+   time: n for interating through array, n log n for sorting
+   then n for the zero-in operation for each ineration
+     n * n + n log n
+   which is n^2
+   space: need an array of 3 elements at worst so O(1)
+   but if need to slice input array to avoid mutating it
+     then that would be n
+
+   so the whole zeroing in thing work only for 2 variables?
+*/
 
 let sum3WithTarget = function(numArr, target) {
   let arr = numArr.slice().sort((n1, n2) => +n1 >= +n2);
-  console.log(arr)
-  let a = 0;
-  // inner from left side
-  let b = 1;
-
-  // from the right side
-  let c = arr.length - 1;
-  while (b < c) {
-    let sum = arr[a] + arr[b] + arr[c];
-    console.log(arr[a], arr[b], arr[c])
-    if (sum === target) return [arr[a], arr[b], arr[c]];
-    if (sum < target) {
-      // move the left side to right side
-      // if b is next to a, move b else move a
-      b - a === 1 ? ++b : ++a;
-    } else {
-      // move the right side to left
-      --c;
+  for (let i = 0; i < arr.length - 2; i++) {
+    let left = i + 1;
+    let right = arr.length - 1;
+    while (left < right) {
+      let sum = arr[i] + arr[left] + arr[right];
+      if (sum === target) return [arr[i], arr[left], arr[right]];
+      sum < target ? left++ : right--;
     }
   }
   return [];
@@ -106,5 +107,46 @@ let sum3WithTarget = function(numArr, target) {
 it('does it really work?', function() {
   let arr = [1,3,6,8,10,20,30,44,57,88];
   let target = 57;
-  sum3WithTarget(arr, target).should.deep.equal([]);
-})
+  sum3WithTarget(arr, target).should.deep.equal([3, 10, 44]);
+});
+
+let numSum = (arr) => arr.reduce((sum, num) => sum + num);
+
+let sum3Closest = function(numArr, target) {
+  let arr = numArr.slice().sort((n1, n2) => +n1 >= +n2);
+  let min = Number.MAX_SAFE_INTEGER;
+  let comboArr = [];
+
+  for (let i = 0; i < arr.length - 2; i++) {
+    let left = i + 1;
+    let right = arr.length - 1;
+
+    while (left < right) {
+      let arr3 = [arr[i], arr[left], arr[right]];
+      let sum = numSum(arr3);
+      let diff = getDiff(sum, target);
+
+      if (diff === 0) {
+        return arr3;
+      } else if (diff < min) {
+        min = diff;
+        comboArr = arr3;
+      }
+
+      sum < target ? left++ : right--;
+    }
+  }
+  return comboArr;
+};
+
+it('sum3Closest', function() {
+  let arr = [ -1, 2, 1, -4 ];
+  let target = 1;
+  sum3Closest(arr, target).should.deep.equal([-1, 1, 2]);
+});
+
+it('sum3Closest', function() {
+  let arr = [ -1, 2, 1, -4 ];
+  let target = -3;
+  sum3Closest(arr, target).should.deep.equal([-4, -1, 2]);
+});
