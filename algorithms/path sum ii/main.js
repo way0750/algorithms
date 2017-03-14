@@ -35,7 +35,7 @@ return
      amounts of path
 */
 
-let pathSum = function(tree, target, paths = [], partialPath = [], partialSum = 0) {
+let pathSumWorking = function(tree, target, paths = [], partialPath = [], partialSum = 0) {
   partialPath.push(tree.value);
   partialSum += tree.value;
 
@@ -51,6 +51,45 @@ let pathSum = function(tree, target, paths = [], partialPath = [], partialSum = 
 
   partialPath.pop();
   return paths;
+};
+
+/*
+   base case: no left and no right:
+     if sum + tree.value === target return [[tree.value]];
+     else [];
+     the meaning: a list of paths
+   make problem smaller: recursively call left and right if exist, with new sum
+   what to return: an array of arrays
+   what to do with returns? prepend tree.value to each subarray
+   time and space:
+     time: n for going through each node, then the amount of paths * depth for
+     prepending values N + amountOfPaths * logN
+   space: logN for stack size, then + amount of paths
+     so log N + amountOfPaths
+*/
+let pathSum = function(tree, target, partialSum = 0) {
+  partialSum += tree.value;
+  if (!tree.left && !tree.right) {
+    if (partialSum === target) return [[tree.value]];
+  }
+  let paths = [];
+  if(tree.left) {
+    let leftPaths = pathSum(tree.left, target, partialSum);
+    paths.push(leftPaths);
+  }
+
+  if(tree.right) {
+    let rightPaths = pathSum(tree.right, target, partialSum);
+    paths.push(rightPaths);
+  }
+
+  return paths.reduce((prependedPaths, pathSet) => {
+    pathSet.forEach((path) => {
+      path.unshift(tree.value);
+      prependedPaths.push(path);
+    });
+    return prependedPaths;
+  }, []);
 };
 
 it('does it work', function(){
