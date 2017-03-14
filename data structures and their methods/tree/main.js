@@ -1077,7 +1077,6 @@ let pathSumWorking002 = function(tree, target, pathSums = []) {
     + pathSum(tree.rightChild, target, pathSums);
 };
 
-
 /*
    a better and faster way:
    see the entire path as an array:
