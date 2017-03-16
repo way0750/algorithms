@@ -18,7 +18,16 @@
      add substring, if found add to arr, not found then add string as key
      value of true;
    return arr;
-*/
+
+   time and space:
+   time
+   going through the string: n
+   then each slicing: 10, then you do n - 10 times so (n - 10) * 10 times
+   so n + (n - 10) * 10 n + 10n - 100 which is n + 10n which is (1+10)n which is
+     n
+   space: n - 10 amount at worst for record
+   for arr, it will always has less than n amount of elements
+ */
 
 let getRepeatedString = function(str) {
   let arr = [];
