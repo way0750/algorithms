@@ -36,5 +36,27 @@
 */
 
 let longestUniqSubstring = function(string) {
-  
-}
+  let record = {};
+  let curStart = 0;
+  let curMax = 0;
+
+  for (let i = 0; i <= string.length; i++) {
+    let char = string[i];
+    if (record.hasOwnProperty(char) || i === string.length) {
+      curMax = Math.max(curMax, i - curStart);
+      curStart = record[char] + 1;
+      record = {};
+      if (i < string.length) {
+        for(let j = curStart; j <= i; j++) {
+          char = string[j];
+          record[char] = j;
+        }
+      }
+    } else {
+      record[char] = i;
+    }
+  }
+
+  return curMax;
+};
+

@@ -1,6 +1,8 @@
 chai.should();
 describe('', function() {
-  it('', function() {
-    // hey().should.be.a('string');
+  it('works', function() {
+    longestUniqSubstring('abcabcbb').should.equal(3);
+    longestUniqSubstring('bbbbb').should.equal(1)
+    longestUniqSubstring('pwwkew').should.equal(3);
   });
 });
