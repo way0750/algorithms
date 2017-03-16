@@ -12,4 +12,24 @@
 
   Return:
   ["AAAAACCCCC", "CCCCCAAAAA"].
+
+  if string is less than 10 chars return [];
+   else loop from index 9 to the end and get sub strings along the way
+     add substring, if found add to arr, not found then add string as key
+     value of true;
+   return arr;
 */
+
+let getRepeatedString = function(str) {
+  let arr = [];
+  let record = {};
+  if (str.length < 11) return arr;
+
+  for (let i = 10; i < str.length; i++) {
+    let curSubStr = str.substr(i - 10, 10);
+    record[curSubStr] = (record[curSubStr] || 0) + 1;
+    if (record[curSubStr] === 2) arr.push(curSubStr);
+  }
+
+  return arr;
+};

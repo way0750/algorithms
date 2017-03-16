@@ -1,6 +1,7 @@
 chai.should();
 describe('', function() {
-  it('', function() {
-    // hey().should.be.a('string');
+  it('works?', function() {
+    let s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT";
+    getRepeatedString(s).should.deep.equal(["AAAAACCCCC", "CCCCCAAAAA"])
   });
 });
