@@ -53,7 +53,7 @@ let smallestAmountOfChange = function(coins, target) {
 
     let curSmallestAmount = Infinity;
     let curCoinAmount = 0;
-    while (coin * curCoinAmount  <= value) {
+    while (coin * curCoinAmount <= value) {
       let newAmount = searchAmount(curCoinIndex + 1, value - coin * curCoinAmount);
       curSmallestAmount = Math.min(curSmallestAmount, newAmount + curCoinAmount);
       curCoinAmount++;
@@ -65,8 +65,6 @@ let smallestAmountOfChange = function(coins, target) {
   for(let num = 1; num <= target; num++) {
     table[num] = searchAmount(0, num);
   }
-
-  console.log(JSON.stringify(table))
 
   return table[target];
 }
