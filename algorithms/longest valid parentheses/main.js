@@ -35,3 +35,27 @@ Another example is ")()())", where the longest valid parentheses substring
        and its index
    return curMax;
 */
+
+
+let longestValidParent = function(str) {
+  let stack = [];
+  let curMax = 0;
+
+  for(let i = 0; i <= str.length; i++) {
+    let char = str[i];
+    let lastChar = stack[stack.length - 1] || { isLeft: false, isRight: false };
+    if (char === ')' && lastChar.isLeft ) {
+      stack.pop();
+      lastChar = stack[stack.length - 1] || { index: -1 };
+      curMax = Math.max(curMax, i - lastChar.index);
+    } else {
+      stack.push({
+        index: i,
+        isLeft: char === '(',
+        isRight: char === ')',
+      });
+    }
+  }
+
+  return curMax;
+}
