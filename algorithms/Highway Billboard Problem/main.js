@@ -25,4 +25,17 @@ Input : M = 15
         revenue[] = {5, 6, 3, 7}
         t = 2
 Output : 18
+   optimal substructure and overlapping sub-problems.
+   use dynamic programming because the problem or part of it can be linearly
+     reduced/solves by smaller parts, and those results can be reused(overlapping)
+
+   build cases: from 0 to 15
+   solve each problem:
+     if case is not found in the positions, just use the current max
+     if the case is found: use it to find $,
+       self value + (position - t -1): old result
+       compare this result vs current max, take the largest
+     save result in table num: result
+
+   return target key value
 */
