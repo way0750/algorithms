@@ -6,10 +6,10 @@
    ex: coins [20, 15, 10, 5, 4, 1]; value: 23
    return 3 because one way is: 15, 4, 4
 
-   dynamic programming: build reusable smaller cases from the smallest case up
-   to the last case
+   dynamic programming: build reusable smaller cases from the smallest num up
+   to the last num
 
-   in this case: go from 1 to 23 and build the smallest amount for each number
+   in this num: go from 1 to 23 and build the smallest amount for each number
    1: smallest is 1
    2: smallest is 2 (2 of 1)
    3: ...
@@ -27,7 +27,7 @@
 
    once done finding, enter the number and key to the table: value: smallest
 
-   base case: input value if found in table, return it
+   base num: input value if found in table, return it
      at the last coin, value % coin === 0 ? if yes return value / coin,
        else return Infinity
 
@@ -38,3 +38,35 @@
      you will be going form 0..someNumber, get the smallest of 0..someNumber + return number
      and return it
 */
+
+let smallestAmountOfChange = function(coins, target) {
+  let table = {}
+  let finalCoinIndex = coins.length - 1;
+  let searchAmount = function(curCoinIndex, value) {
+    if(table.hasOwnProperty(value)) return table[value];
+
+    let coin = coins[curCoinIndex];
+
+    if(curCoinIndex === finalCoinIndex) {
+      return value % coin === 0 ? value/coin : Infinity;
+    }
+
+    let curSmallestAmount = Infinity;
+    let curCoinAmount = 0;
+    while (coin * curCoinAmount  <= value) {
+      let newAmount = searchAmount(curCoinIndex + 1, value - coin * curCoinAmount);
+      curSmallestAmount = Math.min(curSmallestAmount, newAmount + curCoinAmount);
+      curCoinAmount++;
+    }
+
+    return curSmallestAmount;
+  }
+
+  for(let num = 1; num <= target; num++) {
+    table[num] = searchAmount(0, num);
+  }
+
+  console.log(JSON.stringify(table))
+
+  return table[target];
+}
