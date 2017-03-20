@@ -24,5 +24,22 @@ Implement an iterator over a binary search tree (BST). Your iterator will be
      and set current node to right node
 */
 
+let BinarySearchTreeIterator = function(tree) {
+  let currentNode = tree;
+  let stack = [];
+  let next = function() {
+    while (currentNode) {
+      stack.push(currentNode);
+      currentNode = currentNode.left;
+    }
 
+    // now the currentNode is null
+    let returnNode = stack.pop() || { value: 'done' };
+    currentNode = returnNode.right;
+    return returnNode;
+  }
 
+  return {
+    next
+  };
+}
