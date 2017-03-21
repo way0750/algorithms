@@ -37,5 +37,27 @@ Output : 18
        compare this result vs current max, take the largest
      save result in table num: result
 
-   return target key value
+   return currentMax
 */
+
+let highWayBillboards = function(length, pos, revenue, limit) {
+  limit++; // right at limit isn't good enough, has to be further
+  let posRevenueTable = revenue.reduce((table, revenue, index) => {
+    table[pos[index]] = revenue;
+    return table;
+  }, {});
+  let lengthRevenueTable = {};
+  let currentMax = 0;
+  for (let mile = 0; mile <= length; mile++) {
+    if(!posRevenueTable.hasOwnProperty(mile)) {
+      lengthRevenueTable[mile] = currentMax;
+    } else {
+      let otherRevenue = lengthRevenueTable[ mile - limit ] || 0;
+      otherRevenue += posRevenueTable[mile];
+      currentMax = Math.max(currentMax, otherRevenue);
+      lengthRevenueTable[mile] = currentMax;
+    }
+  }
+
+  return currentMax;
+}
