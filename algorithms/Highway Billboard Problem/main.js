@@ -27,7 +27,7 @@ Input : M = 15
 Output : 18
    optimal substructure and overlapping sub-problems.
    use dynamic programming because the problem or part of it can be linearly
-     reduced/solves by smaller parts, and those results can be reused(overlapping)
+   reduced/solves by smaller parts, and those results can be reused(overlapping)
 
    build cases: from 0 to 15
    solve each problem:
@@ -49,6 +49,8 @@ let highWayBillboards = function(length, pos, revenue, limit) {
   let lengthRevenueTable = {};
   let currentMax = 0;
   for (let mile = 0; mile <= length; mile++) {
+    // if there isn't a revenue for this position, then no need to
+    // find what is highest revenue, just reuse the previous max
     if(!posRevenueTable.hasOwnProperty(mile)) {
       lengthRevenueTable[mile] = currentMax;
     } else {
