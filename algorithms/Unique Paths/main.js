@@ -60,6 +60,7 @@ How many possible unique paths are there?
    then return cache at x.length-1:y.length-1
 */
 
+// dynamic programming
 let uniquePaths = function(grid) {
   let table = grid.reduce((record, row, y) => {
     row.forEach((_, x) => {
@@ -83,3 +84,39 @@ let uniquePaths = function(grid) {
 
   return table[`${x}:${y}`] || 0;
 };
+
+// recursion with memoization
+/*
+   base case: when hit x.length -1 or y.length -1
+     return 1;
+     if current x:y is found in cache, return it
+   how to make problem smaller:
+     increase x by 1, recursively call
+     increase y by 1, recursively call
+   what to return: a number which is the amount of ways
+   what to do with the return: add them up, add them to cache
+     then return the them;
+*/
+
+let uniquePathsNotWorking = function(grid, x = 0, y = 0, cache = {}) {
+  let key = `${x}${y}`;
+  if (cache.hasOwnProperty(key)) return cache[key];
+  let xOutOfBound = (grid[0] || []).length <= x;
+  let yOutOfBound = (grid).length <= y;
+  if (xOutOfBound || yOutOfBound) return 0;
+
+  let atLastCol = (grid[0] || []).length - 1 === x;
+  let atLastRow = (grid).length - 1 === y;
+  if (atLastCol || atLastRow) {
+    cache[key] = 1;
+    return 1;
+  }
+
+  let value = 0;
+  // go right, and go down
+  value += uniquePaths(grid, x + 1, y, cache);
+  value += uniquePaths(grid, x, y + 1, cache);
+
+  cache[key] = value;
+  return value;
+}

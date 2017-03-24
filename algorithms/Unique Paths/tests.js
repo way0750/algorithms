@@ -22,6 +22,10 @@ describe('', function() {
   });
 
   it('uniquePaths', function() {
+    let grid = makeGrid(20, 20)
+    uniquePaths(grid).should.equal(35320503923);
+  });
+  it('uniquePaths', function() {
     let grid = []
     uniquePaths(grid).should.equal(0);
   });
