@@ -53,9 +53,33 @@ How many possible unique paths are there?
        for each cell, if the x or y is 0, then set value to 0
        else get value from top and left:
          top: x:y-1
-         bottom: x-1:y
+         left: x-1:y
          add them together and assign it to value
        add key and value to cache
 
    then return cache at x.length-1:y.length-1
 */
+
+let uniquePaths = function(grid) {
+  let table = grid.reduce((record, row, y) => {
+    row.forEach((_, x) => {
+      let key = `${x}:${y}`;
+      let value;
+      if (y === 0 || x === 0) {
+        value = 1;
+      } else {
+        let top = record[`${x}:${y-1}`];
+        let left = record[`${x-1}:${y}`];
+        value = top + left;
+      }
+      record[key] = value
+    });
+
+    return record;
+  }, {});
+
+  let y = grid.length - 1;
+  let x = y > 0 ? grid[0].length - 1 : -1;
+
+  return table[`${x}:${y}`] || 0;
+};
