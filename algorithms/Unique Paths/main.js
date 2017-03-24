@@ -40,4 +40,22 @@ How many possible unique paths are there?
    time: m * n, you are going through all cells;
    space: you are creating a new cache that is the same size as the matrix/grid
      so m * n
+
+   pseudo code:
+
+   set cache to an object
+   then loop through each row
+     set y to current row index;
+     for each row loop through each cell:
+       set x to current cell index;
+       set key to putting x and y together
+       set value to null;
+       for each cell, if the x or y is 0, then set value to 0
+       else get value from top and left:
+         top: x:y-1
+         bottom: x-1:y
+         add them together and assign it to value
+       add key and value to cache
+
+   then return cache at x.length-1:y.length-1
 */
