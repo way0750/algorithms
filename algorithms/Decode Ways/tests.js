@@ -3,6 +3,7 @@ describe('', function() {
   it('decodeWays', function() {
     let code = '123';
     decodeWays(code).should.equal(3);
+    decodeWays('12').should.equal(2);
   });
   it('decodeWays 002', function() {
     let code = '1224';
@@ -16,4 +17,8 @@ describe('', function() {
     let code = '12222222111112421222222';
     decodeWays(code).should.equal(33558);
   });
+  it('decodeWays 005', function() {
+    let code = '120120120120120120120120';
+    decodeWays(code).should.equal(57314)
+  })
 });

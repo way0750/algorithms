@@ -100,12 +100,12 @@ Given an encoded message containing digits, determine the total number of ways
 */
 
 let decodeWays = function(str) {
+  let callAmount = 0;
   let search = function(str, cache) {
-    if (cache.hasOwnProperty(str)) {
-      return cache[str];
-    }
+    callAmount++;
+    if (cache.hasOwnProperty(str)) cache[str];
     if (str.length < 2) {
-      cache[str] = str.length ? 1 : 0;
+      cache[str] = str.length && str !== '0' ? 1 : 0;
       return cache[str];
     } else if (str.length === 2) {
       cache[str] = +str < 27 ? 2 : 1;
@@ -129,6 +129,5 @@ let decodeWays = function(str) {
     let smallerProblem = str.slice(i);
     search(smallerProblem, table);
   }
-
   return table[str];
 };
