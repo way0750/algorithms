@@ -20,5 +20,9 @@ describe('', function() {
   it('decodeWays 005', function() {
     let code = '120120120120120120120120';
     decodeWays(code).should.equal(57314)
-  })
+  });
+  it('decodeWays 006', function() {
+    let code = '12012121212122121220120120120120';
+    decodeWays(code).should.equal(2692538)
+  });
 });
