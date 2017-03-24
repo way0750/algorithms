@@ -54,7 +54,7 @@ Given an encoded message containing digits, determine the total number of ways
      return that
      all the numbers returned mean the amount of ways to decode a string;
    how to make problem smaller:
-     slice stirng at next next index, ex: if 123, slice at 3, and you get
+     slice stirng at next next i, ex: if 123, slice at 3, and you get
        12 and 3
        no need to check 1, since there has to be a letter for number 0 to 9
        but do check 12
@@ -99,7 +99,8 @@ Given an encoded message containing digits, determine the total number of ways
    loop from end to front to build table;
 */
 
-let decodeWays = function(str) {
+// dynamic programming:
+let decodeWaysWorking = function(str) {
   let callAmount = 0;
   let search = function(str, cache) {
     callAmount++;
@@ -129,5 +130,32 @@ let decodeWays = function(str) {
     let smallerProblem = str.slice(i);
     search(smallerProblem, table);
   }
+
   return table[str];
+};
+
+// recursion with memoization
+let decodeWays = function(str, cache = {}) {
+  if (cache.hasOwnProperty(str)) cache[str];
+
+  if (str.length < 2) {
+    cache[str] = str.length && str !== '0' ? 1 : 0;
+    return cache[str];
+  } else if (str.length === 2) {
+    cache[str] = +str < 27 ? 2 : 1;
+    return cache[str];
+  }
+
+  // just need a, b  and then ab
+  let amount = [1, 2].reduce((amount, i) => {
+    // basically recursively call with different patterns: total of 2
+    // ex: 1124
+    // first: 1, 124
+    // then:  11, 24
+    let num = str.slice(0, i);
+    return amount += (+num < 27 ? decodeWays(str.slice(i), cache) : 0);
+  }, 0);
+
+  cache[str] = amount;
+  return amount;
 };
