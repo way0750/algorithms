@@ -96,3 +96,70 @@ let coinSums = function(array, target) {
 
   return search(array, target, 0);
 };
+
+
+
+
+
+// let's do it with dynamic programming:
+/*
+   so you will biuld re-usable solutions from 0 to target
+   re-user sum if found
+   else find how many ways to make changes
+   ex: 3: try 0:3, 1:3, 2:3, until amount * coin > target
+   so start from left to right? large demo to smallest one?
+   and when gets to the last one just do the value % coin thing?
+*/
+
+let coinSumDP = function(coins, target) {
+  coins.sort((n1, n2) => n1 <= n2);
+
+  let search = function(coins, coinIndex, target, table) {
+    let coin = coins[coinIndex];
+    if (coinIndex === coins.length - 1) {
+      return target % coin === 0 ? 1 : 0;
+    } else if (table.hasOwnProperty(target)) {
+      return table[target];
+    }
+
+    let coinAmount = 0;
+    let possibilities = 0;
+    let amount = 0;
+    while(coin * coinAmount <= target) {
+      let subAmount = target - coin * coinAmount;
+      let newAmount = search(coins, coinIndex + 1, subAmount, table);
+      amount += newAmount;
+      coinAmount++;
+    }
+
+    table[target] = amount;
+    return amount;
+  }
+
+  let table = {};
+  for (let DPCase = 0; DPCase <= target; DPCase++) {
+    search(coins, 0, DPCase, table);
+  }
+
+  return table[target];
+}
+
+qt(function() {
+  let arr = [7,5,4,3,2];
+
+  /*
+     8
+     6 2
+     5 3
+     4 4
+     3 3 2
+     2 2 2 2
+  */
+
+  let target = 7;
+  let result = coinSumDP(arr, target);
+
+  let result002 = coinSums(arr, target)
+  console.log(result)
+  result.should.equal(result002);
+});
