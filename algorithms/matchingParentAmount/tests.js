@@ -16,4 +16,8 @@ describe('', function() {
     let str = '))))))';
     matchingParentAmount(str).should.equal(-1);
   });
+  it('only the same side', function() {
+    let str = '(((((('
+    matchingParentAmount(str).should.equal(-1);
+  });
 });
