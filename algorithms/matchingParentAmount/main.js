@@ -25,7 +25,7 @@
 */
 
 let matchingParentAmount = function(str) {
-  if (str.length === 0) return -1;
+  /* if (str.length === 0) return -1;*/
 
   let leftIndex = -1;
   let rightIndex = str.length;
@@ -41,7 +41,7 @@ let matchingParentAmount = function(str) {
 
     if (leftIndex < rightIndex) {
       lastIndexSameAmount = leftIndex + 1;
-    } else {
+    } else if(lastIndexSameAmount > -1){
       lastIndexSameAmount = leftIndex;
     }
   }
