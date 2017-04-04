@@ -24,5 +24,27 @@
    return lastIndexOfMatchingAmount > -1 ? lastIndexOfMatchingAmount + 1 : -1;
 */
 
+let matchingParentAmount = function(str) {
+  if (str.length === 0) return -1;
 
+  let leftIndex = -1;
+  let rightIndex = str.length;
+  let chars = str.split('');
+  let lastIndexSameAmount = -1;
 
+  while (leftIndex < rightIndex) {
+    // get next index of a ( from the left side
+    leftIndex = chars.indexOf('(', leftIndex+1);
+    leftIndex = leftIndex === -1 ? str.length : leftIndex;
+    // get next index of a ) from the right side
+    rightIndex = chars.lastIndexOf(')', rightIndex-1);
+
+    if (leftIndex < rightIndex) {
+      lastIndexSameAmount = leftIndex + 1;
+    } else {
+      lastIndexSameAmount = leftIndex;
+    }
+  }
+
+  return lastIndexSameAmount;
+ };
