@@ -28,3 +28,42 @@ You should return the following matrix:
       to each sub array, add if there isn't any
    then unshift the top and push the bottom of current ring
 */
+
+let makeSpiralMatrix = function(size) {
+  let rings = [];
+  let currentNum = 1;
+  for (let ringDepth = 0; ringDepth < Math.ceil(size/2); ringDepth++) {
+    let ring = { top: [], bottom: [], left: [], right: [] };
+    let verticalSize = size - (ringDepth * 2);
+    // it is the size - the top and bottom
+    let sideSize = Math.max(verticalSize - 2, 0);
+    for (let n = 0; n < verticalSize; n++) {
+      ring.top.push(currentNum++);
+    }
+    for (let n = 0; n < sideSize; n++) {
+      ring.right.push(currentNum++);
+    }
+    for (let n = 0; n < verticalSize && currentNum <= size * size; n++) {
+      ring.bottom.unshift(currentNum++);
+    }
+    for (let n = 0; n < sideSize; n++) {
+      ring.left.unshift(currentNum++);
+    }
+
+    rings.unshift(ring);
+  }
+
+  // put them together
+  return rings.reduce((matrix, ring) => {
+    let leftSide = ring.left;
+    leftSide.forEach((leftNum, index) => {
+      matrix[index] = matrix[index] || [];
+      matrix[index].unshift(leftNum);
+      matrix[index].push(ring.right[index]);
+    });
+
+    matrix.unshift(ring.top);
+    if (ring.bottom.length) matrix.push(ring.bottom);
+    return matrix;
+  }, []);
+}
