@@ -30,6 +30,7 @@ You should return the following matrix:
 */
 
 let makeSpiralMatrix = function(size) {
+  // make bunch of rings
   let rings = [];
   let currentNum = 1;
   for (let ringDepth = 0; ringDepth < Math.ceil(size/2); ringDepth++) {
