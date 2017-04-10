@@ -82,9 +82,8 @@ let maxArraySum = function(arr) {
     let thisNum = arr[i];
     let newRecord = {};
     for (let j = i+1; j <= arr.length; j++) {
-      let subPattern = arr.slice(i+1, j);
-      let curSum = curNum + (lastRecord[subPattern] || 0);
-      subPattern.unshift(curNum);
+      let subPattern = arr.slice(i, j);
+      let curSum = curNum + (lastRecord[subPattern.slice(1)] || 0);
       if (curSum > maxSum) {
         maxSumStr = subPattern;
         maxSum = curSum;
@@ -96,3 +95,32 @@ let maxArraySum = function(arr) {
   console.log(maxSumStr);
   return maxSum;
 };
+
+/* let maxArraySum = function(arr) {
+ *   let stats = arr.reduceRight((stats, curNum, i) => {
+ *     let DPCases = arr.slice(i);
+ *     let newRecord = DPCases.reduce((record, _, j) => {
+ *       let oneDPCase = arr.slice(i, j+1);
+ *       let cachedSum = stats.lastRecord[oneDPCase.slice(1)] || 0;
+ *       let curSum = curNum + cachedSum;
+ *       if (curSum > record.max) {
+ *         record.max = curSum;
+ *         record.maxPattern = oneDPCase;
+ *       }
+ * 
+ *       record.cache[oneDPCase] = curSum;
+ *       return record;
+ *     }, { max: stats.max, maxPattern: [], cache: {} });
+ * 
+ *     stats.max = Math.max(stats.max, newRecord.max);
+ *     if (newRecord.max > stats.max){
+ *       stats.max = newRecord.max;
+ *       stats.maxPattern = newRecord.maxPattern;
+ *     }
+ *     stats.lastRecord = newRecord.cache;
+ * 
+ *     return stats;
+ *   }, { max: -Infinity, maxPattern: [], lastRecord: {} });
+ * 
+ *   return stats.max;
+ * }*/
