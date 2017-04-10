@@ -56,6 +56,7 @@
    a: '', a, a + b(cache), a + bc(cache), a + bcd(cache), a + bcde(cache);
 
    set maxSum to -Infinity
+   set maxSumStr to '';
    set lastRecord to {}
    loop from end to front
      newRecord to {};
@@ -68,5 +69,30 @@
      when done, set lastRecord to newRecord, since only the current record is
      useful for the next iteration
 
+   console.log(maxSumStr);
    return maxSum;
 */
+
+let maxArraySum = function(arr) {
+  let maxSum = -Infinity;
+  let maxSumStr = '';
+  let lastRecord = {};
+  for (let i = arr.length-1; i > -1; i--) {
+    let curNum = arr[i];
+    let thisNum = arr[i];
+    let newRecord = {};
+    for (let j = i+1; j <= arr.length; j++) {
+      let subPattern = arr.slice(i+1, j);
+      let curSum = curNum + (lastRecord[subPattern] || 0);
+      subPattern.unshift(curNum);
+      if (curSum > maxSum) {
+        maxSumStr = subPattern;
+        maxSum = curSum;
+      }
+      newRecord[subPattern] = curSum;
+    }
+    lastRecord = newRecord;
+  }
+  console.log(maxSumStr);
+  return maxSum;
+};
