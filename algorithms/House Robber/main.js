@@ -34,3 +34,21 @@ Given a list of non-negative integers representing the amount of money of each
      slice(1); ignoring first element
      slice(2); taking first element but ignoring second element
 */
+
+let houseRobber = function(arr) {
+  let search = function(nums, table) {
+    if (table.hasOwnProperty(nums)) return table[nums];
+    let pat1 = nums[0] + search(nums.slice(2), table);
+    let pat2 = 0 + search(nums.slice(1), table);
+    table[nums] = Math.max(pat1, pat2);
+    return table[nums];
+  };
+
+  let cache = arr.reduceRight((table, num, index) => {
+    search(arr.slice(index), table);
+    return table;
+  }, { '': 0 });
+
+  console.log(cache)
+  return cache[arr];
+}
