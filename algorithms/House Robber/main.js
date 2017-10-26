@@ -51,4 +51,4 @@ let houseRobber = function(arr) {
 
   console.log(cache)
   return cache[arr];
-}
+};
