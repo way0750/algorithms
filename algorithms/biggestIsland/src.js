@@ -70,8 +70,7 @@ function findLargestIsland(matrix) {
       [row, col-1]  // go left
     ];
 
-    const totalSize = directionsToVisit.reduce((curIslandSize, direction) => {
-      const [ row, col ] = direction;
+    const totalSize = directionsToVisit.reduce((curIslandSize, [row, col]) => {
       return curIslandSize + exploreIsland(row, col);
     }, 1);
     return totalSize;
